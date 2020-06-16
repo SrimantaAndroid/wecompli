@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_55sdp"
+    android:id="@+id/rr_notifybg"
+    android:background="@color/white"
+    >
+    <TextView
+        android:id="@+id/tv_notify_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_39sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:textColor="@color/item_text_bg"/>
+    <TextView
+        android:id="@+id/tv_notify_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_notify_name"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_34sdp"
+        android:text="gdfgdgdg"
+
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:textColor="@color/item_text_bg"/>
+    <CheckBox
+        android:id="@+id/chk_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/customcheckboxselector"
+        android:layout_marginRight="@dimen/_14sdp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        />
+
+</RelativeLayout>

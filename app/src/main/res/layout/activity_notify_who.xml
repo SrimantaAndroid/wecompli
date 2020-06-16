@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/rl_top_taskdetails"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@drawable/rectangular_shape_blue">
+
+        <RelativeLayout
+            android:id="@+id/rl_back_notifywho"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_arrow"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_notifywho"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/_14sdp"
+            android:text="@string/notify_who"/>
+
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_notifywho"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/rl_top_taskdetails"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_60sdp"
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+    <ImageView
+        android:id="@+id/imgbb"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60sdp"
+      android:layout_alignParentBottom="true"
+        android:background="@color/bottom_header_color"></ImageView>
+
+    <TextView
+        android:id="@+id/tv_notifysubmit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+       android:layout_alignParentBottom="true"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:text="@string/done"
+        android:gravity="center"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/white"
+        android:background="@drawable/rectangula_red_rounded_corner_"></TextView>
+
+</RelativeLayout>

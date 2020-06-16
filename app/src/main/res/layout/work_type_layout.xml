@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/_210sdp"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/rectangular_shape_white">
+        <RelativeLayout
+            android:id="@+id/rl_popupheader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/black">
+            <TextView
+                android:id="@+id/tv_dialogtitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                 android:gravity="center"
+
+                android:textSize="@dimen/_12sdp"
+                android:text="@string/work_type"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_popupheader"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_repair"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:textSize="@dimen/_11sdp"
+                android:text="@string/repair"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/grey"/>
+            <TextView
+                android:id="@+id/tv_service"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:textSize="@dimen/_11sdp"
+                android:text="@string/service"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/grey"/>
+            <TextView
+                android:id="@+id/tv_other"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:textSize="@dimen/_11sdp"
+                android:text="@string/others1"
+                android:gravity="center"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:background="@color/grey"/>
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
