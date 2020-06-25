@@ -293,7 +293,7 @@ class FixFaultActivity:AppCompatActivity() {
                 try {
                     val response_obj = JSONObject(response.body()!!.string())
                     if (response_obj.getBoolean("status")){
-                        //   val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
+                           val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
                         //callApiforfaultcreate(check_process_log_id);
                        // val intent = Intent()
                         //setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
