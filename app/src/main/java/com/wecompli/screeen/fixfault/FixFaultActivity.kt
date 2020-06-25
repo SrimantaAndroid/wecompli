@@ -17,18 +17,28 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
+import com.sculptee.utils.customprogress.CustomProgressDialog
 import com.wecompli.R
+import com.wecompli.network.NetworkUtility
+import com.wecompli.utils.ApplicationConstant
 import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
 import okhttp3.MediaType
 import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.RequestBody
+import org.json.JSONObject
 import java.io.*
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class FixFaultActivity:AppCompatActivity() {
    public var fixFaultViewBind:FixFaultViewBind?=null
@@ -36,6 +46,14 @@ class FixFaultActivity:AppCompatActivity() {
     var image: String?=null
     var REQUEST_CAMERA = 111
     var SELECT_FILE = 112
+    var worktype=""
+    var faultrepairimage:File?=null
+    var managersign:File?=null
+    var engineeirsign:File?=null
+    var selectenginnersign:Boolean?=false
+    var selectmanagertimage:Boolean?=false
+    var selectfaultimage:Boolean?=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val view=LayoutInflater.from(this).inflate(R.layout.fix_fault_layout,null)
@@ -190,14 +208,14 @@ class FixFaultActivity:AppCompatActivity() {
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
-
+                faultrepairimage=destination
             } catch (e: IOException) {
                 e.printStackTrace()
             }
 
         }
 
-
+        selectfaultimage=true
         fixFaultViewBind!!.img_phato!!.setImageBitmap(bm)
     }
 
@@ -220,10 +238,79 @@ class FixFaultActivity:AppCompatActivity() {
             e.printStackTrace()
         }
 
-
-
+        selectfaultimage=true
+        faultrepairimage=destination
         fixFaultViewBind!!.img_phato!!.setImageBitmap(thumbnail)
 
+    }
+
+    fun callApiforfaultSubmit(){
+       // val c = Calendar.getInstance()
+       // val df = SimpleDateFormat("dd/MM/yyyy")
+      // var formattedDate = df.format(c.time)
+        val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this, "Please Wait..", false)
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        builder.addFormDataPart("checks_process_fault_id" ,AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.faultid))
+        builder.addFormDataPart("work_type",worktype )
+        builder.addFormDataPart("next_service_date", fixFaultViewBind!!.tv_select_date.text.toString())
+        builder.addFormDataPart("remarks",fixFaultViewBind!!.et_servicing_description!!.text.toString())
+        builder.addFormDataPart("time_spent" , fixFaultViewBind!!.et_hour.text.toString()+":"+fixFaultViewBind!!.et_min.text.toString())
+        builder.addFormDataPart("labour_charge", fixFaultViewBind!!.et_labourcharge.text.toString())
+        builder.addFormDataPart("part_cost", fixFaultViewBind!!.et_part_cost.text.toString())
+        builder.addFormDataPart("name_of_engineer", fixFaultViewBind!!.et_name_of_enginner.text.toString())
+        builder.addFormDataPart("company_name", fixFaultViewBind!!.et_name_of_company.text.toString())
+        builder.addFormDataPart("repair_date", fixFaultViewBind!!.tv_date.text.toString())
+        builder.addFormDataPart("manager_name",fixFaultViewBind!!.et_managername.text.toString())
+        builder.addFormDataPart("notify_who",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.SelectedEmail))
+       // for (i in imagearraylist.indices) {
+        builder.addFormDataPart("repair_images[]",faultrepairimage!!.name , okhttp3.RequestBody.create(MediaType.parse("image/jpeg"),faultrepairimage ))
+      //  }
+        //builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))
+        builder.addFormDataPart("engineer_signature", engineeirsign!!.name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"),engineeirsign))
+        builder.addFormDataPart("manager_signature", managersign!!.name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), managersign))
+
+        val requestBody = builder.build()
+        var request: Request? = null
+        request = Request.Builder()
+            .addHeader("Authorization", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token))
+            .addHeader("site_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+            .addHeader("Content-Type","application/json")
+            .url(NetworkUtility.BASE_URL + NetworkUtility.FAULTREPAIR)
+            .post(requestBody)
+            .build()
+
+        val client = okhttp3.OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(100, TimeUnit.SECONDS)
+            .readTimeout(100, TimeUnit.SECONDS)
+            .build()
+
+        val call = client.newCall(request)
+        call.enqueue(object :okhttp3.Callback{
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                customProgress.hideProgress()
+                try {
+                    val response_obj = JSONObject(response.body()!!.string())
+                    if (response_obj.getBoolean("status")){
+                        //   val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
+                        //callApiforfaultcreate(check_process_log_id);
+                       // val intent = Intent()
+                        //setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
+                        finish()
+                    }else{
+                        Toast.makeText(this@FixFaultActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                    }
+                }
+                catch (e: Exception){
+                    e.printStackTrace()
+                }
+            }
+
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                customProgress.hideProgress()
+            }
+        })
     }
 
 }

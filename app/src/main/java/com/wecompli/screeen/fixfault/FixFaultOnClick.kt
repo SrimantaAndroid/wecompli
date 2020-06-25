@@ -17,6 +17,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.wecompli.R
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
+import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.customalert.CustomAlertForWorkType
 import com.wecompli.utils.customalert.TaptoSignEngineerDialog
 import com.wecompli.utils.customalert.TaptoSignManagerDialog
@@ -77,6 +78,65 @@ class FixFaultOnClick(
             R.id.rl_notifywho->{
                 val intent=Intent(fixFaultActivity,NotifyWhoActivity::class.java)
                 fixFaultActivity.startActivity(intent)
+            }
+            R.id.rl_fault_submit->{
+                if (fixFaultViewBind.tv_select_work.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Select Work Carried Today")
+                    return
+                    }
+                if (fixFaultViewBind.tv_select_date.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Select Service for next service due date")
+                    return
+                }
+                if (fixFaultViewBind.et_servicing_description.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter description.")
+                    return
+                }
+                if (fixFaultActivity.selectfaultimage==false){
+                    Alert.showalert(fixFaultActivity,"Select Image for "+fixFaultViewBind.tv_select_work.text.toString())
+                    return
+                }
+                if (fixFaultViewBind.et_hour.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter spend hour")
+                    return
+                }
+                if (fixFaultViewBind.et_min.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter spend min")
+                    return
+                }
+                if (fixFaultViewBind.et_labourcharge.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter Labour Charge")
+                    return
+                }
+                if (fixFaultViewBind.et_part_cost.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter part cost")
+                    return
+                }
+                if (fixFaultViewBind.et_name_of_enginner.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter Engineer name")
+                    return
+                }
+                if (fixFaultViewBind.et_name_of_company.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter Company Name")
+                    return
+                }
+                if (fixFaultViewBind.tv_date.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Select repair date")
+                    return
+                }
+                if (fixFaultActivity.selectenginnersign==false){
+                    Alert.showalert(fixFaultActivity,"Please Sign Engineer ")
+                    return
+                }
+                if (fixFaultViewBind.et_managername.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Enter Manager name")
+                    return
+                }
+                if (fixFaultActivity.selectmanagertimage==false){
+                    Alert.showalert(fixFaultActivity,"Please Sign Manager ")
+                    return
+                }
+                  fixFaultActivity.callApiforfaultSubmit()
             }
         }
 

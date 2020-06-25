@@ -1,9 +1,11 @@
 package com.wecompli.utils.customalert
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.view.Window
 import android.widget.TextView
@@ -13,6 +15,8 @@ import com.wecompli.R
 import com.wecompli.screeen.fixfault.FixFaultActivity
 import com.wecompli.utils.sheardpreference.PreferenceConstent
 import com.wecompli.utils.utilsview.DrawingView
+import java.io.File
+import java.io.FileOutputStream
 
 class TaptoSignEngineerDialog(val fixFaultActivity: FixFaultActivity?) : AppCompatDialog(fixFaultActivity),View.OnClickListener {
     var deviceResolution:DeviceResolution?=null
@@ -69,11 +73,34 @@ class TaptoSignEngineerDialog(val fixFaultActivity: FixFaultActivity?) : AppComp
                // if (PreferenceConstent.signdraw == true) {
                     //  if (bitmap!=null || !bitmap.equals("")) {
                     fixFaultActivity!!.fixFaultViewBind!!.tv_engineer_signaturehere.setText("")
-                fixFaultActivity.fixFaultViewBind!!.tv_engineer_signaturehere.setBackgroundResource(R.color.text_color)
+                    fixFaultActivity.fixFaultViewBind!!.tv_engineer_signaturehere.setBackgroundResource(R.color.text_color)
                     fixFaultActivity!!.fixFaultViewBind!!.img_engineer_sign.setImageBitmap(bitmap)
                     PreferenceConstent.signdraw = false
+                    fixFaultActivity!!.selectenginnersign=true
+
+                val root = Environment.getExternalStorageDirectory().toString()
+                val myDir = File("$root/req_images")
+                myDir.mkdirs()
+                // val generator = Random()
+                //  var n = 10000
+                //  n = generator.nextInt(n)
+                val fname = "Eng_sign.jpg"
+                val file = File(myDir, fname)
+                if (file.exists())
+                    file.delete()
+                try {
+                    val out = FileOutputStream(file)
+                    // bmap.setHasAlpha(true);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                    out.flush()
+                    out.close()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                    fixFaultActivity.engineeirsign=file
                // }
                 dismiss()
+
             }
             R.id.tv_cancel->{
                 dismiss()

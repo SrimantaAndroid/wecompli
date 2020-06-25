@@ -1,9 +1,11 @@
 package com.wecompli.utils.customalert
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialog
@@ -12,6 +14,8 @@ import com.wecompli.R
 import com.wecompli.screeen.fixfault.FixFaultActivity
 import com.wecompli.utils.sheardpreference.PreferenceConstent
 import com.wecompli.utils.utilsview.DrawingView
+import java.io.File
+import java.io.FileOutputStream
 
 class TaptoSignManagerDialog(val fixFaultActivity: FixFaultActivity?) : AppCompatDialog(fixFaultActivity), View.OnClickListener{
     var deviceResolution:DeviceResolution?=null
@@ -70,6 +74,27 @@ class TaptoSignManagerDialog(val fixFaultActivity: FixFaultActivity?) : AppCompa
                 fixFaultActivity.fixFaultViewBind!!.tv_manager_signaturehere.setBackgroundResource(R.color.text_color)
 
                 fixFaultActivity!!.fixFaultViewBind!!.img_manager_sign.setImageBitmap(bitmap)
+                fixFaultActivity!!.selectmanagertimage=true
+                val root = Environment.getExternalStorageDirectory().toString()
+                val myDir = File("$root/req_images")
+                myDir.mkdirs()
+                // val generator = Random()
+                //  var n = 10000
+                //  n = generator.nextInt(n)
+                val fname = "Manager_sign.jpg"
+                val file = File(myDir, fname)
+                if (file.exists())
+                    file.delete()
+                try {
+                    val out = FileOutputStream(file)
+                    // bmap.setHasAlpha(true);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                    out.flush()
+                    out.close()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+                fixFaultActivity.managersign=file
                 //}
                 dismiss()
             }

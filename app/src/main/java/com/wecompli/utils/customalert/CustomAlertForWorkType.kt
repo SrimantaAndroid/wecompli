@@ -34,10 +34,9 @@ class CustomAlertForWorkType( val activity: FixFaultActivity) : Dialog(activity)
 
         tv_repair!!.setOnClickListener(View.OnClickListener {
             activity.fixFaultViewBind!!.tv_select_work.setText(
-                activity.getResources().getString(
-                    R.string.repair1
-                )
+                activity.getResources().getString(R.string.repair1)
             )
+            activity.worktype=activity.getResources().getString(R.string.repair1)
             dismiss()
         })
 
@@ -47,6 +46,7 @@ class CustomAlertForWorkType( val activity: FixFaultActivity) : Dialog(activity)
                     R.string.Other
                 )
             )
+            activity.worktype=activity.getResources().getString(R.string.Other)
             dismiss()
         })
 
@@ -56,6 +56,7 @@ class CustomAlertForWorkType( val activity: FixFaultActivity) : Dialog(activity)
                     R.string.Service
                 )
             )
+            activity.worktype=activity.getResources().getString(R.string.Service)
             dismiss()
         })
 

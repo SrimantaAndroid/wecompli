@@ -25,11 +25,11 @@ class NotifyWhoOnClick(
                 var email=""
                 for (i in 0 until notifyWhoActivity.emillist.size){
                     if (notifyWhoActivity.emillist.get(i).ischeck){
-                        email=email+","+notifyWhoActivity.emillist.get(i).email
+                        email=email+"###"+notifyWhoActivity.emillist.get(i).email
                     }
                 }
                 if(!email.equals(""))
-                    AppSheardPreference(notifyWhoActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,email.substring(1))
+                    AppSheardPreference(notifyWhoActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,email.substring(1,3))
                     else
                     AppSheardPreference(notifyWhoActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,email)
                 notifyWhoActivity.finish()

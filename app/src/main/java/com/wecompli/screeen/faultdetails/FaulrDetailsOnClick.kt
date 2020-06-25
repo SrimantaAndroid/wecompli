@@ -7,6 +7,8 @@ import com.wecompli.R
 import com.wecompli.screeen.fixfault.FixFaultActivity
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
 import com.wecompli.utils.customalert.Alert
+import com.wecompli.utils.sheardpreference.AppSheardPreference
+import com.wecompli.utils.sheardpreference.PreferenceConstent
 import java.util.*
 
 class FaulrDetailsOnClick(
@@ -49,9 +51,10 @@ class FaulrDetailsOnClick(
 
             }
             R.id.tv_fixfault->{
-                Alert.showalert(faultDetailsActivity, faultDetailsActivity.resources.getString(R.string.underdevelopment))
-               // val intent=Intent(faultDetailsActivity,FixFaultActivity::class.java)
-               // faultDetailsActivity.startActivity(intent)
+               // Alert.showalert(faultDetailsActivity, faultDetailsActivity.resources.getString(R.string.underdevelopment))
+                AppSheardPreference(faultDetailsActivity).setvalue_in_preference(PreferenceConstent.faultid,faultDetailsActivity!!.faultid!!)
+                val intent=Intent(faultDetailsActivity,FixFaultActivity::class.java)
+                faultDetailsActivity.startActivity(intent)
             }
 
 
