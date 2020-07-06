@@ -51,6 +51,13 @@ class TotalFaultActivity: AppCompatActivity() {
         sideid=intent.getStringExtra("sideid")
         companyid=intent.getStringExtra("companyid")
        // setAdpter()
+
+        AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.component_totalfault,checkcomponent!!)
+        AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.date_totalfault,checkdate!!)
+
+        AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.siteidtotalfault,sideid!!)
+        AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.companyidtotalfault,companyid!!)
+
         getuserdataafterlogin()
         callApifortotalfault()
 
@@ -70,11 +77,12 @@ class TotalFaultActivity: AppCompatActivity() {
             paramObject.put("company_id", companyid!!.toInt())
            // paramObject.put("site_id", sideid)
            // paramObject.put("category_id", 1)
-            paramObject.put("from_date", checkdate)
-            paramObject.put("to_date", checkdate)
+            //paramObject.put("from_date", checkdate)
+            //paramObject.put("to_date", checkdate)
+            paramObject.put("status_id","1")
             paramObject.put("check_process_type",PreferenceConstent.category_purpose)
-            paramObject.put("list_start",0)
-            paramObject.put("list_count",10)
+           // paramObject.put("list_start",0)
+           // paramObject.put("list_count",10)
             var obj: JSONObject = paramObject
             var jsonParser: JsonParser = JsonParser()
             var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;

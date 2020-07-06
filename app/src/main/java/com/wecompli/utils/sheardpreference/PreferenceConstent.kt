@@ -61,6 +61,13 @@ object PreferenceConstent {
     var Category_name="category_name"
     var CheckName="check_name"
     var SelectedFaultId="fid"
+
+    var component_totalfault="compnenttotal"
+    var date_totalfault="datetotalfault"
+    var siteidtotalfault="siteidtotalfauly"
+    var companyidtotalfault="companyidtotalfault"
+    var failselection="fail"
+    var sessionname="sessionname"
     //var faultid=""
   //  var selecttab="selecttab"
 

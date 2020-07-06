@@ -15,8 +15,7 @@ class NetworkUtility {
         const val FAULSTATUSLIST="fault/status/list"
         const val FAULTSTATUSMESSAGE_CHANGE="checks/fault/status/change"
         const val FAULTREPAIR="fault/repair"
-
-
+        const val FAULTBYSCAN="checks/fault/details/byscan"
 
     }
 }

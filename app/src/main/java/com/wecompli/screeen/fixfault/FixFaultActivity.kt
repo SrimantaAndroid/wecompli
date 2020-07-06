@@ -22,18 +22,26 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.google.zxing.integration.android.IntentIntegrator
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.sculptee.utils.customprogress.CustomProgressDialog
 import com.wecompli.R
+import com.wecompli.apiresponsemodel.faultdetails.FaultDetailsByScanModel
+import com.wecompli.network.ApiInterface
 import com.wecompli.network.NetworkUtility
+import com.wecompli.network.Retrofit
+import com.wecompli.screeen.totalfault.TotalFaultActivity
 import com.wecompli.utils.ApplicationConstant
+import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.*
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.*
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -62,7 +70,7 @@ class FixFaultActivity:AppCompatActivity() {
         fixFaultOnClick= FixFaultOnClick(this,fixFaultViewBind!!)
         setvalues()
     }
-
+   
     private fun setvalues() {
         fixFaultViewBind!!.tv_Company!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.UserCompany))
         fixFaultViewBind!!.tv_site!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.UserSite))
@@ -177,21 +185,82 @@ class FixFaultActivity:AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data)
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data!!)
+
+            else if (result != null) run {
+                if (result.getContents() == null) {
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+
+                } else {
+                    // val obj = JSONObject(result.getContents())
+                    // Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show()
+                    //println("Scanned: " + result.getContents())
+                    val separated = result.getContents().split("_")
+                   // if (AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.faultid).equals(separated.get(separated.size-1)))
+                        callApiforfaultDetails(separated.get(separated.size-1))
+                  //  else
+                     //   Alert.showalert(this,"QR Code doesn't match. Try another")
+                }
+            }
+
+        }else if (requestCode==155){
+            Toast.makeText(this, "from list", Toast.LENGTH_SHORT).show()
+
         }
+
+    }
+
+    private fun callApiforfaultDetails(contents: String) {
+        val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this, "Please Wait..", false)
+        val apiInterface = Retrofit.retrofitInstance?.create(ApiInterface::class.java)
+        try {
+            val paramObject = JSONObject()
+           // paramObject.put("id", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.faultid))
+            paramObject.put("id", contents)
+            var obj: JSONObject = paramObject
+            var jsonParser: JsonParser = JsonParser()
+            var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
+            val callApi= apiInterface.callfaultdetailsbyscan(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token),"1", gsonObject!!)
+            callApi.enqueue(object : Callback<FaultDetailsByScanModel> {
+                override fun onResponse(call: Call<FaultDetailsByScanModel>, response: Response<FaultDetailsByScanModel>) {
+                    customProgress.hideProgress()
+                    if (response.isSuccessful) {
+                        if (response.code() == 200) {
+                            AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.faultid,response.body()!!.row.id)
+                            AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.Category_name,response.body()!!.row.category_name)
+                            AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.Category_name,response.body()!!.row.check_name)
+                            setvalues()
+
+                            // elementDetailsAdapter!!.notifyItemRemoved(listposition)
+                            // elementDetailsAdapter!!.notifyDataSetChanged()
+                        }
+                    }
+                    else
+                        Toast.makeText(this@FixFaultActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                }
+                override fun onFailure(call: Call<FaultDetailsByScanModel>, t: Throwable) {
+                    customProgress.hideProgress()
+                }
+            })
+
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
     }
 
     private fun onSelectFromGalleryResult(data: Intent?) {
         var bm: Bitmap? = null
         if (data != null) {
             try {
-                bm =
-                    MediaStore.Images.Media.getBitmap(applicationContext.contentResolver, data.data)
+                bm = MediaStore.Images.Media.getBitmap(applicationContext.contentResolver, data.data)
                 val bytes = ByteArrayOutputStream()
                 bm!!.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
                 val destination = File(Environment.getExternalStorageDirectory(), "fault_image"+ ".jpg")
@@ -293,7 +362,16 @@ class FixFaultActivity:AppCompatActivity() {
                 try {
                     val response_obj = JSONObject(response.body()!!.string())
                     if (response_obj.getBoolean("status")){
-                           val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
+                          // val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
+                        AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,"")
+                        val foultlist=Intent(this@FixFaultActivity,TotalFaultActivity::class.java)
+                        foultlist.putExtra("componet",AppSheardPreference(this@FixFaultActivity).getvalue_in_preference(PreferenceConstent.component_totalfault))
+                        foultlist.putExtra("date",AppSheardPreference(this@FixFaultActivity).getvalue_in_preference(PreferenceConstent.date_totalfault))
+                        foultlist.putExtra("sideid",AppSheardPreference(this@FixFaultActivity).getvalue_in_preference(PreferenceConstent.siteidtotalfault))
+                        foultlist.putExtra("companyid",AppSheardPreference(this@FixFaultActivity).getvalue_in_preference(PreferenceConstent.companyidtotalfault))
+                        //foultlist.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                       // foultlist.setFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(foultlist)
                         //callApiforfaultcreate(check_process_log_id);
                        // val intent = Intent()
                         //setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)

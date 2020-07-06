@@ -51,7 +51,7 @@ class HomeActivity:AppCompatActivity(){
         setContentView(view)
         getuserdataafterlogin()
         setvalueofuser()
-        showsidemenulist()
+       // showsidemenulist()
         getCurrentVersion()
         showStartCheckFragment()
 
@@ -190,6 +190,7 @@ class HomeActivity:AppCompatActivity(){
         homeViewBind!!.tv_user_name!!.text=userData!!.full_name
         homeViewBind!!.tv_user_type!!.text=userData!!.user_type
         homeViewBind!!.tv_user_email!!.text=userData!!.email
+       // AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.site_id,userData!!.site_id)
         loadprofileimage()
     }
 

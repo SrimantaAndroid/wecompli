@@ -54,6 +54,7 @@ class CheckSummeryActivity:AppCompatActivity() {
         checkdate=intent.getStringExtra("date")
         sideid=intent.getStringExtra("sideid")
         sessionname=intent.getStringExtra("sessionname")
+        AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.sessionname,sessionname!!)
         setContentView(view)
         getuserdataafterlogin()
         callApiforchecksummery()

@@ -23,6 +23,7 @@ class HomeViewBind:DeviceResolution {
     var drawer_layout:DrawerLayout?=null
     var ll_logout:LinearLayout?=null
     var tv_lagout:TextView?=null
+    var ll_repair:LinearLayout?=null
 
     constructor(homeActivity: HomeActivity, view: View):super(homeActivity){
         viewbinds(view)
@@ -50,6 +51,7 @@ class HomeViewBind:DeviceResolution {
         drawer_layout=view.findViewById(R.id.drawer_layout)
         ll_logout=view.findViewById(R.id.ll_logout)
         tv_lagout=view.findViewById(R.id.tv_lagout)
+        ll_repair=view.findViewById(R.id.ll_repair)
 
     }
 }

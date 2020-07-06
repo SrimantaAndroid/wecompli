@@ -53,10 +53,10 @@
 
                 <ImageView
                     android:id="@+id/img_qrcode"
-                    android:layout_width="@dimen/_80sdp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_80sdp"
-                    android:background="@drawable/qr_image"
-                    android:layout_centerInParent="true" />
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/qr_image" />
             </RelativeLayout>
 
             <LinearLayout

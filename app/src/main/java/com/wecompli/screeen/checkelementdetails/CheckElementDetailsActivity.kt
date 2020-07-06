@@ -339,7 +339,7 @@ class CheckElementDetailsActivity: AppCompatActivity() {
             paramObject.put("check_type_values_id", elementDetailsRow.checkTypeValue!!.get(position).id)
             paramObject.put("check_process_type", PreferenceConstent.category_purpose)
             paramObject.put("check_date",selectedSiteSessionForCheck!!.checkdate)
-            paramObject.put("process_remark","This is a test check")
+            paramObject.put("process_remark","Fault ")
             paramObject.put("process_status",PreferenceConstent.process_status)
             var obj: JSONObject = paramObject
             var jsonParser: JsonParser = JsonParser()

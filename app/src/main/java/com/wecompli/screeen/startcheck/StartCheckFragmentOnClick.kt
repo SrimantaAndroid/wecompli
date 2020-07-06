@@ -129,6 +129,7 @@ class StartCheckFragmentOnClick: View.OnClickListener{
                     AppSheardPreference(activity!!).getvalue_in_preference(PreferenceConstent.loginuser_token),
                     gsonObject!!
                 )
+
                 calltodayseasonApi.enqueue(object : Callback<SeasonListApiresponse> {
                     override fun onResponse(call: Call<SeasonListApiresponse>, response: Response<SeasonListApiresponse>) {
                         customProgress.hideProgress()
@@ -175,6 +176,7 @@ class StartCheckFragmentOnClick: View.OnClickListener{
         var componentlistadapter=ComponentListAapter(activity!!,row!!,object :OnItemClickInterface{
             override fun OnItemClick(position: Int) {
                 val intent = Intent(activity, CheckSummeryActivity::class.java)
+               // AppSheardPreference(activity!!).setvalue_in_preference(PreferenceConstent.site_id,activity!!.userData!!.site_id)
                 //  appSheardPreference.setvalue_in_preference(PreferenceConstent.component_mode, value)
                 intent.putExtra("componet",row!!.get(position).id);
                 intent.putExtra("sessionname",row!!.get(position).seasonName)

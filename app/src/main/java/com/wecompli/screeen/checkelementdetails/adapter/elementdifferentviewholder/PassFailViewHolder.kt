@@ -9,6 +9,8 @@ import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.wecompli.R
 import com.wecompli.apiresponsemodel.checkelementdetails.ElementDetailsRow
 import com.wecompli.screeen.checkelementdetails.CheckElementDetailsActivity
+import com.wecompli.utils.sheardpreference.AppSheardPreference
+import com.wecompli.utils.sheardpreference.PreferenceConstent
 
 class PassFailViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
     val tv_checname:TextView=itemView.findViewById(R.id.tv_checname)
@@ -37,8 +39,8 @@ class PassFailViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
             btn_minorfail.typeface=deviceResolution.getbebas(checkElementDetailsActivity)
 
             btn_minorfail.setOnClickListener {
+                AppSheardPreference(checkElementDetailsActivity).setvalue_in_preference(PreferenceConstent.failselection,"minor")
                 checkElementDetailsActivity.openfailandMinorFail(elementDetailsRow,2,position)
-
             }
 
         }
@@ -47,6 +49,7 @@ class PassFailViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
         }
 
         btn_fail.setOnClickListener {
+            AppSheardPreference(checkElementDetailsActivity).setvalue_in_preference(PreferenceConstent.failselection,"fail")
             checkElementDetailsActivity.openfailandMinorFail(elementDetailsRow,1,position)
 
         }

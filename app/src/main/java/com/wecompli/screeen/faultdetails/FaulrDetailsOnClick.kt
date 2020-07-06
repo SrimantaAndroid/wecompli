@@ -53,6 +53,7 @@ class FaulrDetailsOnClick(
             R.id.tv_fixfault->{
                // Alert.showalert(faultDetailsActivity, faultDetailsActivity.resources.getString(R.string.underdevelopment))
                 AppSheardPreference(faultDetailsActivity).setvalue_in_preference(PreferenceConstent.faultid,faultDetailsActivity!!.faultid!!)
+                AppSheardPreference(faultDetailsActivity).setvalue_in_preference(PreferenceConstent.site_id,faultDetailsActivity!!.sideid)
                 val intent=Intent(faultDetailsActivity,FixFaultActivity::class.java)
                 faultDetailsActivity.startActivity(intent)
             }

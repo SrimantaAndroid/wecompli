@@ -89,6 +89,7 @@ class LoginOnClick:View.OnClickListener {
     }
 
     private fun callApiforLogin() {
+       // var issuestring:String=""
 
         val  customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
         customProgress.showProgress(loginActivity,"Please Wait..",false)
@@ -98,8 +99,11 @@ class LoginOnClick:View.OnClickListener {
             val paramObject = JSONObject()
             paramObject.put("user_email",loginViewBind.username.text.toString())
             paramObject.put("password",loginViewBind.et_pass.text.toString())
+           // issuestring="iemei"
             paramObject.put("identification_id_token",loginActivity.IMEINumber)
+          //  issuestring="devicename"
             paramObject.put("device_model",loginActivity.getDeviceName())
+           // issuestring="device os"
             paramObject.put("device_os",loginActivity.softwareVersion)
 
             var obj: JSONObject = paramObject
@@ -138,11 +142,14 @@ class LoginOnClick:View.OnClickListener {
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     customProgress.hideProgress()
+                    Alert.showalert(loginActivity!!, loginActivity.resources.getString(R.string.wrongmessage))
                 }
             })
 
         }catch (e:Exception){
             e.printStackTrace()
+            customProgress.hideProgress()
+            Alert.showalert(loginActivity!!,loginActivity.resources.getString(R.string.wrongmessage))
         }
         //  val loginApiCall = apiInterface.callLogInApi("trugym3@gmail.com","123456",loginActivity.IMEINumber,loginActivity.getDeviceName(),loginActivity.softwareVersion.toString())
     }

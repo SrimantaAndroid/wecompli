@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.Gravity
 import android.view.View
 import com.wecompli.R
+import com.wecompli.screeen.fixfault.FixFaultActivity
 import com.wecompli.screeen.login.LoginActivity
 import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.sheardpreference.AppSheardPreference
@@ -24,6 +25,7 @@ class HomeOnClick: View.OnClickListener {
     private fun setonclick(homeViewBind: HomeViewBind) {
         homeViewBind.img_menu!!.setOnClickListener(this)
         homeViewBind.ll_logout!!.setOnClickListener(this)
+        homeViewBind.ll_repair!!.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -35,6 +37,18 @@ class HomeOnClick: View.OnClickListener {
             // showalertforlogout()
                 Alert.showyesnoalert(homeActivity!!,homeActivity!!.getResources().getString(R.string.sureto_logout))
             }
+            R.id.ll_repair->{
+                if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserCompany).equals("")){
+                    if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserSite).equals("")){
+                        val fixFaultActivity=Intent(homeActivity!!,FixFaultActivity::class.java)
+                        homeActivity!!.startActivity(fixFaultActivity)
+                    }else
+                        Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_site_))
+                }else
+                    Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_company))
+
+            }
+
 
         }
 

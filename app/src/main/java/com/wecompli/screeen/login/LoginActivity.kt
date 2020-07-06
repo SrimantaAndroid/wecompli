@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var loginViewBind: LoginViewBind
     lateinit var loginOnClick: LoginOnClick
     internal var MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 344
-    lateinit var IMEINumber: String
+    var IMEINumber: String=""
     var softwareVersion: Int = 0
     val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123
 
@@ -42,9 +42,8 @@ class LoginActivity : AppCompatActivity() {
         setusernameandpasswordifchecked()
         setselctedlanguage()
         loadIMEI()
-
-
     }
+
 
     private fun setusernameandpasswordifchecked() {
         if (AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.iS_Checked_login) != null &&
@@ -94,10 +93,11 @@ class LoginActivity : AppCompatActivity() {
     fun loadIMEI() {
         // Check if the READ_PHONE_STATE permission is already available.
         try {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !== PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= 23 && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) !== PackageManager.PERMISSION_GRANTED) {
                 requestReadPhoneStatePermission()
             } else {
                 doPermissionGrantedStuffs()
+                requestPermission()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -117,6 +117,7 @@ class LoginActivity : AppCompatActivity() {
                 requestPermission()
             } else {
                 alertAlert(getString(R.string.permissions_not_granted_read_phone_state))
+                requestPermission()
             }
         }
     }

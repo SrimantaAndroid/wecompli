@@ -288,11 +288,19 @@ class CheckMinorfailActivity:AppCompatActivity() {
             paramObject.put("check_id", elementDetailsRow!!.id)
             paramObject.put("season_id", sessionid)
             paramObject.put("check_type_id", elementDetailsRow!!.checkTypeId)
-            paramObject.put("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(0).id)
+            if(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.failselection).equals("fail")) {
+                paramObject.put("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(1).id)
+                paramObject.put("process_status","N")
+            }
+            else {
+                paramObject.put("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(2).id)
+                paramObject.put("process_status","Y")
+            }
+
             paramObject.put("check_process_type", "checks")
             paramObject.put("check_date",checkdate)
             paramObject.put("process_remark",checkMinorFailViewBind!!.et_fault!!.text.toString())
-            paramObject.put("process_status","N")
+
             //for ( i in 0 until imagearraylist.size) {
               //  paramObject.put("process_file[]", imagearraylist.get(i))
            // }
@@ -441,7 +449,8 @@ class CheckMinorfailActivity:AppCompatActivity() {
                     if (response_obj.getBoolean("status")){
                      //   val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
                         //callApiforfaultcreate(check_process_log_id);
-                         val intent = Intent()
+                        AppSheardPreference(this@CheckMinorfailActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,"")
+                        val intent = Intent()
                          setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
                          finish()
                     }else{

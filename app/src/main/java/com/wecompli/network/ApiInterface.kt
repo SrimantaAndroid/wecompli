@@ -5,6 +5,7 @@ import com.wecompli.apiresponsemodel.checkelementdetails.CheckElementDetailsResp
 import com.wecompli.apiresponsemodel.checksubmitresponse.Checksubmitresponse
 import com.wecompli.apiresponsemodel.checksummery.CheckSummeryResponse
 import com.wecompli.apiresponsemodel.faultapi.FaultApiResponse
+import com.wecompli.apiresponsemodel.faultdetails.FaultDetailsByScanModel
 import com.wecompli.apiresponsemodel.faultdetails.FaultadetailsModel
 import com.wecompli.apiresponsemodel.faultstatuslist.FaultStatusListModel
 import com.wecompli.apiresponsemodel.faultstatusmessagechange.FaultStatusMessageChange
@@ -58,6 +59,7 @@ interface ApiInterface {
     @POST(NetworkUtility.FAULT_LIST)
     fun callApiforfaultlist(@Header("Content-Type") contenttype:String, @Header("Authorization") token:String, @Header("site_id") site_id:String, @Body body: JsonObject): Call<FaultApiResponse>
 
+
     @Multipart
     @Headers("Content-Type: application/json")
     @POST(NetworkUtility.COMPONENET_CHECK_SUBMIT)
@@ -89,5 +91,10 @@ interface ApiInterface {
     @Headers("Content-Type: application/json")
     @POST(NetworkUtility.FAULTSTATUSMESSAGE_CHANGE)
     fun callfaultstatusmessagechange(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject): Call<FaultStatusMessageChange>
+
+   // @Headers("Content-Type: application/json")
+    @POST(NetworkUtility.FAULTBYSCAN)
+    fun callfaultdetailsbyscan(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject): Call<FaultDetailsByScanModel>
+
 
 }

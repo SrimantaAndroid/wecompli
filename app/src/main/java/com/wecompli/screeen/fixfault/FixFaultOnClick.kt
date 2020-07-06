@@ -16,6 +16,7 @@ import android.widget.TimePicker
 import com.google.zxing.integration.android.IntentIntegrator
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.wecompli.R
+import com.wecompli.screeen.elementfaultlist.ElementFaultListActivity
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
 import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.customalert.CustomAlertForWorkType
@@ -52,7 +53,11 @@ class FixFaultOnClick(
                 opentimepickerhour()
             }
             R.id.img_qrcode->{
-                showalertforqr()
+               // showalertforqr()
+                IntentIntegrator(fixFaultActivity).initiateScan()
+                val integrator = IntentIntegrator(fixFaultActivity)
+                integrator.setOrientationLocked(true)
+                integrator.initiateScan()
             }
             R.id.et_min->{
                 opentimepickermin()
@@ -93,7 +98,7 @@ class FixFaultOnClick(
                     return
                 }
                 if (fixFaultActivity.selectfaultimage==false){
-                    Alert.showalert(fixFaultActivity,"Select Image for "+fixFaultViewBind.tv_select_work.text.toString())
+                    Alert.showalert(fixFaultActivity,"Choose Image for "+fixFaultViewBind.tv_select_work.text.toString())
                     return
                 }
                 if (fixFaultViewBind.et_hour.text.toString().equals("")){
@@ -159,17 +164,22 @@ class FixFaultOnClick(
 
         tv_qrcodescan.setOnClickListener {
             dialog.dismiss()
-               IntentIntegrator(fixFaultActivity).initiateScan();
+               /*IntentIntegrator(fixFaultActivity).initiateScan();
                   var integrator:IntentIntegrator= IntentIntegrator(fixFaultActivity);
                   integrator.setOrientationLocked(false);
-                  integrator.initiateScan();
+                  integrator.initiateScan();*/
+
+            IntentIntegrator(fixFaultActivity).initiateScan()
+            val integrator = IntentIntegrator(fixFaultActivity)
+            integrator.setOrientationLocked(true)
+            integrator.initiateScan()
            // IntentIntegrator.forSupportFragment(fixFaultActivity!!).initiateScan()
         }
 
         tv_selectfault.setOnClickListener {
             dialog.dismiss()
-           // val intent = Intent(homeActivity, ElementFaultListActivity::class.java)
-            //   homeActivity.startActivityForResult(intent, 1);
+           val intent = Intent(fixFaultActivity, ElementFaultListActivity::class.java)
+              fixFaultActivity.startActivityForResult(intent, 155);
             //homeActivity.startActivity(intent)
         }
         val lp = WindowManager.LayoutParams()

@@ -16,6 +16,7 @@ class CheckSummeryOnClick : View.OnClickListener
     override fun onClick(p0: View?) {
         when(p0!!.id){
            R.id.img_back->{
+              // val homeActivity=
                checkSummeryActivity!!.finish()
            }
             R.id.tv_total_fault_count->{

@@ -9,6 +9,8 @@ import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.wecompli.R
 import com.wecompli.apiresponsemodel.checkelementdetails.ElementDetailsRow
 import com.wecompli.screeen.checkelementdetails.CheckElementDetailsActivity
+import com.wecompli.utils.sheardpreference.AppSheardPreference
+import com.wecompli.utils.sheardpreference.PreferenceConstent
 
 class YesNoViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
    val tv_checname:TextView=itemView.findViewById(R.id.tv_ychecname)
@@ -36,6 +38,7 @@ class YesNoViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
         }
 
         btn_yno.setOnClickListener {
+            AppSheardPreference(checkElementDetailsActivity).setvalue_in_preference(PreferenceConstent.failselection,"fail")
             checkElementDetailsActivity.openfailandMinorFail(elementDetailsRow, 1, position)
 
         }

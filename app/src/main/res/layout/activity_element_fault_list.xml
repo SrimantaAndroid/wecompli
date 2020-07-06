@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/login_bg"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@drawable/rectangular_shape_blue">
+
+        <RelativeLayout
+            android:id="@+id/rl_elementfaultlist"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_arrow"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_elementfaultlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/_14sdp"
+            android:text="@string/ele_fault_list"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sdp">
+        <TextView
+            android:id="@+id/tv_Select_company"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:drawableRight="@drawable/down_arrow"
+            android:paddingRight="@dimen/_8sdp"
+            android:hint="@string/Selectcompany"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/_8sdp"
+            android:textSize="@dimen/_12sdp"
+            android:background="@drawable/rectangular_shape_round_corner"/>
+        <TextView
+            android:id="@+id/tv_select_site"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_margin="@dimen/_5sdp"
+            android:layout_below="@+id/tv_Select_company"
+            android:drawableRight="@drawable/down_arrow"
+            android:paddingRight="@dimen/_8sdp"
+            android:hint="@string/selectsite"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/_8sdp"
+            android:textSize="@dimen/_12sdp"
+            android:background="@drawable/rectangular_shape_round_corner"/>
+        <LinearLayout
+            android:id="@+id/ll_component"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_below="@+id/tv_select_site">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_elementfault"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/norecord"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No Record found"
+            android:gravity="center"
+            android:textSize="@dimen/_14sdp"
+            android:visibility="gone"
+            android:layout_centerInParent="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

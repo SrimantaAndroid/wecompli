@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import com.wecompli.R
 import com.wecompli.apiresponsemodel.login.SiteList
 import com.wecompli.screeen.home.HomeActivity
+import com.wecompli.utils.sheardpreference.AppSheardPreference
+import com.wecompli.utils.sheardpreference.PreferenceConstent
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,7 +39,7 @@ class StartCheckFragment: Fragment() {
         fragmentViewBind!!.tv_check_date!!.visibility=View.VISIBLE
         fragmentViewBind!!.tv_check_date!!.text=formattedDate
         site_list=homeactivity!!.userData!!.site_list
-
+      // AppSheardPreference(homeactivity!!).setvalue_in_preference(PreferenceConstent.UserSite,"")
 
     }
 
