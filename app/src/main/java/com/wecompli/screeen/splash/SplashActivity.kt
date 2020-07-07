@@ -20,6 +20,7 @@ class SplashActivity:AppCompatActivity(){
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_splash)
+        AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.UserSite,"")
         Handler().postDelayed({
             if (!AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.showintropage).equals("1")) {
                 val intro = Intent(this, InterPagesActivity::class.java)

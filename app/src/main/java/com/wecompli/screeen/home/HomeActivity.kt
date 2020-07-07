@@ -151,7 +151,7 @@ class HomeActivity:AppCompatActivity(){
       dialog!!.setCancelable(false)
     }
 
-    private fun showStartCheckFragment() {
+    public fun showStartCheckFragment() {
         if (homeViewBind!!.drawer_layout!!.isDrawerOpen(GravityCompat.START))
             homeViewBind!!.drawer_layout!!.closeDrawer(Gravity.LEFT)
         homeViewBind!!.tv_header_text!!.setText(resources.getText(R.string.startcheck))

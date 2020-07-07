@@ -24,6 +24,13 @@ class HomeViewBind:DeviceResolution {
     var ll_logout:LinearLayout?=null
     var tv_lagout:TextView?=null
     var ll_repair:LinearLayout?=null
+    var tv_repair:TextView?=null
+    var tv_startcheck:TextView?=null
+    var ll_startcheck:LinearLayout?=null
+    var tv_docmangment:TextView?=null
+    var ll_docmangment:LinearLayout?=null
+    var ll_incidenreport:LinearLayout?=null
+    var tv_incidentreport:TextView?=null
 
     constructor(homeActivity: HomeActivity, view: View):super(homeActivity){
         viewbinds(view)
@@ -37,6 +44,10 @@ class HomeViewBind:DeviceResolution {
         tv_user_name!!.typeface=getgothmlight(homeActivity)
         tv_user_email!!.typeface=getgothmlight(homeActivity)
         tv_lagout!!.typeface=getbebas(homeActivity)
+        tv_repair!!.typeface=getbebas(homeActivity)
+        tv_startcheck!!.typeface=getbebas(homeActivity)
+        tv_docmangment!!.typeface=getbebas(homeActivity)
+        tv_incidentreport!!.typeface=getbebas(homeActivity)
 
     }
 
@@ -52,6 +63,12 @@ class HomeViewBind:DeviceResolution {
         ll_logout=view.findViewById(R.id.ll_logout)
         tv_lagout=view.findViewById(R.id.tv_lagout)
         ll_repair=view.findViewById(R.id.ll_repair)
-
+        tv_startcheck=view.findViewById(R.id.tv_startcheck)
+        ll_startcheck=view.findViewById(R.id.ll_startcheck)
+        tv_repair=view.findViewById(R.id.tv_repair)
+        tv_docmangment=view.findViewById(R.id.tv_docmangment)
+        ll_docmangment=view.findViewById(R.id.ll_docmangment)
+        ll_incidenreport=view.findViewById(R.id.ll_incidenreport)
+        tv_incidentreport=view.findViewById(R.id.tv_incidentreport)
     }
 }

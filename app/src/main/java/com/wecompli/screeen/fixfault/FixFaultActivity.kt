@@ -227,7 +227,7 @@ class FixFaultActivity:AppCompatActivity() {
             var obj: JSONObject = paramObject
             var jsonParser: JsonParser = JsonParser()
             var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
-            val callApi= apiInterface.callfaultdetailsbyscan(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token),"1", gsonObject!!)
+            val callApi= apiInterface.callfaultdetailsbyscan(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token),AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id), gsonObject!!)
             callApi.enqueue(object : Callback<FaultDetailsByScanModel> {
                 override fun onResponse(call: Call<FaultDetailsByScanModel>, response: Response<FaultDetailsByScanModel>) {
                     customProgress.hideProgress()
@@ -235,7 +235,7 @@ class FixFaultActivity:AppCompatActivity() {
                         if (response.code() == 200) {
                             AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.faultid,response.body()!!.row.id)
                             AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.Category_name,response.body()!!.row.category_name)
-                            AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.Category_name,response.body()!!.row.check_name)
+                            AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.CheckName,response.body()!!.row.check_name)
                             setvalues()
 
                             // elementDetailsAdapter!!.notifyItemRemoved(listposition)
@@ -294,7 +294,6 @@ class FixFaultActivity:AppCompatActivity() {
         thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
         val destination = File(Environment.getExternalStorageDirectory(), "fault_image"+ ".jpg")
         val fo: FileOutputStream
-
         try {
             destination.createNewFile()
             fo = FileOutputStream(destination)
@@ -343,7 +342,7 @@ class FixFaultActivity:AppCompatActivity() {
         var request: Request? = null
         request = Request.Builder()
             .addHeader("Authorization", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token))
-            .addHeader("site_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+            .addHeader("site_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.UserSite))
             .addHeader("Content-Type","application/json")
             .url(NetworkUtility.BASE_URL + NetworkUtility.FAULTREPAIR)
             .post(requestBody)

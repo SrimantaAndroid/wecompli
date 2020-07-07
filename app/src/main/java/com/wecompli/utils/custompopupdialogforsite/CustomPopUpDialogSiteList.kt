@@ -67,6 +67,7 @@ class CustomPopUpDialogSiteList(
                 startCheckFragmentOnClick!!.site_id=startCheckFragmentOnClick!!.startCheckFragment!!.site_list!!.get(position).id
                 startCheckFragmentOnClick.activity!!.userData!!.site_id=startCheckFragmentOnClick!!.startCheckFragment!!.site_list!!.get(position).id.toString()
                 AppSheardPreference(homeActivity!!).setvalue_in_preference(PreferenceConstent.UserSite,startCheckFragmentOnClick!!.startCheckFragment!!.site_list!!.get(position).siteName.toString())
+                AppSheardPreference(homeActivity!!).setvalue_in_preference(PreferenceConstent.site_id,startCheckFragmentOnClick!!.startCheckFragment!!.site_list!!.get(position).id.toString())
                 dismiss()
                 startCheckFragmentOnClick.callApiforcomponent()
             }

@@ -5,7 +5,10 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.view.Gravity
 import android.view.View
+import androidx.core.view.GravityCompat
 import com.wecompli.R
+import com.wecompli.screeen.accidentreport.AccidentReportActivity
+import com.wecompli.screeen.docmanagment.DocManagmentActivity
 import com.wecompli.screeen.fixfault.FixFaultActivity
 import com.wecompli.screeen.login.LoginActivity
 import com.wecompli.utils.customalert.Alert
@@ -26,6 +29,9 @@ class HomeOnClick: View.OnClickListener {
         homeViewBind.img_menu!!.setOnClickListener(this)
         homeViewBind.ll_logout!!.setOnClickListener(this)
         homeViewBind.ll_repair!!.setOnClickListener(this)
+        homeViewBind.ll_startcheck!!.setOnClickListener(this)
+        homeViewBind.ll_incidenreport!!.setOnClickListener(this)
+        homeViewBind.ll_docmangment!!.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -33,13 +39,46 @@ class HomeOnClick: View.OnClickListener {
             R.id.img_menu->{
                 homeViewBind!!.drawer_layout!!.openDrawer(Gravity.LEFT)
             }
+            R.id.ll_startcheck->{
+                homeActivity!!.showStartCheckFragment()
+            }
+            R.id.ll_docmangment->{
+                if (homeViewBind!!.drawer_layout!!.isDrawerOpen(GravityCompat.START))
+                    homeViewBind!!.drawer_layout!!.closeDrawer(Gravity.LEFT)
+                if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserCompany).equals("")){
+                    if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserSite).equals("")){
+                        val docManagmentActivity=Intent(homeActivity!!,DocManagmentActivity::class.java)
+                        homeActivity!!.startActivity(docManagmentActivity)
+                    }else
+                        Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_site_))
+                }else
+                    Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_company))
+            }
+            R.id.ll_incidenreport->{
+                if (homeViewBind!!.drawer_layout!!.isDrawerOpen(GravityCompat.START))
+                    homeViewBind!!.drawer_layout!!.closeDrawer(Gravity.LEFT)
+                if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserCompany).equals("")){
+                    if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserSite).equals("")){
+
+                        val accidentReportActivity=Intent(homeActivity!!,AccidentReportActivity::class.java)
+                        homeActivity!!.startActivity(accidentReportActivity)
+                    }else
+                        Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_site_))
+                }else
+                    Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_company))
+
+            }
             R.id.ll_logout->{
             // showalertforlogout()
                 Alert.showyesnoalert(homeActivity!!,homeActivity!!.getResources().getString(R.string.sureto_logout))
             }
             R.id.ll_repair->{
+                if (homeViewBind!!.drawer_layout!!.isDrawerOpen(GravityCompat.START))
+                    homeViewBind!!.drawer_layout!!.closeDrawer(Gravity.LEFT)
                 if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserCompany).equals("")){
                     if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserSite).equals("")){
+                        AppSheardPreference(homeActivity!!).setvalue_in_preference(PreferenceConstent.Category_name,"")
+                        AppSheardPreference(homeActivity!!).setvalue_in_preference(PreferenceConstent.CheckName,"")
                         val fixFaultActivity=Intent(homeActivity!!,FixFaultActivity::class.java)
                         homeActivity!!.startActivity(fixFaultActivity)
                     }else

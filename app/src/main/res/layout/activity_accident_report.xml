@@ -1,0 +1,1094 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eaf0f3"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_top_accident_form"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/homehearbg">
+
+        <RelativeLayout
+            android:id="@+id/rl_back_accidentreport"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/left_arrow" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_accident_form"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/accident_report_form"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_55sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_header_color"
+
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnsubmit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_blue_rounded_corner_"
+            android:text="@string/submit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp" />
+
+        <Button
+            android:id="@+id/btn_notify_who"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_7sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_red_rounded_corner_"
+            android:text="@string/notifywho"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_bottom"
+        android:scrollbars="none"
+        android:layout_below="@+id/rl_top_accident_form"
+      >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_company"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/tv_Select_category"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/rectangular_shape_thin_round_gery_broder"
+                android:drawableRight="@drawable/down_arrow"
+                android:gravity="center_vertical"
+                android:hint="@string/Selectcompany"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/text_hint_color"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/tv_site"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_below="@+id/tv_Select_category"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/rectangular_shape_thin_round_gery_broder"
+                android:drawableRight="@drawable/down_arrow"
+                android:gravity="center_vertical"
+                android:hint="@string/selectsite"
+                android:paddingLeft="@dimen/_8sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/text_hint_color"
+                android:textSize="@dimen/_11sdp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:background="@drawable/rectangular_shape_white"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tv_servity"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_14sdp"
+
+
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/servertylevel"
+                    android:textColor="@color/white"
+
+                    android:textSize="@dimen/_12sdp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/rectangular_shape_white">
+
+                    <SeekBar
+                        android:id="@+id/seek_servertylevel"
+                        style="@style/SeekBarColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/_12sdp"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
+                        android:visibility="gone"
+                        android:thumb="@drawable/custom_thumb" />
+                    <RadioGroup
+                        android:id="@+id/rg_servety_level"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:layout_centerInParent="true"
+                       >
+                        <RadioButton
+                            android:id="@+id/rb_major"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+
+                            android:text="@string/major"
+                            android:button="@drawable/customcheckboxselector"
+                            android:paddingLeft="@dimen/_9sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            android:layout_marginRight="@dimen/_35sdp"/>
+                        <RadioButton
+                            android:id="@+id/rb_minor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+
+                            android:text="@string/minor"
+                            android:paddingLeft="@dimen/_9sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_11sdp"
+                            android:button="@drawable/customcheckboxselector"
+                            />
+                    </RadioGroup>
+
+                </RelativeLayout>
+
+
+
+                <TextView
+                    android:id="@+id/tv_detailsoforgnization"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+
+
+                    android:layout_alignParentStart="true"
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/detailsoforganization"
+
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+                <EditText
+                    android:id="@+id/et_nameof_organization"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/nameoforganization"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/et_organizationaddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint="@string/addressoforganization"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+                    <EditText
+                        android:id="@+id/et_postcode"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                        android:hint="@string/postcode"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:singleLine="true"
+                        android:textColorHint="@color/text_hint_color"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <EditText
+                        android:id="@+id/et_telephone"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                        android:hint="@string/telephone"
+                        android:inputType="number"
+                        android:padding="@dimen/_5sdp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/text_hint_color"
+                        android:textSize="@dimen/_11sdp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_detailsofpersoninjoured"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/detailsofpersoninjured"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
+                <EditText
+                    android:id="@+id/et_fullnameofperson_injured"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/fullnamepersoninjured"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <EditText
+                    android:id="@+id/et_personhomeaddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint="@string/personhomeaddress"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+                    <EditText
+                        android:id="@+id/et_postcode_person"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                        android:hint="@string/postcode"
+                        android:padding="@dimen/_5sdp"
+                        android:singleLine="true"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/text_hint_color"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <EditText
+                        android:id="@+id/et_telephone_person"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:inputType="number"
+                        android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                        android:hint="@string/telephone"
+                        android:padding="@dimen/_5sdp"
+                        android:singleLine="true"
+                        android:textSize="@dimen/_11sdp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_date_of_birth"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/dateofbirth"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tv_detailsof_emp_complete_theform"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/detailsofemployeecompleteform"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/tv_appoprietbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9sdp"
+                    android:text="@string/tickappropritebox"/>
+
+                <RadioGroup
+                    android:id="@+id/rg_completeform"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_employee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@drawable/customcheckboxselector"
+                        android:text="@string/employee"
+                        android:textSize="@dimen/_11sdp"
+                        android:paddingLeft="@dimen/_7sdp"
+                        android:textColor="@color/black"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_customer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:button="@drawable/customcheckboxselector"
+                        android:paddingLeft="@dimen/_7sdp"
+                        android:text="@string/customer"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_visitor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:button="@drawable/customcheckboxselector"
+                        android:text="@string/visitor"
+                        android:paddingLeft="@dimen/_7sdp"
+                        android:textSize="@dimen/_11sdp"
+                        android:textColor="@color/black"/>
+
+
+                </RadioGroup>
+
+                <RadioButton
+                    android:id="@+id/radio_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_7sdp"
+                    android:button="@drawable/customcheckboxselector"
+                    android:text="@string/others"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/et_detailsofother"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/detailsofother"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tv_description_of_accident"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/descriprionofaccident"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/tv_fulldesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+
+                    android:text="@string/full_desc_accident"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/et_fulldescrtpttion"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint=" "
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <TextView
+                    android:id="@+id/tv_fulldescinju"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:text="@string/full_desc_injuredperson"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/et_fulldes_inj"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint=" "
+                    android:padding="@dimen/_5sdp"
+
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <TextView
+                    android:id="@+id/tv_select_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_below="@+id/tv_Select_category"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_shape_thin_round_gery_broder"
+                    android:drawableRight="@drawable/down_arrow"
+                    android:gravity="center_vertical"
+                    android:text="@string/selectaccidentlocation"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp">
+
+                    <TextView
+                        android:id="@+id/tv_dateofoccurenceet_postcode_person"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                        android:hint="@string/dateofoccurence"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp" />
+
+                    <TextView
+                        android:id="@+id/tv_timeof_occurence"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_weight="1"
+                        android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                        android:hint="@string/timeofoccurence"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_11sdp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_bodymap"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_shape_blue_button"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/clickher"
+
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tv_bodymaptext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_71sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_chooseimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_45sdp"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/rectangle_blue_rounded_corner_">
+
+                        <ImageView
+                            android:id="@+id/imgcamera"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/_11sdp"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/cameraicon" />
+
+                        <TextView
+                            android:id="@+id/tv_takephatoorvideo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:layout_toRightOf="@+id/imgcamera"
+                            android:gravity="center_vertical"
+                            android:text="@string/takephatoorvideo"
+                            android:textColor="@color/white" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+
+                        android:id="@+id/ll_takephato"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/img_select"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="@dimen/_10sdp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_emploment_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+
+
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/employmentdetails"
+                    android:textColor="@color/white"
+
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/tv_empdetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/emp_details"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/et_injuredperdesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint=" "
+                    android:padding="@dimen/_5sdp"
+                    android:textSize="@dimen/_9sdp" />
+
+                <TextView
+                    android:id="@+id/tv_offdutytime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/off_duty_injured_time"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/et_off_duty"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint=" "
+                    android:padding="@dimen/_5sdp"
+                    android:textSize="@dimen/_11sdp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_duty_continue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/continuetowork"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/et_continurtowork"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint="@string/nameoforganization"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_wentduty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/wentduty"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/et_off_duty_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint=" "
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tv_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/iweconfirm"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_sign_behalf"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangle_gray_rounded_corner">
+
+                    <TextView
+                        android:id="@+id/tv_signedconfirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/signofbehalf"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp"
+                        />
+
+                    <ImageView
+                        android:id="@+id/img_signbehlf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/et_prientname"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/patientname"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/et_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/postion"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tv_datepatient"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/date"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tvappert"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/anyapperts"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/tv_statement"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+
+
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/satement1"
+                    android:textColor="@color/white"
+
+                    android:textSize="@dimen/_12sdp" />
+
+                <EditText
+                    android:id="@+id/et_statementdetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint="@string/statementdetails"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_witness1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangle_gray_rounded_corner">
+
+                    <TextView
+                        android:id="@+id/tv_witeness1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/signbywitness"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+                        android:id="@+id/img_witeness1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/patient1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/patientname"
+                    android:padding="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <TextView
+                    android:id="@+id/et_date1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/date"
+                    android:padding="@dimen/_5sdp"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/et_address_wite"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/addressofwitness"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/et_postcodewe1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/postcode"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <TextView
+                    android:id="@+id/tv_statement2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/rectangular_shape_grey"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/_8sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/satement2"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12sdp" />
+
+                <EditText
+                    android:id="@+id/et_statementdetails2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_65sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:gravity="top"
+                    android:hint="@string/statementdetails"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_witness2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangle_gray_rounded_corner">
+
+                    <TextView
+                        android:id="@+id/tv_sin_witess2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/signbywitness"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+                        android:id="@+id/imgwiteness2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/patient2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/patientname"
+                    android:padding="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <TextView
+                    android:id="@+id/tv_date2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/date"
+                    android:padding="@dimen/_5sdp"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+
+                <EditText
+                    android:id="@+id/et_address_wite2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/addressofwitness"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <EditText
+                    android:id="@+id/et_postcodewe2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/postcode"
+                    android:padding="@dimen/_5sdp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+
+                <TextView
+                    android:id="@+id/tv_tocomply"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/tocomply"
+                    android:textSize="@dimen/_11sdp"
+                    android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tv_notethis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:text="@string/notethis"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_completed"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangle_gray_rounded_corner">
+
+                    <TextView
+                        android:id="@+id/tv_signcompleted"
+                        android:text="Sign (Form completed by)"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+                        android:id="@+id/img_sign_completedby"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/et_complientby"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/pairntnamecompletedby"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:singleLine="true"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textSize="@dimen/_11sdp"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_injured"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_55sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangle_gray_rounded_corner">
+
+                    <TextView
+                        android:id="@+id/tv_sign_injuredperson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/signinjuredperson"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+
+                         android:id="@+id/img_injuredperson"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+                <EditText
+                    android:id="@+id/et_injuredperson"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:background="@drawable/rectangular_rounded_shape__gery_broder"
+                    android:hint="@string/prientinjuredperson"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/text_hint_color"
+                    android:singleLine="true"
+                    android:textSize="@dimen/_11sdp" />
+
+                <CheckBox
+                    android:id="@+id/chk_iscontent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/iconstent"
+                    android:layout_marginBottom="@dimen/_50sdp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11sdp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
