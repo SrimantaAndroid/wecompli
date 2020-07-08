@@ -17,9 +17,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.wecompli.R
+import com.wecompli.apiresponsemodel.docUploadCertificate.DocCertificateModel
+import com.wecompli.screeen.docmanagment.adapter.ImageCertificateAdapter
 import com.wecompli.utils.customalert.Alert
+import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
 import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
 import java.io.File
@@ -27,6 +32,7 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 class DocManagmentActivity:AppCompatActivity() {
     var docManagmentViewBind:DocManagmentViewBind?=null
@@ -34,6 +40,11 @@ class DocManagmentActivity:AppCompatActivity() {
     var image: String?=null
     var REQUEST_CAMERA = 111
     var SELECT_FILE = 112
+    var sehedulename: String? = ""
+    var scheduleid:kotlin.String? = ""
+    var emailis:kotlin.String? = ""
+    var imageCertificateAdapter:ImageCertificateAdapter?=null
+    var docImagelist= ArrayList<DocCertificateModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val view:View=LayoutInflater.from(this).inflate(R.layout.activity_doc_managment,null)
@@ -41,6 +52,19 @@ class DocManagmentActivity:AppCompatActivity() {
         docManagmentViewBind= DocManagmentViewBind(this,view)
         docmangonclick= DocManagntOnClick(this,docManagmentViewBind!!)
         setvalue()
+        setAdapterforimagecertificate()
+    }
+
+    private fun setAdapterforimagecertificate() {
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
+        docManagmentViewBind!!.rec_imaglist!!.setLayoutManager(layoutManager)
+        imageCertificateAdapter= ImageCertificateAdapter(this,docImagelist!!,object :OnItemClickInterface{
+            override fun OnItemClick(position: Int) {
+
+            }
+        })
+        docManagmentViewBind!!.rec_imaglist!!.adapter=imageCertificateAdapter
+
     }
 
     private fun setvalue() {
@@ -70,6 +94,7 @@ class DocManagmentActivity:AppCompatActivity() {
             checkpermession()
         }
         btn_camera.setOnClickListener {
+            alertDialog.dismiss()
             image = "camera"
             checkpermession()
         }
@@ -103,7 +128,22 @@ class DocManagmentActivity:AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
+         if (requestCode == 1) {
+            if (data != null) {
+                sehedulename = data.getStringExtra("result")
+                scheduleid = data.getStringExtra("ids")
+                docManagmentViewBind!!.tv_select_week!!.setText(sehedulename!!.substring(0, sehedulename!!.length - 1))
+            }
+        }
+       else  if (requestCode == 2) {
+            if (data != null) {
+                emailis = data.getStringExtra("emaillist")
+                docManagmentViewBind!!.tv_notify_who!!.setText(emailis)
+                //val emailname = data.getStringExtra("emailname")
+                //documentViewBind.tv_notify_who.setText(emailname.substring(0, emailname.length - 1))
+            }
+        }
+        else if (resultCode == Activity.RESULT_OK) {
             if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data)
             else if (requestCode == REQUEST_CAMERA)
@@ -127,10 +167,10 @@ class DocManagmentActivity:AppCompatActivity() {
             val root = Environment.getExternalStorageDirectory().toString()
             val myDir = File("$root/fault_images")
             myDir.mkdirs()
-             val generator = Random()
+            /* val generator = Random()
               var n = 100
-              n = generator.nextInt(n)
-            val fname = n.toString() + "doc_image.jpg"
+              n = generator.nextInt(n)*/
+            val fname = "doc_image1.jpg"
             val file = File(myDir, fname)
             val fo: FileOutputStream
             if (file.exists())
@@ -144,7 +184,7 @@ class DocManagmentActivity:AppCompatActivity() {
                 thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 100, out)
                 out.flush()
                 out.close()
-
+                addimagelistview(file.absolutePath,thumbnail,file)
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             } catch (e: IOException) {
@@ -169,10 +209,10 @@ class DocManagmentActivity:AppCompatActivity() {
                 val root = Environment.getExternalStorageDirectory().toString()
                 val myDir = File("$root/fault_images")
                 myDir.mkdirs()
-                 val generator = Random()
+                /* val generator = Random()
                   var n = 100
-                  n = generator.nextInt(n)
-                val fname =  n.toString()+"doc_image.jpg"
+                  n = generator.nextInt(n)*/
+                val fname = "doc_image1.jpg"
                 val file = File(myDir, fname)
                 val fo: FileOutputStream
                 if (file.exists())
@@ -186,6 +226,7 @@ class DocManagmentActivity:AppCompatActivity() {
                     bm.compress(Bitmap.CompressFormat.JPEG, 100, out)
                     out.flush()
                     out.close()
+                    addimagelistview(file.absolutePath,bm,file)
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
                 } catch (e: IOException) {
@@ -198,6 +239,14 @@ class DocManagmentActivity:AppCompatActivity() {
 
         }
     }
+
+    private fun addimagelistview(absolutePath: String, bm: Bitmap?, file: File) {
+       var docCertificateModel= DocCertificateModel(absolutePath,bm!!,file)
+        docImagelist.add(docCertificateModel)
+        imageCertificateAdapter!!.notifyDataSetChanged()
+
+    }
+
     private fun galleryIntent() {
         val intent = Intent()
         intent.type = "image/*"

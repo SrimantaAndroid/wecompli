@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.view.View
 import com.wecompli.R
+import com.wecompli.screeen.notifyschedule.NotifyScheduleActivity
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
 import java.util.*
 
@@ -19,6 +20,7 @@ class DocManagntOnClick(
         docManagmentViewBind.tv_notify_who!!.setOnClickListener(this)
         docManagmentViewBind.rl_reset!!.setOnClickListener(this)
         docManagmentViewBind.rl_submit!!.setOnClickListener(this)
+        docManagmentViewBind.tv_select_week!!.setOnClickListener(this)
     }
     override fun onClick(p0: View?) {
        when(p0!!.id){
@@ -36,13 +38,17 @@ class DocManagntOnClick(
            }
            R.id.tv_notify_who->{
                val intent=Intent(docManagmentActivity,NotifyWhoActivity::class.java)
-               docManagmentActivity.startActivity(intent)
+               docManagmentActivity.startActivityForResult(intent,2)
            }
            R.id.rl_reset->{
                clearallfeild()
            }
            R.id.rl_submit->{
                docManagmentActivity.callApifordocSubmit()
+           }
+           R.id.tv_select_week->{
+               val intent=Intent(docManagmentActivity,NotifyScheduleActivity::class.java)
+               docManagmentActivity.startActivityForResult(intent,1)
            }
        }
     }

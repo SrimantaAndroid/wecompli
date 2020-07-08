@@ -90,7 +90,6 @@
                 android:layout_below="@+id/tv_Select_category"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/rectangular_shape_thin_round_gery_broder"
-                android:drawableRight="@drawable/down_arrow"
                 android:gravity="center_vertical"
                 android:hint="@string/Selectcompany"
                 android:paddingLeft="@dimen/_8sdp"
@@ -106,7 +105,6 @@
                 android:layout_below="@+id/tv_Select_category"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:background="@drawable/rectangular_shape_thin_round_gery_broder"
-                android:drawableRight="@drawable/down_arrow"
                 android:gravity="center_vertical"
                 android:hint="@string/selectsite"
                 android:paddingLeft="@dimen/_8sdp"
@@ -142,7 +140,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
-
                     android:layout_centerVertical="true"
                     android:background="@drawable/rectangular_shape_white">
 
@@ -155,7 +152,7 @@
                         android:layout_marginLeft="@dimen/_12sdp"
                         android:layout_marginRight="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_12sdp"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:thumb="@drawable/custom_thumb" />
                     <RadioGroup
                         android:id="@+id/rg_servety_level"

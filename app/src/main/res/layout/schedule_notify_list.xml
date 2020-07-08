@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_40sdp"
+    android:id="@+id/rr_notifybg"
+    android:background="@color/white"
+    >
+    <TextView
+        android:id="@+id/tv_schedule_notify_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_34sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:gravity="center_vertical"
+        android:text="@string/name1"
+        android:textColor="@color/item_text_bg"/>
+
+    <CheckBox
+        android:id="@+id/chk_sehedule_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@drawable/customcheckboxselector"
+        android:layout_marginRight="@dimen/_14sdp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/item_text_bg"/>
+
+</RelativeLayout>

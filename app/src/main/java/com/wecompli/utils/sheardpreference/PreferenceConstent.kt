@@ -1,6 +1,8 @@
 package com.wecompli.utils.sheardpreference
 
 object PreferenceConstent {
+
+
     // var selecttab: String="selecttab"
     var Show_fragment_servicing = "Show_fragment_servicing"
     var iS_LOGIN = "islogin"
@@ -70,5 +72,10 @@ object PreferenceConstent {
     var sessionname="sessionname"
     //var faultid=""
   //  var selecttab="selecttab"
+    var SignonBehalf:String="signbehalf"
+    var Signbywiteness1="signbywitness1"
+    var Signbywiteness2="signbywitness2"
+    var SignCompletredby="SignCompletedby"
+    var Signbyinjuredpuresn="Signbyinjuredperson"
 
 }
