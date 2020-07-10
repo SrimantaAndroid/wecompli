@@ -152,7 +152,7 @@
                         android:layout_marginLeft="@dimen/_12sdp"
                         android:layout_marginRight="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_12sdp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         android:thumb="@drawable/custom_thumb" />
                     <RadioGroup
                         android:id="@+id/rg_servety_level"

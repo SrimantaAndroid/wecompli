@@ -12,6 +12,7 @@ import com.wecompli.apiresponsemodel.faultstatusmessagechange.FaultStatusMessage
 import com.wecompli.apiresponsemodel.login.LoginResponse
 import com.wecompli.apiresponsemodel.regeratetokenresponse.RegenerateTokenResponse
 import com.wecompli.apiresponsemodel.seasonlist.SeasonListApiresponse
+import com.wecompli.apiresponsemodel.servritylevel.ServrityModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -96,5 +97,7 @@ interface ApiInterface {
     @POST(NetworkUtility.FAULTBYSCAN)
     fun callfaultdetailsbyscan(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject): Call<FaultDetailsByScanModel>
 
+    @POST(NetworkUtility.SERVERTYLEVEL)
+    fun callApiforSERVRITYLABEL(@Header("Content-Type") contenttype:String, @Header("Authorization") token:String,@Body body: JsonObject): Call<ServrityModel>
 
 }

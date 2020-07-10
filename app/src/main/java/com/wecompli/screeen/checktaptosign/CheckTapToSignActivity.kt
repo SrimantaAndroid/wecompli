@@ -89,7 +89,7 @@ class CheckTapToSignActivity:AppCompatActivity() {
         tapToSignViewBind!!.img_sign!!.setDrawingCacheEnabled(true)
         val bmap = tapToSignViewBind!!.img_sign!!.getDrawingCache()
         val root = Environment.getExternalStorageDirectory().toString()
-        val myDir = File("$root/req_images")
+        val myDir = File("$root/wecompli/taptosign")
         myDir.mkdirs()
        // val generator = Random()
       //  var n = 10000

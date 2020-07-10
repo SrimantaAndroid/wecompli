@@ -16,6 +16,8 @@ class NetworkUtility {
         const val FAULTSTATUSMESSAGE_CHANGE="checks/fault/status/change"
         const val FAULTREPAIR="fault/repair"
         const val FAULTBYSCAN="checks/fault/details/byscan"
+        const val DOCUMENTSUBMIT="document/create"
+        const val SERVERTYLEVEL="site/severity/level"
 
     }
 }

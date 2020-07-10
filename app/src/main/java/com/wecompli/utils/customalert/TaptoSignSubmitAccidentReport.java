@@ -89,21 +89,21 @@ public class TaptoSignSubmitAccidentReport extends AppCompatDialog implements Vi
                     ttextview.setText("");
                     img_signbehlf.setImageBitmap(bitmap);
                     if (type.equals("signbehalf")){
-                     activity.cretefileforsignbehalf();
+                     activity.cretefileforsignbehalf(bitmap);
                     }
                    else if (type.equals("signbywitness1")){
-                       activity.cretefileforwitness1sign();
+                       activity.cretefileforwitness1sign(bitmap);
 
                    }
                     else if (type.equals("signbywitness2")){
-                       activity.cretefileforwitness2sign();
+                       activity.cretefileforwitness2sign(bitmap);
                     }
                     else if (type.equals("SignCompletedby")){
-                        activity.cretefileforsignfromcompleted();
+                        activity.cretefileforsignfromcompleted(bitmap);
 
                     }
                     else if (type.equals("Signbyinjuredperson")){
-                        activity.cretefileforsignfromcompletedinjuredperson();
+                        activity.cretefileforsignfromcompletedinjuredperson(bitmap);
                     }
               //  }
                 dismiss();

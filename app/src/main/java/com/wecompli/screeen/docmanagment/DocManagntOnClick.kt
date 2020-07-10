@@ -53,7 +53,7 @@ class DocManagntOnClick(
        }
     }
 
-    private fun clearallfeild() {
+    public fun clearallfeild() {
         //docManagmentViewBind.tv_Select_company!!.setText(docManagmentActivity.getResources().getString(R.string.select_company))
         //docManagmentViewBind!!.tv_select_site!!.setText(docManagmentActivity.getResources().getString(R.string.select_site_))
         docManagmentViewBind!!.et_document_name!!.setText("")
@@ -61,6 +61,8 @@ class DocManagntOnClick(
         docManagmentViewBind.tv_end_date!!.setText(docManagmentActivity.getResources().getString(R.string.end_date))
         docManagmentViewBind.tv_select_week!!.setText(docManagmentActivity.getResources().getString(R.string.notifyme_about_exp))
         docManagmentViewBind.tv_notify_who!!.setText(docManagmentActivity.getResources().getString(R.string.notify_who))
+        docManagmentActivity!!.docImagelist.clear()
+        docManagmentActivity.imageCertificateAdapter!!.notifyDataSetChanged()
 
 
     }
@@ -86,7 +88,7 @@ class DocManagntOnClick(
 
     fun padnumber(n: Int): String {
         val num: String
-        num = if (n > 10) n.toString() else "0$n"
+        num = if (n >= 10) n.toString() else "0$n"
         return num
     }
     fun datepickerdefaultsratdate() {

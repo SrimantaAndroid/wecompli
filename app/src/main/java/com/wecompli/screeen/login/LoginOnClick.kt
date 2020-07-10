@@ -129,6 +129,7 @@ class LoginOnClick:View.OnClickListener {
                             AppSheardPreference(loginActivity).setvalue_in_preference(PreferenceConstent.loginuser_token,useradta.token!!)
                             AppSheardPreference(loginActivity).setvalue_in_preference(PreferenceConstent.loginuser_data, json)
                             AppSheardPreference(loginActivity).setvalue_in_preference(PreferenceConstent.UserCompany,useradta!!.companyName!!)
+                            AppSheardPreference(loginActivity).setvalue_in_preference(PreferenceConstent.Selectedcompany_id,useradta!!.companyId!!)
 
                             val homeintent=Intent(loginActivity,HomeActivity::class.java)
                             loginActivity.startActivity(homeintent)

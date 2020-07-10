@@ -6,6 +6,7 @@ import android.content.Intent
 import android.view.View
 import android.widget.SeekBar
 import com.wecompli.R
+import com.wecompli.screeen.bodymap.ActivityBodyMap
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
 import com.wecompli.utils.customalert.TaptoSignSubmitAccidentReport
 import com.wecompli.utils.sheardpreference.PreferenceConstent
@@ -98,10 +99,10 @@ class AccidentReportOnclick(
             datepickefordateofbirth()
         }
         R.id.tv_dateofoccurenceet_postcode_person->{
-
+            datepickeforoccurence()
         }
         R.id.rl_chooseimage->{
-
+           accidentReportActivity.showalertforImageSelectio()
         }
         R.id.rl_sign_behalf->{
             TaptoSignSubmitAccidentReport(accidentReportActivity,accidentReportViewBind!!.img_signbehlf!!,
@@ -125,6 +126,9 @@ class AccidentReportOnclick(
 
         }
         R.id.tv_bodymap->{
+            val intent = Intent(
+                accidentReportActivity, ActivityBodyMap::class.java)
+                accidentReportActivity.startActivityForResult(intent, 500)
 
         }
         R.id.tv_date2->{
@@ -156,6 +160,24 @@ class AccidentReportOnclick(
                 }, mHour, mMinute, true
             )
         timePickerDialog.show()
+    }
+    fun datepickeforoccurence() {
+        val c = Calendar.getInstance()
+        val mYear = c[Calendar.YEAR]
+        val mMonth = c[Calendar.MONTH]
+        val mDay = c[Calendar.DAY_OF_MONTH]
+        val datePickerDialog =
+            DatePickerDialog(
+                accidentReportActivity, R.style.DialogThemedatepicker,
+                DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                    val choosedate = padnumber(dayOfMonth) + "/" + padnumber(monthOfYear + 1) + "/" + year.toString()
+                    val checkdate = year.toString() + "-" + padnumber(monthOfYear + 1) + "-" + padnumber(dayOfMonth)
+                    val listcheckdate = padnumber(monthOfYear + 1) + "/" + padnumber(dayOfMonth) + "/" + year.toString()
+                    accidentReportViewBind.tv_dateofoccurenceet_postcode_person!!.text = choosedate
+                }, mYear, mMonth, mDay
+            )
+        //  datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show()
     }
     fun datepickeforepatient() {
         val c = Calendar.getInstance()

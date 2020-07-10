@@ -23,15 +23,19 @@ class NotifyScheduleOnClick(
                 notifyScheduleActivity.scheduleNotifyAdapter.notifyDataSetChanged();*/
                 var site = ""
                 var ids = ""
-                for (i in 0 until notifyScheduleActivity.notifyschedulelist.size) {
-                    if (notifyScheduleActivity.notifyschedulelist.get(i).schedule_ischeck) {
-                        site = notifyScheduleActivity.notifyschedulelist.get(i).sehedule_name + "," + site
-                        ids = notifyScheduleActivity.notifyschedulelist.get(i).value
-                            .toString() + "," + ids
+                if (notifyScheduleActivity.notifyschedulelist.size>0) {
+                    for (i in 0 until notifyScheduleActivity.notifyschedulelist.size) {
+                        if (notifyScheduleActivity.notifyschedulelist.get(i).schedule_ischeck) {
+                            site = notifyScheduleActivity.notifyschedulelist.get(i).sehedule_name + "," + site
+                            ids =  ids+ "###" + notifyScheduleActivity.notifyschedulelist.get(i).value.toString()
+                        }
                     }
                 }
                 val returnIntent = Intent()
                 returnIntent.putExtra("result", site)
+                if (!ids.equals(""))
+                returnIntent.putExtra("ids", ids.substring(3))
+                else
                 returnIntent.putExtra("ids", ids)
                 notifyScheduleActivity.setResult(1, returnIntent)
                 notifyScheduleActivity.finish()

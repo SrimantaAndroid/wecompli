@@ -14,24 +14,35 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
+import com.sculptee.utils.customprogress.CustomProgressDialog
 import com.wecompli.R
 import com.wecompli.apiresponsemodel.docUploadCertificate.DocCertificateModel
+import com.wecompli.network.NetworkUtility
 import com.wecompli.screeen.docmanagment.adapter.ImageCertificateAdapter
+import com.wecompli.utils.ApplicationConstant
 import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
 import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
+import com.wecompli.utils.taskcompletionzoomimage.TaskCompleteZoomImageDialog
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.Request
+import org.json.JSONObject
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.Exception
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class DocManagmentActivity:AppCompatActivity() {
@@ -60,7 +71,7 @@ class DocManagmentActivity:AppCompatActivity() {
         docManagmentViewBind!!.rec_imaglist!!.setLayoutManager(layoutManager)
         imageCertificateAdapter= ImageCertificateAdapter(this,docImagelist!!,object :OnItemClickInterface{
             override fun OnItemClick(position: Int) {
-
+                TaskCompleteZoomImageDialog(this@DocManagmentActivity,docImagelist.get(position).imagepath,docImagelist.get(position).imagebitmap).show();
             }
         })
         docManagmentViewBind!!.rec_imaglist!!.adapter=imageCertificateAdapter
@@ -132,7 +143,8 @@ class DocManagmentActivity:AppCompatActivity() {
             if (data != null) {
                 sehedulename = data.getStringExtra("result")
                 scheduleid = data.getStringExtra("ids")
-                docManagmentViewBind!!.tv_select_week!!.setText(sehedulename!!.substring(0, sehedulename!!.length - 1))
+                if (!sehedulename.equals(""))
+                   docManagmentViewBind!!.tv_select_week!!.setText(sehedulename!!.substring(0, sehedulename!!.length - 1))
             }
         }
        else  if (requestCode == 2) {
@@ -165,7 +177,7 @@ class DocManagmentActivity:AppCompatActivity() {
             // val destination = File(Environment.getExternalStorageDirectory(), System.currentTimeMillis().toString() + ".jpg")
 
             val root = Environment.getExternalStorageDirectory().toString()
-            val myDir = File("$root/fault_images")
+            val myDir = File("$root/wecompli/document")
             myDir.mkdirs()
             /* val generator = Random()
               var n = 100
@@ -184,7 +196,11 @@ class DocManagmentActivity:AppCompatActivity() {
                 thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 100, out)
                 out.flush()
                 out.close()
-                addimagelistview(file.absolutePath,thumbnail,file)
+                if (docImagelist.size<4)
+                    addimagelistview(file.absolutePath,thumbnail,file)
+                else
+                    Alert.showalert(this,"You can not select more then 4 images")
+
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()
             } catch (e: IOException) {
@@ -207,7 +223,7 @@ class DocManagmentActivity:AppCompatActivity() {
                 // val destination = File(Environment.getExternalStorageDirectory(), System.currentTimeMillis().toString() + ".jpg")
 
                 val root = Environment.getExternalStorageDirectory().toString()
-                val myDir = File("$root/fault_images")
+                val myDir = File("$root/wecompli/document")
                 myDir.mkdirs()
                 /* val generator = Random()
                   var n = 100
@@ -226,7 +242,12 @@ class DocManagmentActivity:AppCompatActivity() {
                     bm.compress(Bitmap.CompressFormat.JPEG, 100, out)
                     out.flush()
                     out.close()
-                    addimagelistview(file.absolutePath,bm,file)
+
+                    if (docImagelist.size<4)
+                     addimagelistview(file.absolutePath,bm,file)
+                    else
+                        Alert.showalert(this,"You can not select more then 4 images")
+
                 } catch (e: FileNotFoundException) {
                     e.printStackTrace()
                 } catch (e: IOException) {
@@ -256,7 +277,7 @@ class DocManagmentActivity:AppCompatActivity() {
     private fun takePhotoFromCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, REQUEST_CAMERA)
-    }
+}
 
     public fun callApifordocSubmit(){
         if (!docManagmentViewBind!!.tv_Select_company!!.getText().toString().equals("")) {
@@ -265,10 +286,12 @@ class DocManagmentActivity:AppCompatActivity() {
                     if (!docManagmentViewBind!!.tv_start_date!!.getText().toString().equals("")) {
                         if (!docManagmentViewBind!!.tv_end_date!!.getText().toString().equals("")) {
                             if (!docManagmentViewBind!!.tv_select_week!!.getText().toString().equals("")) {
+                                if (docImagelist.size>0)
+                                     Apicall()
                                 // if(!documentViewBind.tv_notify_who.getText().toString().equals("")){
                                 //}
-                                // else
-                                //   Alert.showalert(homeActivity,"Please Choose Notify Email");
+                                 else
+                                   Alert.showalert(this,"Please Choose Image");
                             } else Alert.showalert(this, this.getResources().getString(R.string.notify_me_expairy))
                         } else Alert.showalert(this, this.getResources().getString(R.string.enter_end_date)
                         )
@@ -276,5 +299,75 @@ class DocManagmentActivity:AppCompatActivity() {
                 } else Alert.showalert(this, this.getResources().getString(R.string.enter_doc_name))
             } else Alert.showalert(this, this.getResources().getString(R.string.select_site_))
         } else Alert.showalert(this, this.getResources().getString(R.string.select_company))
+    }
+
+    private fun Apicall() {
+        val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this, "Please Wait..", false)
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        builder.addFormDataPart("company_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.Selectedcompany_id))
+        builder.addFormDataPart("site_id" ,AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+        builder.addFormDataPart("document_name", docManagmentViewBind!!.et_document_name!!.text.toString())
+        builder.addFormDataPart("affected_date",docManagmentViewBind!!.tv_start_date!!.text.toString())
+        builder.addFormDataPart("expire_date" , docManagmentViewBind!!.tv_end_date!!.text.toString())
+        builder.addFormDataPart("notify_about_expiry", scheduleid)
+        builder.addFormDataPart("status_id","1")
+       for (i in docImagelist.indices) {
+            builder.addFormDataPart("document_file[]", "doc_image_"+i.toString(), okhttp3.RequestBody.create(
+                MediaType.parse("image/jpeg"), docImagelist.get(i).imagepath))
+        }
+        //builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))
+
+        val requestBody = builder.build()
+        var request: Request? = null
+        request = Request.Builder()
+            .addHeader("Authorization", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token))
+            .addHeader("site_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+            .addHeader("Content-Type","application/json")
+            .url(NetworkUtility.BASE_URL + NetworkUtility.DOCUMENTSUBMIT)
+            .post(requestBody)
+            .build()
+
+        val client = okhttp3.OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(100, TimeUnit.SECONDS)
+            .readTimeout(100, TimeUnit.SECONDS)
+            .build()
+
+        val call = client.newCall(request)
+        call.enqueue(object :okhttp3.Callback{
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                customProgress.hideProgress()
+                System.out.println("resppp"+response.body().toString())
+                try {
+                    var response_obj :JSONObject= JSONObject(response.body()!!.string())
+                    val message=response_obj.getString("message")
+                    if (response_obj.getBoolean("status")){
+                        //{"status":true,"message":"Document added"}
+                        //   val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
+                        //callApiforfaultcreate(check_process_log_id);
+                        AppSheardPreference(this@DocManagmentActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,"")
+                       // val intent = Intent()
+                       // setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
+                        runOnUiThread {
+                            docmangonclick!!.clearallfeild()
+                        }
+
+                        Alert.showalert(this@DocManagmentActivity,"Document Created Successfully.")
+                    }else{
+                        //Toast.makeText(this@DocManagmentActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@DocManagmentActivity, message, Toast.LENGTH_LONG).show()
+                    }
+                }
+                catch (e: Exception){
+                    e.printStackTrace()
+                    Toast.makeText(this@DocManagmentActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                customProgress.hideProgress()
+            }
+        })
     }
 }

@@ -132,7 +132,7 @@ class CheckMinorfailActivity:AppCompatActivity() {
             // val destination = File(Environment.getExternalStorageDirectory(), System.currentTimeMillis().toString() + ".jpg")
 
             val root = Environment.getExternalStorageDirectory().toString()
-            val myDir = File("$root/fault_images")
+            val myDir = File("$root/wecompli/minorfault")
             myDir.mkdirs()
             /* val generator = Random()
               var n = 100
@@ -214,7 +214,7 @@ class CheckMinorfailActivity:AppCompatActivity() {
                // val destination = File(Environment.getExternalStorageDirectory(), System.currentTimeMillis().toString() + ".jpg")
 
                 val root = Environment.getExternalStorageDirectory().toString()
-                val myDir = File("$root/fault_images")
+                val myDir = File("$root/wecompli/minorfault")
                 myDir.mkdirs()
                 /* val generator = Random()
                   var n = 100
@@ -404,7 +404,6 @@ class CheckMinorfailActivity:AppCompatActivity() {
         paramObject.put("fault_description",checkMinorFailViewBind!!.et_fault!!.text.toString())
         paramObject.put("status_id","1")
         builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))*/
-
 
         val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
         customProgress.showProgress(this, "Please Wait..", false)

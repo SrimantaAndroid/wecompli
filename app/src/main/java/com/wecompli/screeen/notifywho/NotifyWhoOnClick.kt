@@ -31,7 +31,7 @@ class NotifyWhoOnClick(
                     }
                 }
                 if(!email.equals(""))
-                    AppSheardPreference(notifyWhoActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,email.substring(1,3))
+                    AppSheardPreference(notifyWhoActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,email.substring(3))
                     else
                     AppSheardPreference(notifyWhoActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,email)
              //   notifyWhoActivity.finish()

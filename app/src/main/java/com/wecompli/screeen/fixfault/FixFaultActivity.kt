@@ -263,6 +263,7 @@ class FixFaultActivity:AppCompatActivity() {
                 bm = MediaStore.Images.Media.getBitmap(applicationContext.contentResolver, data.data)
                 val bytes = ByteArrayOutputStream()
                 bm!!.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
+
                 val destination = File(Environment.getExternalStorageDirectory(), "fault_image"+ ".jpg")
                 // val destination = File(Environment.getExternalStorageDirectory(), System.currentTimeMillis().toString() + ".jpg")
                 val fo: FileOutputStream
