@@ -182,7 +182,7 @@ class DocManagmentActivity:AppCompatActivity() {
             /* val generator = Random()
               var n = 100
               n = generator.nextInt(n)*/
-            val fname = "doc_image1.jpg"
+            val fname = "doc_image.jpg"
             val file = File(myDir, fname)
             val fo: FileOutputStream
             if (file.exists())
@@ -228,7 +228,7 @@ class DocManagmentActivity:AppCompatActivity() {
                 /* val generator = Random()
                   var n = 100
                   n = generator.nextInt(n)*/
-                val fname = "doc_image1.jpg"
+                val fname = "doc_image.jpg"
                 val file = File(myDir, fname)
                 val fo: FileOutputStream
                 if (file.exists())
@@ -313,8 +313,7 @@ class DocManagmentActivity:AppCompatActivity() {
         builder.addFormDataPart("notify_about_expiry", scheduleid)
         builder.addFormDataPart("status_id","1")
        for (i in docImagelist.indices) {
-            builder.addFormDataPart("document_file[]", "doc_image_"+i.toString(), okhttp3.RequestBody.create(
-                MediaType.parse("image/jpeg"), docImagelist.get(i).imagepath))
+            builder.addFormDataPart("document_file[]", "doc_image"+".jpg", okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), docImagelist.get(i).file))
         }
         //builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))
 
@@ -338,7 +337,7 @@ class DocManagmentActivity:AppCompatActivity() {
         call.enqueue(object :okhttp3.Callback{
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 customProgress.hideProgress()
-                System.out.println("resppp"+response.body().toString())
+               // System.out.println("respppdoc"+response.body()!!.string())
                 try {
                     var response_obj :JSONObject= JSONObject(response.body()!!.string())
                     val message=response_obj.getString("message")

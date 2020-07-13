@@ -324,11 +324,13 @@ class CheckMinorfailActivity:AppCompatActivity() {
                                      setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
                                      finish()*/
                                 }else{
-                                    Toast.makeText(this@CheckMinorfailActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this@CheckMinorfailActivity, response_obj.getString("message"), Toast.LENGTH_LONG).show()
                                 }
                             }
                             catch (e:Exception){
                                 e.printStackTrace()
+                                Toast.makeText(this@CheckMinorfailActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+
                             }
                         }
                     }
@@ -453,11 +455,14 @@ class CheckMinorfailActivity:AppCompatActivity() {
                          setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
                          finish()
                     }else{
-                        Toast.makeText(this@CheckMinorfailActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@CheckMinorfailActivity, response_obj.getString("message"), Toast.LENGTH_LONG).show()
+
                     }
                 }
                 catch (e:Exception){
                     e.printStackTrace()
+                    Toast.makeText(this@CheckMinorfailActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+
                 }
             }
 
