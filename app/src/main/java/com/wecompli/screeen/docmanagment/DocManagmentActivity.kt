@@ -228,7 +228,7 @@ class DocManagmentActivity:AppCompatActivity() {
                 /* val generator = Random()
                   var n = 100
                   n = generator.nextInt(n)*/
-                val fname = "doc_image.jpg"
+                val fname = "doc_image_"+docImagelist.size+".jpg"
                 val file = File(myDir, fname)
                 val fo: FileOutputStream
                 if (file.exists())
@@ -312,8 +312,9 @@ class DocManagmentActivity:AppCompatActivity() {
         builder.addFormDataPart("expire_date" , docManagmentViewBind!!.tv_end_date!!.text.toString())
         builder.addFormDataPart("notify_about_expiry", scheduleid)
         builder.addFormDataPart("status_id","1")
-       for (i in docImagelist.indices) {
-            builder.addFormDataPart("document_file[]", "doc_image"+".jpg", okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), docImagelist.get(i).file))
+        builder.addFormDataPart("notify_who",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.SelectedEmail))
+        for (i in docImagelist.indices) {
+            builder.addFormDataPart("document_file[]", "doc_image_"+i.toString()+".jpg", okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), docImagelist.get(i).file))
         }
         //builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))
 
@@ -350,9 +351,8 @@ class DocManagmentActivity:AppCompatActivity() {
                        // setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
                         runOnUiThread {
                             docmangonclick!!.clearallfeild()
+                            Alert.showalert(this@DocManagmentActivity,message)
                         }
-
-                        Alert.showalert(this@DocManagmentActivity,"Document Created Successfully.")
                     }else{
                         //Toast.makeText(this@DocManagmentActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
                         Toast.makeText(this@DocManagmentActivity, message, Toast.LENGTH_LONG).show()

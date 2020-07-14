@@ -88,7 +88,7 @@ class AccidentReportViewBind(
     var radio_employee: RadioButton? = null
     var radio_customer: RadioButton? = null
     var radio_visitor: RadioButton? = null
-    var radio_details: RadioButton? = null
+    var radio_details: CheckBox? = null
     var imgcamera: ImageView? = null
     var img_signbehlf: ImageView? = null
     var img_sign_completedby: ImageView? = null
@@ -98,6 +98,7 @@ class AccidentReportViewBind(
     var img_select: ImageView? = null
     var ll_takephato: LinearLayout? = null
     var chk_iscontent: CheckBox? = null
+    var rg_other:RadioGroup?=null
     init {
         viewbinds(view)
         settypeface()
@@ -289,7 +290,7 @@ class AccidentReportViewBind(
         rl_witness2 = view.findViewById(R.id.rl_witness2)
         rl_completed = view.findViewById(R.id.rl_completed)
         rl_injured = view.findViewById(R.id.rl_injured)
-
+      //  rg_other=view.findViewById(R.id.rg_other)
         et_detailsofother!!.setEnabled(false)
         seek_servertylevel!!.getProgressDrawable().setColorFilter(accidentReportActivity.getResources().getColor(
             R.color.tabtext_color), PorterDuff.Mode.MULTIPLY)

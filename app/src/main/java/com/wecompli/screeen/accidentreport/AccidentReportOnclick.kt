@@ -60,8 +60,9 @@ class AccidentReportOnclick(
             } else if (id == R.id.radio_visitor) {
                 accidentReportActivity.usertppe = "Visitor"
             }
-            accidentReportViewBind.et_detailsofother!!.isEnabled = false
-            // accidentReportViewBind.radio_details.setChecked(false);
+            //accidentReportViewBind.radio_customer!!.isChecked = false
+            //  accidentReportViewBind.radio_details!!.isEnabled = false
+             accidentReportViewBind.radio_details!!.setChecked(false);
         }
         accidentReportViewBind.rg_servety_level!!.setOnCheckedChangeListener { radioGroup, id ->
             if (id == R.id.rb_major) {
@@ -70,12 +71,49 @@ class AccidentReportOnclick(
                 accidentReportActivity.servityvalue = "minor"
             }
         }
-        accidentReportViewBind.radio_details!!.setOnCheckedChangeListener { compoundButton, b ->
-            accidentReportViewBind.rg_completeform!!.clearCheck()
-            accidentReportViewBind.radio_details!!.isChecked = true
-            accidentReportViewBind.et_detailsofother!!.isEnabled = true
-            accidentReportActivity.usertppe = "Other"
+        accidentReportViewBind!!.radio_details!!.setOnCheckedChangeListener { compoundButton, b ->
+            if (b){
+                accidentReportViewBind.radio_employee!!.isChecked = false
+                accidentReportViewBind.radio_customer!!.isChecked = false
+                accidentReportViewBind.radio_visitor!!.isChecked = false
+                //accidentReportViewBind.radio_details!!.isChecked = true
+                accidentReportViewBind.et_detailsofother!!.isEnabled = true
+                accidentReportActivity.usertppe = "Other"
+            }
         }
+       /* accidentReportViewBind.rg_other!!.setOnCheckedChangeListener { radioGroup, i ->
+            if (i==R.id.radio_details) {
+                accidentReportViewBind.radio_employee!!.isChecked = false
+                accidentReportViewBind.radio_customer!!.isChecked = false
+                accidentReportViewBind.radio_visitor!!.isChecked = false
+                //accidentReportViewBind.radio_details!!.isChecked = true
+                accidentReportViewBind.et_detailsofother!!.isEnabled = true
+                accidentReportActivity.usertppe = "Other"
+            }
+        }*/
+       /* accidentReportViewBind.radio_details!!.setOnClickListener {
+            if (!accidentReportViewBind!!.radio_details!!.isSelected()) {
+                accidentReportViewBind!!.radio_details!!.setChecked(true);
+                accidentReportViewBind!!.radio_details!!.setSelected(true);
+                accidentReportViewBind.radio_employee!!.isChecked = false
+                accidentReportViewBind.radio_customer!!.isChecked = false
+                accidentReportViewBind.radio_visitor!!.isChecked = false
+            } else {
+                accidentReportViewBind!!.radio_details!!.setChecked(false);
+                accidentReportViewBind!!.radio_details!!.setSelected(false);
+            }
+
+        }*/
+        /*accidentReportViewBind.rg_other!!.setOnCheckedChangeListener { radioGroup, id ->
+            if (id==R.id.radio_details) {
+                accidentReportViewBind.radio_employee!!.isChecked = false
+                accidentReportViewBind.radio_customer!!.isChecked = false
+                accidentReportViewBind.radio_visitor!!.isChecked = false
+                //accidentReportViewBind.radio_details!!.isChecked = true
+                accidentReportViewBind.et_detailsofother!!.isEnabled = true
+                accidentReportActivity.usertppe = "Other"
+            }
+        }*/
     }
     override fun onClick(p0: View?) {
     when(p0!!.id){
