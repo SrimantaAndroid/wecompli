@@ -18,6 +18,7 @@ class NetworkUtility {
         const val FAULTBYSCAN="checks/fault/details/byscan"
         const val DOCUMENTSUBMIT="document/create"
         const val SERVERTYLEVEL="site/severity/level"
+        const val LOCATIONLIST="location/list"
 
     }
 }

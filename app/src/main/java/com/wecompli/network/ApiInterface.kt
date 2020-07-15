@@ -9,6 +9,7 @@ import com.wecompli.apiresponsemodel.faultdetails.FaultDetailsByScanModel
 import com.wecompli.apiresponsemodel.faultdetails.FaultadetailsModel
 import com.wecompli.apiresponsemodel.faultstatuslist.FaultStatusListModel
 import com.wecompli.apiresponsemodel.faultstatusmessagechange.FaultStatusMessageChange
+import com.wecompli.apiresponsemodel.location.LocatioApiResponse
 import com.wecompli.apiresponsemodel.login.LoginResponse
 import com.wecompli.apiresponsemodel.regeratetokenresponse.RegenerateTokenResponse
 import com.wecompli.apiresponsemodel.seasonlist.SeasonListApiresponse
@@ -100,4 +101,6 @@ interface ApiInterface {
     @POST(NetworkUtility.SERVERTYLEVEL)
     fun callApiforSERVRITYLABEL(@Header("Content-Type") contenttype:String, @Header("Authorization") token:String,@Body body: JsonObject): Call<ServrityModel>
 
+    @POST(NetworkUtility.LOCATIONLIST)
+    fun calllocationlistapi(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject)  :Call<LocatioApiResponse>
 }

@@ -5,18 +5,34 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.view.View
 import android.widget.SeekBar
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.sculptee.utils.customprogress.CustomProgressDialog
 import com.wecompli.R
+import com.wecompli.apiresponsemodel.location.LocatioApiResponse
+import com.wecompli.apiresponsemodel.location.LocationRow
+import com.wecompli.network.ApiInterface
+import com.wecompli.network.Retrofit
 import com.wecompli.screeen.bodymap.ActivityBodyMap
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
 import com.wecompli.utils.customalert.TaptoSignSubmitAccidentReport
+import com.wecompli.utils.custompopupdialogforsite.AccidentLocationDialog
+import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
+import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
+import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 
 class AccidentReportOnclick(
     var accidentReportActivity: AccidentReportActivity,
     var  accidentReportViewBind: AccidentReportViewBind) :View.OnClickListener{
-
+    var onItemClickInterface: OnItemClickInterface? = null
+     var  accidentLocationDialog:AccidentLocationDialog?=null
+    var locationlist: List<LocationRow> = ArrayList<LocationRow>()
     init {
         accidentReportViewBind.rl_back_accidentreport!!.setOnClickListener(this)
         accidentReportViewBind.rl_chooseimage!!.setOnClickListener(this)
@@ -121,6 +137,8 @@ class AccidentReportOnclick(
             accidentReportActivity.finish()
         }
         R.id.tv_select_location->{
+            callApiforlocationList()
+
 
         }
         R.id.btnsubmit->{
@@ -180,6 +198,48 @@ class AccidentReportOnclick(
         }
      }
     }
+
+    private fun callApiforlocationList() {
+        val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(accidentReportActivity, "Please Wait..", false)
+        val apiInterface = Retrofit.retrofitInstance?.create(ApiInterface::class.java)
+        try {
+            val paramObject = JSONObject()
+            paramObject.put("status_id","1")
+            paramObject.put("site_id", AppSheardPreference(accidentReportActivity).getvalue_in_preference(PreferenceConstent.site_id)
+            )
+
+            var obj: JSONObject = paramObject
+            var jsonParser: JsonParser = JsonParser()
+            var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject
+
+            val calltodayseasonApi = apiInterface.calllocationlistapi(
+                AppSheardPreference(accidentReportActivity).getvalue_in_preference(PreferenceConstent.loginuser_token),
+                AppSheardPreference(accidentReportActivity).getvalue_in_preference(PreferenceConstent.site_id), gsonObject)
+            calltodayseasonApi.enqueue( object :Callback<LocatioApiResponse>{
+                override fun onResponse(call: Call<LocatioApiResponse>, response: Response<LocatioApiResponse>) {
+                    customProgress.hideProgress()
+                    if (response.body()!!.status){
+                        locationlist= response.body()!!.row
+                        accidentLocationDialog = AccidentLocationDialog(accidentReportActivity, locationlist,object :OnItemClickInterface{
+                            override fun OnItemClick(position: Int) {
+                                     accidentReportViewBind.tv_select_location!!.setText(locationlist.get(position).location_name)
+                                     accidentLocationDialog!!.dismiss()
+                            }
+                        })
+                        accidentLocationDialog!!.show()
+                    }
+                }
+
+                override fun onFailure(call: Call<LocatioApiResponse>, t: Throwable) {
+                    customProgress.hideProgress()
+                }
+            })
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
     fun padnumber(n: Int): String? {
         val num: String
         num = if (n > 10) n.toString() else "0$n"
