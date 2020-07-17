@@ -446,7 +446,9 @@ class CheckMinorfailActivity:AppCompatActivity() {
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 customProgress.hideProgress()
                 try {
-                    val response_obj = JSONObject(response.body()!!.string())
+                    var resStr :String=response.body()!!.string()
+                    var response_obj= JSONObject(resStr)
+                    //val response_obj = JSONObject(response.body()!!.string())
                     if (response_obj.getBoolean("status")){
                      //   val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
                         //callApiforfaultcreate(check_process_log_id);

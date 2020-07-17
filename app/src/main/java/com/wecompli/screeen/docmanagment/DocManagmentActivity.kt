@@ -340,7 +340,9 @@ class DocManagmentActivity:AppCompatActivity() {
                 customProgress.hideProgress()
                // System.out.println("respppdoc"+response.body()!!.string())
                 try {
-                    var response_obj :JSONObject= JSONObject(response.body()!!.string())
+                    var resStr :String=response.body()!!.string()
+                    var response_obj= JSONObject(resStr)
+                   // var response_obj :JSONObject= JSONObject(response.body()!!.string())
                     val message=response_obj.getString("message")
                     if (response_obj.getBoolean("status")){
                         //{"status":true,"message":"Document added"}

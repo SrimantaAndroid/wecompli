@@ -15,6 +15,7 @@ import android.view.View
 import android.view.Window
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -28,10 +29,14 @@ import com.wecompli.apiresponsemodel.notifywho.NotifyWhoModel
 import com.wecompli.apiresponsemodel.seasonlist.SeasonListApiresponse
 import com.wecompli.apiresponsemodel.servritylevel.ServrityModel
 import com.wecompli.network.ApiInterface
+import com.wecompli.network.NetworkUtility
 import com.wecompli.network.Retrofit
 import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
@@ -41,6 +46,7 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class AccidentReportActivity :AppCompatActivity(){
     var accidentReportViewBind:AccidentReportViewBind?=null
@@ -57,6 +63,10 @@ class AccidentReportActivity :AppCompatActivity(){
     var signed_employment_person:java.io.File? = null
     var form_completed_person_signed:java.io.File? = null
     var form_completed_injured_person_signed:java.io.File? = null
+   // var filewitness1:File?=null
+    //var filewitness2:File?=null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -408,5 +418,200 @@ class AccidentReportActivity :AppCompatActivity(){
             }
 
         }
+    }
+
+    fun callAccidentreportsubmitApi(){
+
+        val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this, "Please Wait..", false)
+        val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+        builder.addFormDataPart("company_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.Selectedcompany_id))
+        builder.addFormDataPart("site_id" ,AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+        builder.addFormDataPart("severity_level", servityvalue)
+        builder.addFormDataPart("organisation_name",accidentReportViewBind!!.et_nameof_organization!!.text.toString())
+        builder.addFormDataPart("organisation_address" , accidentReportViewBind!!.et_organizationaddress!!.text.toString())
+        builder.addFormDataPart("organisation_postcode", accidentReportViewBind!!.et_postcode!!.text.toString())
+        builder.addFormDataPart("organisation_telephone", accidentReportViewBind!!.et_telephone!!.text.toString())
+        builder.addFormDataPart("injured_person_name", accidentReportViewBind!!.et_fullnameofperson_injured!!.text.toString())
+
+        builder.addFormDataPart("injured_person_telephone", accidentReportViewBind!!.et_telephone_person!!.text.toString())
+        builder.addFormDataPart("injured_person_postcode", accidentReportViewBind!!.et_postcode_person!!.text.toString())
+
+        builder.addFormDataPart("injured_person_date_of_birth", accidentReportViewBind!!.tv_date_of_birth!!.text.toString())
+        builder.addFormDataPart("accident_injuries_image", "injuries_image"+".jpg", okhttp3.RequestBody.create(
+            MediaType.parse("image/jpeg"), signed_employment_person))
+        //paramObject.put("accident_injuries_image", accidentReportViewBind!!.et_personhomeaddress!!.text.toString())
+        builder.addFormDataPart("user_type", usertppe)
+        builder.addFormDataPart("user_type_other", accidentReportViewBind!!.et_detailsofother!!.text.toString())
+        builder.addFormDataPart("date_of_occurrence", accidentReportViewBind!!.tv_dateofoccurenceet_postcode_person!!.text.toString())
+        builder.addFormDataPart("time_of_occurrence", accidentReportViewBind!!.tv_timeof_occurence!!.text.toString())
+        builder.addFormDataPart("location", accidentReportViewBind!!.tv_select_location!!.text.toString())
+        builder.addFormDataPart("full_description_incident_circumstances", accidentReportViewBind!!.et_fulldescrtpttion!!.text.toString())
+        builder.addFormDataPart("effected_body_parts", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
+        builder.addFormDataPart("full_description_injuries_suffered", accidentReportViewBind!!.et_fulldes_inj!!.text.toString())
+        builder.addFormDataPart("injured_person_employment_nature", "")
+        builder.addFormDataPart("injured_person_employment_duty_status", "")
+        builder.addFormDataPart("injured_person_employment_duty_work_status", "")
+        builder.addFormDataPart("injured_person_employment_off_duty_time", accidentReportViewBind!!.et_off_duty!!.text.toString())
+        builder.addFormDataPart("employment_person_name", accidentReportViewBind!!.et_prientname!!.text.toString())
+        builder.addFormDataPart("employment_person_position", accidentReportViewBind!!.et_position!!.text.toString())
+        builder.addFormDataPart("employment_signed_date", accidentReportViewBind!!.tv_datepatient!!.text.toString())
+        // paramObject.put("effected_body_parts", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
+        builder.addFormDataPart("witness_1st_statement", accidentReportViewBind!!.et_statementdetails!!.text.toString())
+        builder.addFormDataPart("witness_1st_signed", "witness1"+".jpg", okhttp3.RequestBody.create(
+            MediaType.parse("image/jpeg"), witness1))
+        //paramObject.put("witness_1st_signed", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
+        builder.addFormDataPart("witness_1st_home_address", accidentReportViewBind!!.et_address_wite!!.text.toString())
+        builder.addFormDataPart("witness_1st_postcode", accidentReportViewBind!!.et_postcodewe1!!.text.toString())
+
+        builder.addFormDataPart("witness_2nd_statement", accidentReportViewBind!!.et_statementdetails2!!.text.toString())
+        builder.addFormDataPart("witness_2nd_signed", "witness2"+".jpg", okhttp3.RequestBody.create(
+            MediaType.parse("image/jpeg"), witness2))
+        //  paramObject.put("witness_2nd_signed", accidentReportViewBind!!.et_date!!.text.toString())
+        builder.addFormDataPart("witness_2nd_home_address", accidentReportViewBind!!.et_address_wite2!!.text.toString())
+        builder.addFormDataPart("witness_2nd_postcode", accidentReportViewBind!!.et_postcodewe2!!.text.toString())
+        builder.addFormDataPart("witness_2nd_person_name", accidentReportViewBind!!.patient2!!.text.toString())
+        builder.addFormDataPart("witness_2nd_signed_date", accidentReportViewBind!!.tv_date2!!.text.toString())
+        builder.addFormDataPart("form_completed_person_name", accidentReportViewBind!!.et_complientby!!.text.toString())
+        builder.addFormDataPart("form_completed_person_signed", "formcompleted"+".jpg", okhttp3.RequestBody.create(
+            MediaType.parse("image/jpeg"), form_completed_person_signed))
+        builder.addFormDataPart("form_completed_injured_person_signed", "formcompleted_inj_perso"+".jpg", okhttp3.RequestBody.create(
+            MediaType.parse("image/jpeg"), form_completed_injured_person_signed))
+        //paramObject.put("form_completed_person_signed", accidentReportViewBind!!.et_postcodewe2!!.text.toString())
+        //paramObject.put("form_completed_injured_person_signed", accidentReportViewBind!!.patient2!!.text.toString())
+        builder.addFormDataPart("form_completed_injured_person_name", accidentReportViewBind!!.et_injuredperson!!.text.toString())
+        builder.addFormDataPart("information_share", accidentReportViewBind!!.et_injuredperson!!.text.toString())
+        builder.addFormDataPart("fault_mail", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.notifyemail))
+        builder.addFormDataPart("notify_who",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.SelectedEmail))
+        //for (i in docImagelist.indices) {
+         //   builder.addFormDataPart("document_file[]", "doc_image_"+i.toString()+".jpg", okhttp3.RequestBody.create(
+             //   MediaType.parse("image/jpeg"), docImagelist.get(i).file))
+      //  }
+        //builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))
+
+        val requestBody = builder.build()
+        var request: Request? = null
+        request = Request.Builder()
+            .addHeader("Authorization", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token))
+            .addHeader("site_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+            .addHeader("Content-Type","application/json")
+            .url(NetworkUtility.BASE_URL + NetworkUtility.CREATEINCIDENTREPORT)
+            .post(requestBody)
+            .build()
+
+        val client = okhttp3.OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(100, TimeUnit.SECONDS)
+            .readTimeout(100, TimeUnit.SECONDS)
+            .build()
+
+        val call = client.newCall(request)
+        call.enqueue(object :okhttp3.Callback{
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+
+                // System.out.println("respppdoc"+response.body()!!.string())
+                try {
+                    var resStr :String=response.body()!!.string()
+                    var response_obj= JSONObject(resStr)
+                    val message=response_obj.getString("message")
+                    customProgress.hideProgress()
+                    if (response_obj.getBoolean("status")){
+                        //{"status":true,"message":"Document added"}
+                        //   val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
+                        //callApiforfaultcreate(check_process_log_id);
+                        AppSheardPreference(this@AccidentReportActivity).setvalue_in_preference(PreferenceConstent.SelectedEmail,"")
+                        // val intent = Intent()
+                        // setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
+                        runOnUiThread {
+                            Alert.showalertToGoHomePage(this@AccidentReportActivity,message)
+                        }
+                    }else{
+                        //Toast.makeText(this@DocManagmentActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@AccidentReportActivity, message, Toast.LENGTH_LONG).show()
+                    }
+                }
+                catch (e: java.lang.Exception){
+                    e.printStackTrace()
+                  //  Toast.makeText(this@AccidentReportActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                customProgress.hideProgress()
+            }
+        })
+
+       /* val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this, "Please Wait..", false)
+        val apiInterface = Retrofit.retrofitInstance?.create(ApiInterface::class.java)
+        try {
+            val paramObject = JSONObject()
+            paramObject.put("company_id", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.selected_company_id))
+            paramObject.put("site_id", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+            paramObject.put("severity_level", servityvalue)
+            paramObject.put("organisation_name", accidentReportViewBind!!.et_nameof_organization!!.text.toString())
+            paramObject.put("organisation_address", accidentReportViewBind!!.et_organizationaddress!!.text.toString())
+            paramObject.put("organisation_postcode", accidentReportViewBind!!.et_postcode!!.text.toString())
+            paramObject.put("injured_person_name", accidentReportViewBind!!.et_fullnameofperson_injured!!.text.toString())
+            paramObject.put("injured_person_address", accidentReportViewBind!!.et_personhomeaddress!!.text.toString())
+            paramObject.put("injured_person_postcode", accidentReportViewBind!!.et_postcode_person!!.text.toString())
+            paramObject.put("injured_person_telephone", accidentReportViewBind!!.et_telephone_person!!.text.toString())
+            paramObject.put("injured_person_date_of_birth", accidentReportViewBind!!.tv_date_of_birth!!.text.toString())
+            //paramObject.put("accident_injuries_image", accidentReportViewBind!!.et_personhomeaddress!!.text.toString())
+            paramObject.put("user_type", usertppe)
+            paramObject.put("user_type_other", accidentReportViewBind!!.et_detailsofother!!.text.toString())
+            paramObject.put("date_of_occurrence", accidentReportViewBind!!.tv_dateofoccurenceet_postcode_person!!.text.toString())
+            paramObject.put("time_of_occurrence", accidentReportViewBind!!.tv_timeof_occurence!!.text.toString())
+            paramObject.put("location", accidentReportViewBind!!.tv_select_location!!.text.toString())
+            paramObject.put("full_description_incident_circumstances", accidentReportViewBind!!.et_fulldescrtpttion!!.text.toString())
+            paramObject.put("effected_body_parts", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
+            paramObject.put("full_description_injuries_suffered", accidentReportViewBind!!.et_fulldes_inj!!.text.toString())
+            paramObject.put("injured_person_employment_nature", "")
+            paramObject.put("injured_person_employment_duty_status", "")
+            paramObject.put("injured_person_employment_duty_work_status", "")
+            paramObject.put("injured_person_employment_off_duty_time", accidentReportViewBind!!.et_off_duty!!.text.toString())
+            paramObject.put("employment_person_name", accidentReportViewBind!!.et_prientname!!.text.toString())
+            paramObject.put("employment_person_position", accidentReportViewBind!!.et_position!!.text.toString())
+            paramObject.put("employment_signed_date", accidentReportViewBind!!.tv_datepatient!!.text.toString())
+           // paramObject.put("effected_body_parts", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
+            paramObject.put("witness_1st_statement", accidentReportViewBind!!.et_statementdetails!!.text.toString())
+            //paramObject.put("witness_1st_signed", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
+            paramObject.put("witness_1st_home_address", accidentReportViewBind!!.et_address_wite!!.text.toString())
+            paramObject.put("witness_1st_postcode", accidentReportViewBind!!.et_postcodewe1!!.text.toString())
+
+            paramObject.put("witness_2nd_statement", accidentReportViewBind!!.et_statementdetails2!!.text.toString())
+          //  paramObject.put("witness_2nd_signed", accidentReportViewBind!!.et_date!!.text.toString())
+            paramObject.put("witness_2nd_home_address", accidentReportViewBind!!.et_address_wite2!!.text.toString())
+            paramObject.put("witness_2nd_postcode", accidentReportViewBind!!.et_postcodewe2!!.text.toString())
+            paramObject.put("witness_2nd_person_name", accidentReportViewBind!!.patient2!!.text.toString())
+            paramObject.put("witness_2nd_signed_date", accidentReportViewBind!!.tv_date2!!.text.toString())
+            paramObject.put("form_completed_person_name", accidentReportViewBind!!.et_complientby!!.text.toString())
+            //paramObject.put("form_completed_person_signed", accidentReportViewBind!!.et_postcodewe2!!.text.toString())
+            //paramObject.put("form_completed_injured_person_signed", accidentReportViewBind!!.patient2!!.text.toString())
+            paramObject.put("form_completed_injured_person_name", accidentReportViewBind!!.et_injuredperson!!.text.toString())
+            paramObject.put("information_share", accidentReportViewBind!!.et_injuredperson!!.text.toString())
+            paramObject.put("fault_mail", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.notifyemail))
+
+            var obj: JSONObject = paramObject
+            var jsonParser: JsonParser = JsonParser()
+            var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject
+            val callApiaccidentreport = apiInterface.calllCreateIncidentapi("application/json",
+                AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.loginuser_token),gsonObject)
+            callApiaccidentreport.enqueue(object :Callback<ResponseBody>{
+                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    customProgress.hideProgress()
+                    if (response.isSuccessful){
+
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    customProgress.hideProgress()
+                }
+            } )
+
+        }catch (e : java.lang.Exception){
+            e.printStackTrace()
+        }*/
     }
 }

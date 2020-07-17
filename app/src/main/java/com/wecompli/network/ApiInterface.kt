@@ -103,4 +103,8 @@ interface ApiInterface {
 
     @POST(NetworkUtility.LOCATIONLIST)
     fun calllocationlistapi(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject)  :Call<LocatioApiResponse>
+
+    @POST(NetworkUtility.CREATEINCIDENTREPORT)
+    fun calllCreateIncidentapi(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject)  :Call<ResponseBody>
+
 }

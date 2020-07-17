@@ -15,6 +15,7 @@ import com.wecompli.network.ApiInterface
 import com.wecompli.network.Retrofit
 import com.wecompli.screeen.bodymap.ActivityBodyMap
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
+import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.customalert.TaptoSignSubmitAccidentReport
 import com.wecompli.utils.custompopupdialogforsite.AccidentLocationDialog
 import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
@@ -33,6 +34,8 @@ class AccidentReportOnclick(
     var onItemClickInterface: OnItemClickInterface? = null
      var  accidentLocationDialog:AccidentLocationDialog?=null
     var locationlist: List<LocationRow> = ArrayList<LocationRow>()
+    var usertype:String="";
+    var bodymaptext:String="";
     init {
         accidentReportViewBind.rl_back_accidentreport!!.setOnClickListener(this)
         accidentReportViewBind.rl_chooseimage!!.setOnClickListener(this)
@@ -52,6 +55,7 @@ class AccidentReportOnclick(
         accidentReportViewBind.btn_notify_who!!.setOnClickListener(this)
         accidentReportViewBind.btnsubmit!!.setOnClickListener(this)
         accidentReportViewBind.tv_select_location!!.setOnClickListener(this)
+        accidentReportViewBind.btnsubmit!!.setOnClickListener(this)
 
 
 
@@ -142,6 +146,7 @@ class AccidentReportOnclick(
 
         }
         R.id.btnsubmit->{
+            checkvalidation()
 
         }
         R.id.btn_notify_who->{
@@ -199,6 +204,210 @@ class AccidentReportOnclick(
      }
     }
 
+    private fun checkvalidation() {
+
+        if (accidentReportActivity.servityvalue.equals("")){
+            Alert.showalert(accidentReportActivity,"Select Servity value.")
+            return
+        }
+     if (accidentReportViewBind.et_nameof_organization!!.text.toString()!!.equals("")){
+         accidentReportViewBind!!.et_nameof_organization!!.requestFocus()
+         Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.nameoforganization))
+         return
+     }
+        if (accidentReportViewBind.et_organizationaddress!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_organizationaddress!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.addressoforganization))
+            return
+        }
+        if (accidentReportViewBind.et_postcode!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_postcode!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.postcode))
+           return
+        }
+        if (accidentReportViewBind.et_telephone!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_telephone!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.telephone))
+            return
+        }
+        if (accidentReportViewBind.et_fullnameofperson_injured!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_fullnameofperson_injured!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.fullnamepersoninjured))
+            return
+        }
+        /*if (accidentReportViewBind.et_telephone!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_telephone!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.fullnamepersoninjured))
+            return
+        }*/
+        if (accidentReportViewBind.et_personhomeaddress!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_personhomeaddress!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.personhomeaddress))
+            return
+        }
+        if (accidentReportViewBind.et_postcode_person!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_postcode_person!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.postcode))
+            return
+        }
+        if (accidentReportViewBind.et_telephone_person!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_telephone_person!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.telephone))
+            return
+        }
+        if (accidentReportViewBind.tv_date_of_birth!!.text.toString().equals("")){
+           // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.dateofbirth))
+            return
+        }
+         if (accidentReportActivity.usertppe.equals("")){
+             Alert.showalert(accidentReportActivity,"Select user type")
+             return
+         }
+        if (accidentReportViewBind.tv_dateofoccurenceet_postcode_person!!.text.toString().equals("")){
+            // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.dateofoccurence))
+            return
+        }
+        if (accidentReportViewBind.tv_timeof_occurence!!.text.toString().equals("")){
+            // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.timeofoccurence))
+            return
+        }
+        if (accidentReportViewBind.tv_select_location!!.text.toString().equals("")){
+            // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.selectaccidentlocation))
+            return
+        }
+        if (accidentReportViewBind.tv_select_location!!.text.toString().equals("")){
+            // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.selectaccidentlocation))
+            return
+        }
+        if (accidentReportViewBind.et_fulldescrtpttion!!.text.toString().equals("")){
+             accidentReportViewBind!!.et_fulldescrtpttion!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter full description of body.")
+            return
+        }
+        if (bodymaptext.equals("")){
+            Alert.showalert(accidentReportActivity,"Select injured body part")
+            return
+        }
+        if (accidentReportViewBind.et_fulldes_inj!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_fulldes_inj!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter full description injured person.")
+            return
+        }
+        if (accidentReportViewBind.et_injuredperdesc!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_injuredperdesc!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter description of injured person.")
+            return
+        }
+        if (accidentReportViewBind.et_off_duty!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_off_duty!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter off-duty time.")
+            return
+        }
+        if (accidentReportViewBind.et_prientname!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_prientname!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.patientname))
+            return
+        }
+        if (accidentReportViewBind.et_position!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_position!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter patient position.")
+            return
+        }
+        if (accidentReportViewBind.tv_datepatient!!.text.toString().equals("")){
+            accidentReportViewBind!!.tv_datepatient!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter patient Date.")
+            return
+        }
+        if (accidentReportViewBind.et_statementdetails!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_statementdetails!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.statementdetails))
+            return
+        }
+        if (accidentReportViewBind.patient1!!.text.toString().equals("")){
+            accidentReportViewBind!!.patient1!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Witness1 person name.")
+            return
+        }
+        if (accidentReportViewBind.et_date!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_date!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Witness1 Signed date.")
+            return
+        }
+        if (accidentReportViewBind.et_address_wite!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_address_wite!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter Witness1 address.")
+            return
+        }
+        if (accidentReportViewBind.et_postcodewe1!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_postcodewe1!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter Witness1 postcode.")
+            return
+        }
+
+        if (accidentReportViewBind.et_statementdetails2!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_statementdetails2!!.requestFocus()
+            Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.statementdetails)+"witness 2")
+            return
+        }
+        if (accidentReportViewBind.patient2!!.text.toString().equals("")){
+            accidentReportViewBind!!.patient1!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Witness2 person name.")
+            return
+        }
+        if (accidentReportViewBind.tv_date2!!.text.toString().equals("")){
+            //accidentReportViewBind!!.et_date!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Witness2 Signed date.")
+            return
+        }
+        if (accidentReportViewBind.et_address_wite2!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_address_wite2!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter Witness2 address.")
+            return
+        }
+        if (accidentReportViewBind.et_postcodewe2!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_postcodewe2!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter Witness2 postcode.")
+            return
+        }
+        if (accidentReportViewBind.et_complientby!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_complientby!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter Name who completed the form.")
+            return
+        }
+        if (accidentReportViewBind.et_injuredperson!!.text.toString().equals("")){
+            accidentReportViewBind!!.et_injuredperson!!.requestFocus()
+            Alert.showalert(accidentReportActivity,"Enter Injured person Name who completed the form")
+            return
+        }
+        if (accidentReportActivity.signed_employment_person==null){
+            Alert.showalert(accidentReportActivity,"Choose Image for Injured person.")
+           return
+        }
+        if (accidentReportActivity.witness1==null){
+            Alert.showalert(accidentReportActivity,"Choose Image for Witness1 person.")
+            return
+        }
+        if (accidentReportActivity.witness2==null){
+            Alert.showalert(accidentReportActivity,"Choose Image for Witness2 person.")
+            return
+        }
+        if (accidentReportActivity.form_completed_person_signed==null){
+            Alert.showalert(accidentReportActivity,"Choose Image for DForm completed person.")
+            return
+        }
+        if (accidentReportActivity.form_completed_injured_person_signed==null){
+            Alert.showalert(accidentReportActivity,"Choose Image for Injured person.")
+            return
+        }
+       accidentReportActivity.callAccidentreportsubmitApi()
+
+    }
+
     private fun callApiforlocationList() {
         val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
         customProgress.showProgress(accidentReportActivity, "Please Wait..", false)
@@ -224,6 +433,7 @@ class AccidentReportOnclick(
                         accidentLocationDialog = AccidentLocationDialog(accidentReportActivity, locationlist,object :OnItemClickInterface{
                             override fun OnItemClick(position: Int) {
                                      accidentReportViewBind.tv_select_location!!.setText(locationlist.get(position).location_name)
+                                           bodymaptext=locationlist.get(position).location_name;
                                      accidentLocationDialog!!.dismiss()
                             }
                         })
@@ -249,7 +459,6 @@ class AccidentReportOnclick(
         val c = Calendar.getInstance()
         val mHour = c[Calendar.HOUR_OF_DAY]
         val mMinute = c[Calendar.MINUTE]
-
         // Launch Time Picker Dialog
         val timePickerDialog =
             TimePickerDialog(accidentReportActivity, R.style.DialogThemedatepicker,
