@@ -42,6 +42,5 @@ class ComponentListAapter(
             tv_component_name.typeface=deviceResolution.getbebas(activity)
         }
 
-
     }
 }

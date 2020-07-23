@@ -36,10 +36,6 @@ import java.lang.Exception
 import java.util.*
 import com.google.gson.Gson
 
-
-
-
-
 class StartCheckFragmentOnClick: View.OnClickListener{
    var activity: HomeActivity?=null
     var fragmentViewBind: StartCheckFragmentViewBind?=null

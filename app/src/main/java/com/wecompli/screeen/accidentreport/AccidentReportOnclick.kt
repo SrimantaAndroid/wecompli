@@ -74,19 +74,20 @@ class AccidentReportOnclick(
         accidentReportViewBind.rg_completeform!!.setOnCheckedChangeListener { radioGroup, id ->
             // accidentReportViewBind.radio_details.setChecked(false);
             if (id == R.id.radio_employee) {
-                accidentReportActivity.usertppe = "Employee"
+                accidentReportActivity.usertppe = "employee"
             } else if (id == R.id.radio_customer) {
-                accidentReportActivity.usertppe = "Customer"
+                accidentReportActivity.usertppe = "customer"
             } else if (id == R.id.radio_visitor) {
-                accidentReportActivity.usertppe = "Visitor"
+                accidentReportActivity.usertppe = "visitor"
             }
+            accidentReportViewBind.et_detailsofother!!.isEnabled = false
             //accidentReportViewBind.radio_customer!!.isChecked = false
             //  accidentReportViewBind.radio_details!!.isEnabled = false
              accidentReportViewBind.radio_details!!.setChecked(false);
         }
         accidentReportViewBind.rg_servety_level!!.setOnCheckedChangeListener { radioGroup, id ->
             if (id == R.id.rb_major) {
-                accidentReportActivity.servityvalue = "Major"
+                accidentReportActivity.servityvalue = "major"
             } else if (id == R.id.rb_minor) {
                 accidentReportActivity.servityvalue = "minor"
             }
@@ -215,11 +216,11 @@ class AccidentReportOnclick(
          Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.nameoforganization))
          return
      }
-        if (accidentReportViewBind.et_organizationaddress!!.text.toString().equals("")){
+       /* if (accidentReportViewBind.et_organizationaddress!!.text.toString().equals("")){
             accidentReportViewBind!!.et_organizationaddress!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.addressoforganization))
             return
-        }
+        }*/
         if (accidentReportViewBind.et_postcode!!.text.toString().equals("")){
             accidentReportViewBind!!.et_postcode!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.postcode))
@@ -240,11 +241,11 @@ class AccidentReportOnclick(
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.fullnamepersoninjured))
             return
         }*/
-        if (accidentReportViewBind.et_personhomeaddress!!.text.toString().equals("")){
+        /*if (accidentReportViewBind.et_personhomeaddress!!.text.toString().equals("")){
             accidentReportViewBind!!.et_personhomeaddress!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.personhomeaddress))
             return
-        }
+        }*/
         if (accidentReportViewBind.et_postcode_person!!.text.toString().equals("")){
             accidentReportViewBind!!.et_postcode_person!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.postcode))
@@ -255,16 +256,56 @@ class AccidentReportOnclick(
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.telephone))
             return
         }
-        if (accidentReportViewBind.tv_date_of_birth!!.text.toString().equals("")){
+      /*  if (accidentReportViewBind.tv_date_of_birth!!.text.toString().equals("")){
            // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.dateofbirth))
             return
+        }*/
+        if (accidentReportActivity.usertppe.equals("")){
+            Alert.showalert(accidentReportActivity,"Select user type.")
+            return
         }
-         if (accidentReportActivity.usertppe.equals("")){
-             Alert.showalert(accidentReportActivity,"Select user type")
-             return
+        if (accidentReportActivity.usertppe.equals("employee")){
+            if (accidentReportViewBind.et_injuredperdesc!!.text.toString().equals("")){
+                accidentReportViewBind!!.et_injuredperdesc!!.requestFocus()
+                Alert.showalert(accidentReportActivity,"Enter description of injured person.")
+                return
+            }
+            if (accidentReportViewBind.et_off_duty!!.text.toString().equals("")){
+                accidentReportViewBind!!.et_off_duty!!.requestFocus()
+                Alert.showalert(accidentReportActivity,"Enter off-duty time.")
+                return
+            }
+            if (accidentReportViewBind.et_prientname!!.text.toString().equals("")){
+                accidentReportViewBind!!.et_prientname!!.requestFocus()
+                Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.patientname))
+                return
+            }
+            if (accidentReportViewBind.et_position!!.text.toString().equals("")){
+                accidentReportViewBind!!.et_position!!.requestFocus()
+                Alert.showalert(accidentReportActivity,"Enter patient position.")
+                return
+            }
+            if (accidentReportViewBind.tv_datepatient!!.text.toString().equals("")){
+                accidentReportViewBind!!.tv_datepatient!!.requestFocus()
+                Alert.showalert(accidentReportActivity,"Enter patient Date.")
+                return
+            }
+            if (accidentReportActivity.signed_employment_person==null){
+                Alert.showalert(accidentReportActivity,"Choose Image for Injured person.")
+                return
+            }
+        }
+        if (accidentReportActivity.usertppe.equals("Other")){
+            if (accidentReportViewBind!!.et_detailsofother!!.text.toString().equals("")){
+                accidentReportViewBind!!.et_detailsofother!!.requestFocus()
+                Alert.showalert(accidentReportActivity,"Enter Other User type details")
+                return
+            }
+
+
          }
-        if (accidentReportViewBind.tv_dateofoccurenceet_postcode_person!!.text.toString().equals("")){
+       /* if (accidentReportViewBind.tv_dateofoccurenceet_postcode_person!!.text.toString().equals("")){
             // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.dateofoccurence))
             return
@@ -273,27 +314,27 @@ class AccidentReportOnclick(
             // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.timeofoccurence))
             return
-        }
-        if (accidentReportViewBind.tv_select_location!!.text.toString().equals("")){
+        }*/
+       /* if (accidentReportViewBind.tv_select_location!!.text.toString().equals("")){
             // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.selectaccidentlocation))
             return
-        }
-        if (accidentReportViewBind.tv_select_location!!.text.toString().equals("")){
+        }*/
+       /* if (accidentReportViewBind.tv_select_location!!.text.toString().equals("")){
             // accidentReportViewBind!!.et_telephone_person!!.requestFocus()
             Alert.showalert(accidentReportActivity,accidentReportActivity.resources.getString(R.string.selectaccidentlocation))
             return
-        }
-        if (accidentReportViewBind.et_fulldescrtpttion!!.text.toString().equals("")){
+        }*/
+        /*if (accidentReportViewBind.et_fulldescrtpttion!!.text.toString().equals("")){
              accidentReportViewBind!!.et_fulldescrtpttion!!.requestFocus()
             Alert.showalert(accidentReportActivity,"Enter full description of body.")
             return
-        }
-        if (bodymaptext.equals("")){
+        }*/
+        /*if (bodymaptext.equals("")){
             Alert.showalert(accidentReportActivity,"Select injured body part")
             return
-        }
-        if (accidentReportViewBind.et_fulldes_inj!!.text.toString().equals("")){
+        }*/
+        /*if (accidentReportViewBind.et_fulldes_inj!!.text.toString().equals("")){
             accidentReportViewBind!!.et_fulldes_inj!!.requestFocus()
             Alert.showalert(accidentReportActivity,"Enter full description injured person.")
             return
@@ -373,7 +414,7 @@ class AccidentReportOnclick(
             accidentReportViewBind!!.et_postcodewe2!!.requestFocus()
             Alert.showalert(accidentReportActivity,"Enter Witness2 postcode.")
             return
-        }
+        }*/
         if (accidentReportViewBind.et_complientby!!.text.toString().equals("")){
             accidentReportViewBind!!.et_complientby!!.requestFocus()
             Alert.showalert(accidentReportActivity,"Enter Name who completed the form.")
@@ -384,28 +425,31 @@ class AccidentReportOnclick(
             Alert.showalert(accidentReportActivity,"Enter Injured person Name who completed the form")
             return
         }
-        if (accidentReportActivity.signed_employment_person==null){
+       /* if (accidentReportActivity.signed_employment_person==null){
             Alert.showalert(accidentReportActivity,"Choose Image for Injured person.")
            return
-        }
-        if (accidentReportActivity.witness1==null){
+        }*/
+       /* if (accidentReportActivity.witness1==null){
             Alert.showalert(accidentReportActivity,"Choose Image for Witness1 person.")
             return
         }
         if (accidentReportActivity.witness2==null){
             Alert.showalert(accidentReportActivity,"Choose Image for Witness2 person.")
             return
-        }
+        }*/
         if (accidentReportActivity.form_completed_person_signed==null){
-            Alert.showalert(accidentReportActivity,"Choose Image for DForm completed person.")
+            Alert.showalert(accidentReportActivity,"Please sign Completed person.")
             return
         }
         if (accidentReportActivity.form_completed_injured_person_signed==null){
-            Alert.showalert(accidentReportActivity,"Choose Image for Injured person.")
+            Alert.showalert(accidentReportActivity,"Please sign Injured person.")
             return
         }
-       accidentReportActivity.callAccidentreportsubmitApi()
-
+        if (accidentReportViewBind.chk_iscontent!!.isChecked)
+                accidentReportActivity.callAccidentreportsubmitApi()
+        else
+          Alert.showalert(accidentReportActivity,"Please Check for share info.")
+        //accidentReportViewBind!!.et_detailsofother!!
     }
 
     private fun callApiforlocationList() {
@@ -462,8 +506,19 @@ class AccidentReportOnclick(
         // Launch Time Picker Dialog
         val timePickerDialog =
             TimePickerDialog(accidentReportActivity, R.style.DialogThemedatepicker,
-                TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute -> accidentReportViewBind.tv_timeof_occurence!!.text =
-                        padnumber(hourOfDay) + ":" + padnumber(minute) + ":" + "00"
+                TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                    var am_pm = ""
+
+                    val datetime = Calendar.getInstance()
+                    datetime[Calendar.HOUR_OF_DAY] = hourOfDay
+                    datetime[Calendar.MINUTE] = minute
+
+                    if (datetime[Calendar.AM_PM] === Calendar.AM) am_pm =
+                        "AM" else if (datetime[Calendar.AM_PM] === Calendar.PM) am_pm = "PM"
+                    val strHrsToShow = if (datetime[Calendar.HOUR] == 0) "12" else datetime[Calendar.HOUR].toString() + ""
+                    accidentReportViewBind.tv_timeof_occurence!!.text =strHrsToShow+":"+datetime.get(Calendar.MINUTE)+" "+am_pm
+                    // accidentReportViewBind.tv_timeof_occurence!!.text =
+                       // padnumber(hourOfDay) + ":" + padnumber(minute) + ":" + "00"
                 }, mHour, mMinute, true
             )
         timePickerDialog.show()

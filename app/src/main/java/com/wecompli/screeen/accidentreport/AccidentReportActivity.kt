@@ -63,6 +63,7 @@ class AccidentReportActivity :AppCompatActivity(){
     var signed_employment_person:java.io.File? = null
     var form_completed_person_signed:java.io.File? = null
     var form_completed_injured_person_signed:java.io.File? = null
+    var accident_injuries_image:File?=null
    // var filewitness1:File?=null
     //var filewitness2:File?=null
 
@@ -349,16 +350,16 @@ class AccidentReportActivity :AppCompatActivity(){
               var n = 100
               n = generator.nextInt(n)*/
             val fname = "accident_image.jpg"
-            val file = File(myDir, fname)
+             accident_injuries_image = File(myDir, fname)
             val fo: FileOutputStream
-            if (file.exists())
-                file.delete()
+            if (accident_injuries_image!!.exists())
+                accident_injuries_image!!.delete()
             try {
                 /* destination.createNewFile()
                  fo = FileOutputStream(destination)
                  fo.write(bytes.toByteArray())
                  fo.close()*/
-                val out = FileOutputStream(file)
+                val out = FileOutputStream(accident_injuries_image)
                 thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 100, out)
                 out.flush()
                 out.close()
@@ -392,16 +393,16 @@ class AccidentReportActivity :AppCompatActivity(){
                   var n = 100
                   n = generator.nextInt(n)*/
                 val fname = "accident_image.jpg"
-                val file = File(myDir, fname)
+                 accident_injuries_image = File(myDir, fname)
                 val fo: FileOutputStream
-                if (file.exists())
-                    file.delete()
+                if (accident_injuries_image!!.exists())
+                    accident_injuries_image!!.delete()
                 try {
                     /* destination.createNewFile()
                      fo = FileOutputStream(destination)
                      fo.write(bytes.toByteArray())
                      fo.close()*/
-                    val out = FileOutputStream(file)
+                    val out = FileOutputStream(accident_injuries_image)
                     bm.compress(Bitmap.CompressFormat.JPEG, 100, out)
                     out.flush()
                     out.close()
@@ -434,14 +435,20 @@ class AccidentReportActivity :AppCompatActivity(){
         builder.addFormDataPart("organisation_telephone", accidentReportViewBind!!.et_telephone!!.text.toString())
         builder.addFormDataPart("injured_person_name", accidentReportViewBind!!.et_fullnameofperson_injured!!.text.toString())
 
+        if(accident_injuries_image!=null)
+            builder.addFormDataPart("accident_injuries_image", "accident_image"+".jpg", okhttp3.RequestBody.create(
+                MediaType.parse("image/jpeg"), accident_injuries_image))
+
         builder.addFormDataPart("injured_person_telephone", accidentReportViewBind!!.et_telephone_person!!.text.toString())
         builder.addFormDataPart("injured_person_postcode", accidentReportViewBind!!.et_postcode_person!!.text.toString())
 
         builder.addFormDataPart("injured_person_date_of_birth", accidentReportViewBind!!.tv_date_of_birth!!.text.toString())
-        builder.addFormDataPart("accident_injuries_image", "injuries_image"+".jpg", okhttp3.RequestBody.create(
+       if(signed_employment_person!=null)
+        builder.addFormDataPart("signed_employment_person", "injuries_image"+".jpg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), signed_employment_person))
         //paramObject.put("accident_injuries_image", accidentReportViewBind!!.et_personhomeaddress!!.text.toString())
         builder.addFormDataPart("user_type", usertppe)
+
         builder.addFormDataPart("user_type_other", accidentReportViewBind!!.et_detailsofother!!.text.toString())
         builder.addFormDataPart("date_of_occurrence", accidentReportViewBind!!.tv_dateofoccurenceet_postcode_person!!.text.toString())
         builder.addFormDataPart("time_of_occurrence", accidentReportViewBind!!.tv_timeof_occurence!!.text.toString())
@@ -449,15 +456,16 @@ class AccidentReportActivity :AppCompatActivity(){
         builder.addFormDataPart("full_description_incident_circumstances", accidentReportViewBind!!.et_fulldescrtpttion!!.text.toString())
         builder.addFormDataPart("effected_body_parts", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
         builder.addFormDataPart("full_description_injuries_suffered", accidentReportViewBind!!.et_fulldes_inj!!.text.toString())
-        builder.addFormDataPart("injured_person_employment_nature", "")
-        builder.addFormDataPart("injured_person_employment_duty_status", "")
-        builder.addFormDataPart("injured_person_employment_duty_work_status", "")
-        builder.addFormDataPart("injured_person_employment_off_duty_time", accidentReportViewBind!!.et_off_duty!!.text.toString())
+        builder.addFormDataPart("injured_person_employment_nature", accidentReportViewBind!!.et_injuredperdesc!!.text.toString())
+        builder.addFormDataPart("injured_person_employment_duty_status", accidentReportViewBind!!.et_off_duty!!.text.toString())
+        builder.addFormDataPart("injured_person_employment_duty_work_status", accidentReportViewBind!!.et_continurtowork!!.text.toString())
+        builder.addFormDataPart("injured_person_employment_off_duty_time", accidentReportViewBind!!.et_off_duty_time!!.text.toString())
         builder.addFormDataPart("employment_person_name", accidentReportViewBind!!.et_prientname!!.text.toString())
         builder.addFormDataPart("employment_person_position", accidentReportViewBind!!.et_position!!.text.toString())
         builder.addFormDataPart("employment_signed_date", accidentReportViewBind!!.tv_datepatient!!.text.toString())
         // paramObject.put("effected_body_parts", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
         builder.addFormDataPart("witness_1st_statement", accidentReportViewBind!!.et_statementdetails!!.text.toString())
+        if(witness1!=null)
         builder.addFormDataPart("witness_1st_signed", "witness1"+".jpg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), witness1))
         //paramObject.put("witness_1st_signed", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
@@ -465,6 +473,8 @@ class AccidentReportActivity :AppCompatActivity(){
         builder.addFormDataPart("witness_1st_postcode", accidentReportViewBind!!.et_postcodewe1!!.text.toString())
 
         builder.addFormDataPart("witness_2nd_statement", accidentReportViewBind!!.et_statementdetails2!!.text.toString())
+
+        if(witness2!=null)
         builder.addFormDataPart("witness_2nd_signed", "witness2"+".jpg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), witness2))
         //  paramObject.put("witness_2nd_signed", accidentReportViewBind!!.et_date!!.text.toString())
@@ -480,7 +490,7 @@ class AccidentReportActivity :AppCompatActivity(){
         //paramObject.put("form_completed_person_signed", accidentReportViewBind!!.et_postcodewe2!!.text.toString())
         //paramObject.put("form_completed_injured_person_signed", accidentReportViewBind!!.patient2!!.text.toString())
         builder.addFormDataPart("form_completed_injured_person_name", accidentReportViewBind!!.et_injuredperson!!.text.toString())
-        builder.addFormDataPart("information_share", accidentReportViewBind!!.et_injuredperson!!.text.toString())
+        builder.addFormDataPart("information_share", "true")
         builder.addFormDataPart("fault_mail", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.notifyemail))
         builder.addFormDataPart("notify_who",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.SelectedEmail))
         //for (i in docImagelist.indices) {
@@ -508,13 +518,13 @@ class AccidentReportActivity :AppCompatActivity(){
         val call = client.newCall(request)
         call.enqueue(object :okhttp3.Callback{
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-
+                customProgress.hideProgress()
                 // System.out.println("respppdoc"+response.body()!!.string())
                 try {
                     var resStr :String=response.body()!!.string()
                     var response_obj= JSONObject(resStr)
-                    val message=response_obj.getString("message")
-                    customProgress.hideProgress()
+                    val message=response_obj.optString("message")
+                    //val error=response_obj.optString("error")
                     if (response_obj.getBoolean("status")){
                         //{"status":true,"message":"Document added"}
                         //   val check_process_log_id:String=response_obj.getInt("check_process_log_id").toString()
@@ -526,8 +536,11 @@ class AccidentReportActivity :AppCompatActivity(){
                             Alert.showalertToGoHomePage(this@AccidentReportActivity,message)
                         }
                     }else{
+                        runOnUiThread {
+                            Alert.showalert(this@AccidentReportActivity,message)
+                        }
                         //Toast.makeText(this@DocManagmentActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
-                        Toast.makeText(this@AccidentReportActivity, message, Toast.LENGTH_LONG).show()
+                            //Toast.makeText(this@AccidentReportActivity, message, Toast.LENGTH_LONG).show()
                     }
                 }
                 catch (e: java.lang.Exception){
