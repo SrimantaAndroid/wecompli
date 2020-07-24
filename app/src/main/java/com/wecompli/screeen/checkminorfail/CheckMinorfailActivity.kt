@@ -289,11 +289,17 @@ class CheckMinorfailActivity:AppCompatActivity() {
             paramObject.put("season_id", sessionid)
             paramObject.put("check_type_id", elementDetailsRow!!.checkTypeId)
             if(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.failselection).equals("fail")) {
-                paramObject.put("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(1).id)
+               // paramObject.put("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(1).id)
+                paramObject.put("check_type_values_id", "2")
+                paramObject.put("process_status","N")
+            }
+            else if(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.failselection).equals("no")) {
+                // paramObject.put("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(1).id)
+                paramObject.put("check_type_values_id", "5")
                 paramObject.put("process_status","N")
             }
             else {
-                paramObject.put("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(2).id)
+                paramObject.put("check_type_values_id", "3")
                 paramObject.put("process_status","Y")
             }
 
@@ -359,7 +365,13 @@ class CheckMinorfailActivity:AppCompatActivity() {
         body.addStringPart("check_id", elementDetailsRow!!.id)
         body.addStringPart("season_id", sessionid)
         body.addStringPart("check_type_id", elementDetailsRow!!.checkTypeId)
-        body.addStringPart("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(0).id)
+        if(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.failselection).equals("fail"))
+          body.addStringPart("check_type_values_id", "2")
+       else if(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.failselection).equals("no"))
+            body.addStringPart("check_type_values_id", "5")
+        else
+            body.addStringPart("check_type_values_id", "3")
+
         body.addStringPart("check_process_type", PreferenceConstent.category_purpose)
         body.addStringPart("check_date", checkdate)
         body.addStringPart("process_remark", checkMinorFailViewBind!!.et_fault!!.text.toString())
@@ -415,7 +427,12 @@ class CheckMinorfailActivity:AppCompatActivity() {
         builder.addFormDataPart("check_process_fault_id", checkProcessLogId)
         builder.addFormDataPart("season_id",sessionid)
         builder.addFormDataPart("check_type_id" , elementDetailsRow!!.checkTypeId)
-        builder.addFormDataPart("check_type_values_id", elementDetailsRow!!.checkTypeValue!!.get(0).id)
+        if(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.failselection).equals("fail"))
+           builder.addFormDataPart("check_type_values_id","2")
+        else if(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.failselection).equals("no"))
+            builder.addFormDataPart("check_type_values_id", "5")
+        else
+            builder.addFormDataPart("check_type_values_id", "3")
         builder.addFormDataPart("check_process_type", PreferenceConstent.category_purpose)
         builder.addFormDataPart("fault_description", checkMinorFailViewBind!!.et_fault!!.text.toString())
         builder.addFormDataPart("status_id","1")

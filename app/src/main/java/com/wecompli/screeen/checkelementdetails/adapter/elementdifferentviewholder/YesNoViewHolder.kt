@@ -38,7 +38,7 @@ class YesNoViewHolder(itemView:View): RecyclerView.ViewHolder(itemView) {
         }
 
         btn_yno.setOnClickListener {
-            AppSheardPreference(checkElementDetailsActivity).setvalue_in_preference(PreferenceConstent.failselection,"fail")
+            AppSheardPreference(checkElementDetailsActivity).setvalue_in_preference(PreferenceConstent.failselection,"no")
             checkElementDetailsActivity.openfailandMinorFail(elementDetailsRow, 1, position)
 
         }

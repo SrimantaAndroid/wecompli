@@ -2,8 +2,8 @@ package com.wecompli.network
 
 class NetworkUtility {
     companion object{
-       // val BASE_URL = "http://rest.wecompli.io/api/mobile/"
-        val BASE_URL ="https://wecompli.io/rest/api/mobile/"
+        val BASE_URL = "http://rest.wecompli.io/api/mobile/"
+       // val BASE_URL ="https://wecompli.io/rest/api/mobile/"
         const val  LOG_IN = "user/login"
         const val TODAYSEASON="today/season/list"
         const val REGENERATE_TOKEN="token/genarate"

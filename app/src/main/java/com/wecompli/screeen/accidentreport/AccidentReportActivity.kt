@@ -138,14 +138,14 @@ class AccidentReportActivity :AppCompatActivity(){
       /*  val generator = Random()
         var n = 10000
         n = generator.nextInt(n)*/
-        val fname = "image_behalfsign.jpg"
+        val fname = "image_behalfsign.jpeg"
         signed_employment_person = File(myDir, fname)
         if (signed_employment_person!!.exists())
             signed_employment_person!!.delete()
         try {
             val out = FileOutputStream(signed_employment_person)
             // bmap.setHasAlpha(true);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.flush()
             out.close()
         } catch (e: Exception) {
@@ -165,13 +165,13 @@ class AccidentReportActivity :AppCompatActivity(){
       /*  val generator = Random()
         var n = 10000
         n = generator.nextInt(n)*/
-        val fname = "image_witeness.jpg"
+        val fname = "image_witeness.jpeg"
         witness1 = File(myDir, fname)
         if (witness1!!.exists()) witness1!!.delete()
         try {
             val out = FileOutputStream(witness1)
             // bmap.setHasAlpha(true);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.flush()
             out.close()
         } catch (e: java.lang.Exception) {
@@ -188,13 +188,13 @@ class AccidentReportActivity :AppCompatActivity(){
        /* val generator = Random()
         var n = 10000
         n = generator.nextInt(n)*/
-        val fname = "image_witness2.jpg"
+        val fname = "image_witness2.jpeg"
         witness2 = File(myDir, fname)
         if (witness2!!.exists()) witness2!!.delete()
         try {
             val out = FileOutputStream(witness2)
             // bmap.setHasAlpha(true);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.flush()
             out.close()
         } catch (e: java.lang.Exception) {
@@ -210,14 +210,14 @@ class AccidentReportActivity :AppCompatActivity(){
        /* val generator = Random()
         var n = 10000
         n = generator.nextInt(n)*/
-        val fname = "image_completed.jpg"
+        val fname = "image_completed.jpeg"
         form_completed_person_signed = File(myDir, fname)
         if (form_completed_person_signed!!.exists()) form_completed_person_signed!!.delete()
         try {
             val out =
                 FileOutputStream(form_completed_person_signed)
             // bmap.setHasAlpha(true);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.flush()
             out.close()
         } catch (e: java.lang.Exception) {
@@ -234,14 +234,14 @@ class AccidentReportActivity :AppCompatActivity(){
        /* val generator = Random()
         var n = 10000
         n = generator.nextInt(n)*/
-        val fname = "image_sinbywitness.jpg"
+        val fname = "image_sinbywitness.jpeg"
         form_completed_injured_person_signed = File(myDir, fname)
         if (form_completed_injured_person_signed!!.exists()) form_completed_injured_person_signed!!.delete()
         try {
             val out =
                 FileOutputStream(form_completed_injured_person_signed)
             // bmap.setHasAlpha(true);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
             out.flush()
             out.close()
         } catch (e: java.lang.Exception) {
@@ -349,7 +349,7 @@ class AccidentReportActivity :AppCompatActivity(){
             /* val generator = Random()
               var n = 100
               n = generator.nextInt(n)*/
-            val fname = "accident_image.jpg"
+            val fname = "accident_image.jpeg"
              accident_injuries_image = File(myDir, fname)
             val fo: FileOutputStream
             if (accident_injuries_image!!.exists())
@@ -392,7 +392,7 @@ class AccidentReportActivity :AppCompatActivity(){
                 /* val generator = Random()
                   var n = 100
                   n = generator.nextInt(n)*/
-                val fname = "accident_image.jpg"
+                val fname = "accident_image.jpeg"
                  accident_injuries_image = File(myDir, fname)
                 val fo: FileOutputStream
                 if (accident_injuries_image!!.exists())
@@ -436,7 +436,7 @@ class AccidentReportActivity :AppCompatActivity(){
         builder.addFormDataPart("injured_person_name", accidentReportViewBind!!.et_fullnameofperson_injured!!.text.toString())
 
         if(accident_injuries_image!=null)
-            builder.addFormDataPart("accident_injuries_image", "accident_image"+".jpg", okhttp3.RequestBody.create(
+            builder.addFormDataPart("accident_injuries_image", "accident_image"+".jpeg", okhttp3.RequestBody.create(
                 MediaType.parse("image/jpeg"), accident_injuries_image))
 
         builder.addFormDataPart("injured_person_telephone", accidentReportViewBind!!.et_telephone_person!!.text.toString())
@@ -444,7 +444,7 @@ class AccidentReportActivity :AppCompatActivity(){
 
         builder.addFormDataPart("injured_person_date_of_birth", accidentReportViewBind!!.tv_date_of_birth!!.text.toString())
        if(signed_employment_person!=null)
-        builder.addFormDataPart("signed_employment_person", "injuries_image"+".jpg", okhttp3.RequestBody.create(
+        builder.addFormDataPart("signed_employment_person", "injuries_image"+".jpeg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), signed_employment_person))
         //paramObject.put("accident_injuries_image", accidentReportViewBind!!.et_personhomeaddress!!.text.toString())
         builder.addFormDataPart("user_type", usertppe)
@@ -466,7 +466,7 @@ class AccidentReportActivity :AppCompatActivity(){
         // paramObject.put("effected_body_parts", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
         builder.addFormDataPart("witness_1st_statement", accidentReportViewBind!!.et_statementdetails!!.text.toString())
         if(witness1!=null)
-        builder.addFormDataPart("witness_1st_signed", "witness1"+".jpg", okhttp3.RequestBody.create(
+        builder.addFormDataPart("witness_1st_signed", "witness1"+".jpeg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), witness1))
         //paramObject.put("witness_1st_signed", accidentReportViewBind!!.tv_bodymaptext!!.text.toString())
         builder.addFormDataPart("witness_1st_home_address", accidentReportViewBind!!.et_address_wite!!.text.toString())
@@ -475,7 +475,7 @@ class AccidentReportActivity :AppCompatActivity(){
         builder.addFormDataPart("witness_2nd_statement", accidentReportViewBind!!.et_statementdetails2!!.text.toString())
 
         if(witness2!=null)
-        builder.addFormDataPart("witness_2nd_signed", "witness2"+".jpg", okhttp3.RequestBody.create(
+        builder.addFormDataPart("witness_2nd_signed", "witness2"+".jpeg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), witness2))
         //  paramObject.put("witness_2nd_signed", accidentReportViewBind!!.et_date!!.text.toString())
         builder.addFormDataPart("witness_2nd_home_address", accidentReportViewBind!!.et_address_wite2!!.text.toString())
@@ -485,7 +485,7 @@ class AccidentReportActivity :AppCompatActivity(){
         builder.addFormDataPart("form_completed_person_name", accidentReportViewBind!!.et_complientby!!.text.toString())
         builder.addFormDataPart("form_completed_person_signed", "formcompleted"+".jpg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), form_completed_person_signed))
-        builder.addFormDataPart("form_completed_injured_person_signed", "formcompleted_inj_perso"+".jpg", okhttp3.RequestBody.create(
+        builder.addFormDataPart("form_completed_injured_person_signed", "formcompleted_inj_perso"+".jpeg", okhttp3.RequestBody.create(
             MediaType.parse("image/jpeg"), form_completed_injured_person_signed))
         //paramObject.put("form_completed_person_signed", accidentReportViewBind!!.et_postcodewe2!!.text.toString())
         //paramObject.put("form_completed_injured_person_signed", accidentReportViewBind!!.patient2!!.text.toString())

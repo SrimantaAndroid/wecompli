@@ -64,12 +64,12 @@ class FaultDetailsActivity:AppCompatActivity() {
                 override fun onResponse(call: Call<FaultadetailsModel>, response: Response<FaultadetailsModel>) {
                     customProgress.hideProgress()
                     if (response.isSuccessful){
-
-                        setvalue(response.body()!!.row)
-                        AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.Category_name,response.body()!!.row.category_name)
-                        AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.CheckName,response.body()!!.row.check_name)
-                        AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.SelectedFaultId,response.body()!!.row.id)
-
+                        if(response.body()!!.status) {
+                            setvalue(response.body()!!.row)
+                            AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.Category_name, response.body()!!.row.category_name)
+                            AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.CheckName, response.body()!!.row.check_name)
+                            AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.SelectedFaultId, response.body()!!.row.id)
+                        }
                     }
                 }
 
