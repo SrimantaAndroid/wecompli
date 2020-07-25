@@ -300,7 +300,7 @@ class CheckMinorfailActivity:AppCompatActivity() {
             }
             else {
                 paramObject.put("check_type_values_id", "3")
-                paramObject.put("process_status","Y")
+                paramObject.put("process_status","N")
             }
 
             paramObject.put("check_process_type", "checks")
@@ -433,10 +433,12 @@ class CheckMinorfailActivity:AppCompatActivity() {
             builder.addFormDataPart("check_type_values_id", "5")
         else
             builder.addFormDataPart("check_type_values_id", "3")
+
         builder.addFormDataPart("check_process_type", PreferenceConstent.category_purpose)
         builder.addFormDataPart("fault_description", checkMinorFailViewBind!!.et_fault!!.text.toString())
         builder.addFormDataPart("status_id","1")
         builder.addFormDataPart("notify_who",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.SelectedEmail))
+
          for (i in imagearraylist.indices) {
          builder.addFormDataPart("fault_image[]", imagearraylist.get(i).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(i)))
         }
