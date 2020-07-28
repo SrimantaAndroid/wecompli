@@ -40,8 +40,8 @@ class HomeViewBind:DeviceResolution {
 
     private fun settypeface(homeActivity: HomeActivity) {
         tv_header_text!!.typeface=getbebas(homeActivity)
-        tv_user_type!!.typeface=getbebas(homeActivity)
-        tv_user_name!!.typeface=getgothmlight(homeActivity)
+      //  tv_user_type!!.typeface=getbebas(homeActivity)
+        tv_user_name!!.typeface=getbebas(homeActivity)
         tv_user_email!!.typeface=getgothmlight(homeActivity)
         tv_lagout!!.typeface=getbebas(homeActivity)
         tv_repair!!.typeface=getbebas(homeActivity)
@@ -55,7 +55,7 @@ class HomeViewBind:DeviceResolution {
         img_menu=view.findViewById(R.id.img_menu)
         tv_header_text=view.findViewById(R.id.tv_header_text)
         cirecularimageview=view.findViewById(R.id.profile_image)
-        tv_user_type=view.findViewById(R.id.tv_user_type)
+     //   tv_user_type=view.findViewById(R.id.tv_user_type)
         tv_user_name=view.findViewById(R.id.tv_user_name)
         tv_user_email=view.findViewById(R.id.tv_user_email)
         rec_sidemenu=view.findViewById(R.id.rec_sidemenu)

@@ -188,7 +188,7 @@ class HomeActivity:AppCompatActivity(){
 
     private fun setvalueofuser() {
         homeViewBind!!.tv_user_name!!.text=userData!!.full_name
-        homeViewBind!!.tv_user_type!!.text=userData!!.user_type
+       // homeViewBind!!.tv_user_type!!.text=userData!!.user_type
         homeViewBind!!.tv_user_email!!.text=userData!!.email
        // AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.site_id,userData!!.site_id)
         loadprofileimage()
