@@ -65,6 +65,7 @@ class FaultDetailsActivity:AppCompatActivity() {
                     customProgress.hideProgress()
                     if (response.isSuccessful){
                         if(response.body()!!.status) {
+                            if (response.body()!=null)
                             setvalue(response.body()!!.row)
                             AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.Category_name, response.body()!!.row.category_name)
                             AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.CheckName, response.body()!!.row.check_name)
@@ -93,9 +94,9 @@ class FaultDetailsActivity:AppCompatActivity() {
         faultDeatilsViewBind!!.rec_faultsatusreport!!.setAdapter(faultTimelineAdapter)
     }
     private fun setvalue(row: FaultDetailsRow) {
-        faultDeatilsViewBind!!.tv_taskname!!.setText(row.category_name)
-        faultDeatilsViewBind!!.tv_taskdatetimevalue!!.setText(row.created_at)
-        faultDeatilsViewBind!!.tv_taskdescriptionvalue!!.setText(row.fault_description)
+        faultDeatilsViewBind!!.tv_taskname!!.setText(row!!.category_name!!)
+        faultDeatilsViewBind!!.tv_taskdatetimevalue!!.setText(row!!.created_at!!)
+        faultDeatilsViewBind!!.tv_taskdescriptionvalue!!.setText(row!!.fault_description!!)
 
         if (row.timeline.size>0)
         faultTimelinerAdapter(row.timeline as ArrayList<Timeline>)

@@ -199,7 +199,7 @@ class DocManagmentActivity:AppCompatActivity() {
                 if (docImagelist.size<4)
                     addimagelistview(file.absolutePath,thumbnail,file)
                 else
-                    Alert.showalert(this,"You can not select more then 4 images")
+                    Alert.showalert(this,"You can not select more then 4 images.")
 
             } catch (e: FileNotFoundException) {
                 e.printStackTrace()

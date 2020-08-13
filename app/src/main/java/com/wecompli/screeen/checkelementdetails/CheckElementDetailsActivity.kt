@@ -1,9 +1,12 @@
 package com.wecompli.screeen.checkelementdetails
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -16,34 +19,33 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.google.zxing.integration.android.IntentIntegrator
 import com.sculptee.utils.customprogress.CustomProgressDialog
 import com.wecompli.R
 import com.wecompli.apiresponsemodel.checkelementdetails.CheckElementDetailsResponse
 import com.wecompli.apiresponsemodel.checkelementdetails.ElementDetailsRow
 import com.wecompli.apiresponsemodel.checkelementdetails.SelectedSiteSessionForCheck
 import com.wecompli.network.ApiInterface
+import com.wecompli.network.NetworkUtility
 import com.wecompli.network.Retrofit
 import com.wecompli.screeen.checkelementdetails.adapter.CheckElementDetailsAdapter
+import com.wecompli.screeen.checkinputnote.CheckInputNoteActivity
+import com.wecompli.screeen.checkminorfail.CheckMinorfailActivity
+import com.wecompli.screeen.checktaptosign.CheckTapToSignActivity
+import com.wecompli.screeen.checkteaprature.CheckTempuratureActivity
 import com.wecompli.utils.ApplicationConstant
+import com.wecompli.utils.customalert.Alert
+import com.wecompli.utils.customalert.CameraImageShowDialog
 import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.Request
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
-import com.google.zxing.integration.android.IntentIntegrator
-import com.wecompli.network.NetworkUtility
-import com.wecompli.screeen.checkinputnote.CheckInputNoteActivity
-import com.wecompli.screeen.checkminorfail.CheckMinorfailActivity
-import com.wecompli.screeen.checktaptosign.CheckTapToSignActivity
-import com.wecompli.screeen.checkteaprature.CheckTempuratureActivity
-import com.wecompli.utils.customalert.Alert
-import com.wecompli.utils.customalert.CameraImageShowDialog
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.Request
 import java.io.*
 
 
@@ -114,25 +116,58 @@ class CheckElementDetailsActivity: AppCompatActivity() {
         val stream = ByteArrayOutputStream()
         thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
         byteArray = stream.toByteArray()
-
-        val bytes = ByteArrayOutputStream()
+        val tempUri: Uri = getImageUri(applicationContext!!, thumbnail!!)
+         destination = File(getRealPathFromURI(tempUri))
+        /*val bytes = ByteArrayOutputStream()
         thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        destination = File(Environment.getExternalStorageDirectory(), "wc_cam_check" + ".jpg")
+        val root = Environment.getExternalStorageDirectory().toString()
+        val myDir = File("$root/wecompli/minorfault")
+        myDir.mkdirs()
+        val fname ="camerafault_image.jpg"
+        destination = File(myDir, fname)
         val fo: FileOutputStream
+        if (destination.exists())
+            destination.delete()
+        *//*destination = File(Environment.getExternalStorageDirectory(), "wc_cam_check" + ".jpg")
+        val fo: FileOutputStream*//*
         try {
-            destination.createNewFile()
+            val out = FileOutputStream(destination)
+            thumbnail!!.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            out.flush()
+            out.close()
+           // destination=file
+           *//* destination.createNewFile()
             fo = FileOutputStream(destination)
             fo.write(bytes.toByteArray())
-            fo.close()
+            fo.close()*//*
 
         } catch (e: FileNotFoundException) {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
-        }
+        }*/
        CameraImageShowDialog(this,elementdetailsrow, thumbnail!!).show()
     }
-
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path: String = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null)
+        return Uri.parse(path)
+    }
+    fun getRealPathFromURI(uri: Uri?): String? {
+        var path = ""
+        if (contentResolver != null) {
+            val cursor: Cursor? = contentResolver.query(uri!!, null, null, null, null)
+            if (cursor != null) {
+                cursor.moveToFirst()
+                val idx: Int =
+                    cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+                path = cursor.getString(idx)
+                cursor.close()
+            }
+        }
+        return path
+    }
     private fun callApiforelementdetails(selectedSiteSessionForCheck: SelectedSiteSessionForCheck) {
 
         val  customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
@@ -153,6 +188,7 @@ class CheckElementDetailsActivity: AppCompatActivity() {
                 override fun onResponse(call: Call<CheckElementDetailsResponse>, response: Response<CheckElementDetailsResponse>) {
                     customProgress.hideProgress()
                     if (response.code()==200){
+                        rowlist.clear()
                        // rowlist= response.body()!!.elementrow!!
                         for ( i in  0 until response.body()!!.elementrow!!.size){
                             var elementDetailsRow:ElementDetailsRow=response.body()!!.elementrow!!.get(i)
@@ -266,12 +302,15 @@ class CheckElementDetailsActivity: AppCompatActivity() {
                 customProgress.hideProgress()
                 if (response.isSuccessful) {
                     if (response.code() == 200) {
-                       // callApiforelementdetails(selectedSiteSessionForCheck!!)
-                        rowlist.removeAt(selectedposition)
+                        runOnUiThread {
+                            callApiforelementdetails(selectedSiteSessionForCheck!!)
+                        }
+
+                       /* rowlist.removeAt(selectedposition)
                         elementDetailsAdapter!!.notifyDataSetChanged()
                         if(rowlist.size==0)
                             Alert.showalertforallchecksubmit(this@CheckElementDetailsActivity,"All Checks Done.")
-                       // setupAdapter()
+                      */ // setupAdapter()
                     }
                 }
                 else
@@ -309,7 +348,10 @@ class CheckElementDetailsActivity: AppCompatActivity() {
                     if (response.isSuccessful) {
                         if (response.code() == 200) {
                             // elementDetailsAdapter!!.notifyItemRemoved(listposition)
-                            callApiforelementdetails(selectedSiteSessionForCheck!!)
+                            runOnUiThread {
+                                callApiforelementdetails(selectedSiteSessionForCheck!!)
+                            }
+
                             // elementDetailsAdapter!!.notifyDataSetChanged()
                         }
                     }
@@ -351,10 +393,10 @@ class CheckElementDetailsActivity: AppCompatActivity() {
                     if (response.isSuccessful) {
                         if (response.code() == 200) {
                             rowlist!!.removeAt(listposition)
-                           // setupAdapter()
+                            // setupAdapter()
                              //elementDetailsAdapter!!.notifyItemRemoved(listposition)
                             //callApiforelementdetails(selectedSiteSessionForCheck!!)
-                                elementDetailsAdapter!!.notifyDataSetChanged()
+                             elementDetailsAdapter!!.notifyDataSetChanged()
                             if(rowlist.size==0)
                                 Alert.showalertforallchecksubmit(this@CheckElementDetailsActivity,"All Checks Done.")
                         }
@@ -439,8 +481,10 @@ class CheckElementDetailsActivity: AppCompatActivity() {
     }
 
    public fun checkpermessionopencamera() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !== PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !== PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !== PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !== PackageManager.PERMISSION_GRANTED ) {
+            ActivityCompat.requestPermissions(this, arrayOf<String>(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), 0)
         } else {
             opencamera()
         }
