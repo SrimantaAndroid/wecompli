@@ -21,6 +21,7 @@ class NetworkUtility {
         const val SERVERTYLEVEL="site/severity/level"
         const val LOCATIONLIST="location/list"
         const val CREATEINCIDENTREPORT="incident/create"
+        const val ADHOPFAULT="fault/create-adhoc"
 
     }
 }

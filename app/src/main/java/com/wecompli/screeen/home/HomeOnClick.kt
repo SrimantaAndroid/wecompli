@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.view.GravityCompat
 import com.wecompli.R
 import com.wecompli.screeen.accidentreport.AccidentReportActivity
+import com.wecompli.screeen.adhocfault.AdHocFaultActivity
 import com.wecompli.screeen.docmanagment.DocManagmentActivity
 import com.wecompli.screeen.fixfault.FixFaultActivity
 import com.wecompli.screeen.login.LoginActivity
@@ -32,6 +33,7 @@ class HomeOnClick: View.OnClickListener {
         homeViewBind.ll_startcheck!!.setOnClickListener(this)
         homeViewBind.ll_incidenreport!!.setOnClickListener(this)
         homeViewBind.ll_docmangment!!.setOnClickListener(this)
+        homeViewBind.ll_adhocfault!!.setOnClickListener(this)
     }
 
     override fun onClick(p0: View?) {
@@ -41,6 +43,18 @@ class HomeOnClick: View.OnClickListener {
             }
             R.id.ll_startcheck->{
                 homeActivity!!.showStartCheckFragment()
+            }
+            R.id.ll_adhocfault->{
+                if (homeViewBind!!.drawer_layout!!.isDrawerOpen(GravityCompat.START))
+                    homeViewBind!!.drawer_layout!!.closeDrawer(Gravity.LEFT)
+                if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserCompany).equals("")){
+                    if (!AppSheardPreference(homeActivity!!).getvalue_in_preference(PreferenceConstent.UserSite).equals("")){
+                        val docManagmentActivity=Intent(homeActivity!!, AdHocFaultActivity::class.java)
+                        homeActivity!!.startActivity(docManagmentActivity)
+                    }else
+                        Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_site_))
+                }else
+                    Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_company))
             }
             R.id.ll_docmangment->{
                 if (homeViewBind!!.drawer_layout!!.isDrawerOpen(GravityCompat.START))

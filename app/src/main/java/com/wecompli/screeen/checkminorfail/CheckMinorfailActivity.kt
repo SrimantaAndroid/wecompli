@@ -376,6 +376,8 @@ class CheckMinorfailActivity:AppCompatActivity() {
         body.addStringPart("check_date", checkdate)
         body.addStringPart("process_remark", checkMinorFailViewBind!!.et_fault!!.text.toString())
         body.addStringPart("process_status", PreferenceConstent.process_status)
+        body.addStringPart("checks_process_log_entry_date",AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.chk_selectiondate))
+
         for (i in imagearraylist.indices) {
             body.addFilePart("process_file[]", imagearraylist.get(i))
         }
@@ -438,6 +440,7 @@ class CheckMinorfailActivity:AppCompatActivity() {
         builder.addFormDataPart("fault_description", checkMinorFailViewBind!!.et_fault!!.text.toString())
         builder.addFormDataPart("status_id","1")
         builder.addFormDataPart("notify_who",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.SelectedEmail))
+        builder.addFormDataPart("checks_process_log_entry_date",AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.chk_selectiondate))
 
          for (i in imagearraylist.indices) {
          builder.addFormDataPart("fault_image[]", imagearraylist.get(i).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(i)))
@@ -571,7 +574,9 @@ class CheckMinorfailActivity:AppCompatActivity() {
             paramObject.put("check_process_type", PreferenceConstent.category_purpose)
             paramObject.put("fault_description",checkMinorFailViewBind!!.et_fault!!.text.toString())
             paramObject.put("status_id","1")
-         //   builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))
+            paramObject.put("checks_process_log_entry_date",AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.chk_selectiondate))
+
+            //   builder.addFormDataPart("fault_image", imagearraylist.get(0).name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), imagearraylist.get(0)))
 
             // paramObject.put("process_status","N")
 

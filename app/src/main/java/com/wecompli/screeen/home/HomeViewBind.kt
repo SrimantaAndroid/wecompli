@@ -31,6 +31,8 @@ class HomeViewBind:DeviceResolution {
     var ll_docmangment:LinearLayout?=null
     var ll_incidenreport:LinearLayout?=null
     var tv_incidentreport:TextView?=null
+    var  ll_adhocfault:LinearLayout?=null
+    var tv_adhofault:TextView?=null
 
     constructor(homeActivity: HomeActivity, view: View):super(homeActivity){
         viewbinds(view)
@@ -48,6 +50,7 @@ class HomeViewBind:DeviceResolution {
         tv_startcheck!!.typeface=getbebas(homeActivity)
         tv_docmangment!!.typeface=getbebas(homeActivity)
         tv_incidentreport!!.typeface=getbebas(homeActivity)
+        tv_adhofault!!.typeface=getbebas(homeActivity)
 
     }
 
@@ -70,5 +73,7 @@ class HomeViewBind:DeviceResolution {
         ll_docmangment=view.findViewById(R.id.ll_docmangment)
         ll_incidenreport=view.findViewById(R.id.ll_incidenreport)
         tv_incidentreport=view.findViewById(R.id.tv_incidentreport)
+        tv_adhofault=view.findViewById(R.id.tv_adhofault)
+        ll_adhocfault=view.findViewById(R.id.ll_adhocfault)
     }
 }

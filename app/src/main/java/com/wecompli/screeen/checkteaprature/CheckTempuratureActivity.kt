@@ -70,6 +70,7 @@ class CheckTempuratureActivity:AppCompatActivity() {
             paramObject.put("check_date",checkdate)
             paramObject.put("process_remark",checkTemparatureViewBind!!.et_input!!.text.toString())
             paramObject.put("process_status","Y")
+            paramObject.put("checks_process_log_entry_date",AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.chk_selectiondate))
 
             var obj: JSONObject = paramObject
             var jsonParser: JsonParser = JsonParser()

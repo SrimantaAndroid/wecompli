@@ -112,7 +112,7 @@ class StartCheckFragmentOnClick: View.OnClickListener{
             val customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
             customProgress.showProgress(activity!!, "Please Wait..", false)
             val apiInterface = Retrofit.retrofitInstance?.create(ApiInterface::class.java)
-
+            AppSheardPreference(activity!!).setvalue_in_preference(PreferenceConstent.chk_selectiondate,fragmentViewBind!!.tv_check_date!!.text.toString())
             try {
                 val paramObject = JSONObject()
                 paramObject.put("company_id", activity!!.userData!!.company_id)

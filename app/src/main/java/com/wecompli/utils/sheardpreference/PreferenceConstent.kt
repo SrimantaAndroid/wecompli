@@ -4,6 +4,7 @@ object PreferenceConstent {
 
 
     // var selecttab: String="selecttab"
+    var chk_selectiondate="checkselctiondate"
     var Show_fragment_servicing = "Show_fragment_servicing"
     var iS_LOGIN = "islogin"
     var username_key = "loginusername"

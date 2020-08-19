@@ -179,6 +179,7 @@ class CheckTapToSignActivity:AppCompatActivity() {
         builder.addFormDataPart("check_date", checkdate)
         builder.addFormDataPart("process_remark", tapToSignViewBind!!.et_input!!.text.toString())
         builder.addFormDataPart("process_status",PreferenceConstent.process_status)
+        builder.addFormDataPart("checks_process_log_entry_date",AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.chk_selectiondate))
         builder.addFormDataPart("process_file[]", file.name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), file))
         val requestBody = builder.build()
         var request: Request? = null
@@ -237,6 +238,8 @@ class CheckTapToSignActivity:AppCompatActivity() {
             val process_status:RequestBody = RequestBody.create(MediaType.parse("text/plain"),"Y")
             val authtoken:RequestBody = RequestBody.create(MediaType.parse("text/plain"), AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token))
             val side_id:RequestBody = RequestBody.create(MediaType.parse("text/plain"), sideid)
+           // builder.addFormDataPart("checks_process_log_entry_date",AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.chk_selectiondate))
+
             val callApi= apiInterface.callApifaultsubmitusingImsage(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token),sideid!!,
                 check_id,sessionid,checktype,checktypevalueid ,checksprocess,checkdate,checkremark,process_status,fbody)
 

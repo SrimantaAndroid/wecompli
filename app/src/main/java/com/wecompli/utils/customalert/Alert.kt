@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.wecompli.R
+import com.wecompli.screeen.adhocfault.AdHocFaultActivity
 import com.wecompli.screeen.checkelementdetails.CheckElementDetailsActivity
 import com.wecompli.screeen.checkminorfail.CheckMinorfailActivity
 import com.wecompli.screeen.home.HomeActivity
@@ -163,6 +164,37 @@ class Alert {
 
          }
 
+
+         fun showalertforImageSelectionAdhocfault(activity: AdHocFaultActivity) {
+             // var deviceResolution:DeviceResolution?=null
+             var deviceResolution = DeviceResolution(activity)
+             val alertDialog = Dialog(activity, R.style.Transparent)
+             alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+             val view: View = LayoutInflater.from(activity).inflate(R.layout.alert_custom_imageselection, null)
+             alertDialog.setContentView(view)
+             alertDialog.setCancelable(false)
+             val tv_message: TextView = view.findViewById(R.id.tv_message)
+             val btn_gallery: Button = view.findViewById(R.id.btn_gallery)
+             val btn_camera:Button=view.findViewById(R.id.btn_camera)
+             val btn_cancel:Button=view.findViewById(R.id.btn_cancel)
+             btn_camera.typeface=deviceResolution.getgothmbold(activity)
+             btn_cancel.typeface=deviceResolution.getgothmbold(activity)
+             btn_gallery.typeface = deviceResolution.getgothmbold(activity)
+             tv_message.typeface = deviceResolution.getgothmbold(activity)
+             btn_gallery.setOnClickListener {
+                 alertDialog.dismiss()
+                 activity.chooseFromgallery()
+             }
+             btn_camera.setOnClickListener {
+                 alertDialog.dismiss()
+                 activity.chooseimagrfromcamera()
+             }
+             btn_cancel.setOnClickListener {
+                 alertDialog.dismiss()
+             }
+             alertDialog.show()
+
+         }
 
          /*  fun showalertinternerservererror(activity: HomeActivity, message: String) {
                // var deviceResolution:DeviceResolution?=null

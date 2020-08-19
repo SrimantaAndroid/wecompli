@@ -285,6 +285,7 @@ class CheckElementDetailsActivity: AppCompatActivity() {
         builder.addFormDataPart("check_date", selectedSiteSessionForCheck!!.checkdate)
         builder.addFormDataPart("process_remark", "")
         builder.addFormDataPart("process_status",PreferenceConstent.process_status)
+        builder.addFormDataPart("checks_process_log_entry_date",AppSheardPreference(this!!).getvalue_in_preference(PreferenceConstent.chk_selectiondate))
         builder.addFormDataPart("process_file[]", destination.name, okhttp3.RequestBody.create(MediaType.parse("image/jpeg"), destination))
         val requestBody = builder.build()
         var request: Request? = null
