@@ -13,6 +13,7 @@ class NetworkUtility {
         const val FAULT_LIST="checks/fault/list"
         const val FAULTCREATE="checks/fault/create"
         const val FAULTDETAILS="checks/fault/details"
+         const val ADHOCFAULTDETAILS="adhoc/fault/details"
         const val FAULSTATUSLIST="fault/status/list"
         const val FAULTSTATUSMESSAGE_CHANGE="checks/fault/status/change"
         const val FAULTREPAIR="fault/repair"
@@ -22,6 +23,6 @@ class NetworkUtility {
         const val LOCATIONLIST="location/list"
         const val CREATEINCIDENTREPORT="incident/create"
         const val ADHOPFAULT="fault/create-adhoc"
-
+        const val REMOVEFAULT="fault/repair"
     }
 }

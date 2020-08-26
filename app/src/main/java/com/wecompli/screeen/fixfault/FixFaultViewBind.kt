@@ -11,6 +11,7 @@ class FixFaultViewBind(
   val  view: View) :DeviceResolution(fixFaultActivity) {
     var tv_engineer_signaturehere: TextView=view.findViewById(R.id.tv_engineer_signaturehere)
     var tv_manager_signaturehere:TextView=view.findViewById(R.id.tv_manager_signaturehere)
+    var tv_fixfaulthader:TextView=view.findViewById(R.id.tv_fixfaulthader)
     var tv_select_work:TextView=view.findViewById(R.id.tv_select_work)
     internal var tv_preescan: TextView=view.findViewById(R.id.tv_preescan)
     internal var tv_bcomp_name:TextView=view.findViewById(R.id.tv_bcomp_name)

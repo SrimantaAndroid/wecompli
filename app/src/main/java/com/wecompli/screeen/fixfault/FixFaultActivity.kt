@@ -61,6 +61,7 @@ class FixFaultActivity:AppCompatActivity() {
     var selectenginnersign:Boolean?=false
     var selectmanagertimage:Boolean?=false
     var selectfaultimage:Boolean?=false
+    var  FaultType:String=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,15 +69,20 @@ class FixFaultActivity:AppCompatActivity() {
         setContentView(view)
         fixFaultViewBind= FixFaultViewBind(this,view)
         fixFaultOnClick= FixFaultOnClick(this,fixFaultViewBind!!)
+        FaultType=intent.getStringExtra(PreferenceConstent.FaultType)
         setvalues()
     }
    
     private fun setvalues() {
         fixFaultViewBind!!.tv_Company!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.UserCompany))
         fixFaultViewBind!!.tv_site!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.UserSite))
-        fixFaultViewBind!!.tv_bcomp_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.Category_name))
-        fixFaultViewBind!!.tv_bcomp_element_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.CheckName))
-
+        if (FaultType.equals("normal")) {
+            fixFaultViewBind!!.tv_bcomp_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.Category_name))
+            fixFaultViewBind!!.tv_bcomp_element_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.CheckName))
+        }else  if (FaultType.equals("adhoc")){
+            fixFaultViewBind!!.tv_bcomp_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.AdHocNote))
+            fixFaultViewBind!!.tv_fixfaulthader.setText("FIX ADHOC FAULT")
+        }
         fixFaultViewBind!!.et_part_cost.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 

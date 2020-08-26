@@ -94,6 +94,7 @@ class HomeOnClick: View.OnClickListener {
                         AppSheardPreference(homeActivity!!).setvalue_in_preference(PreferenceConstent.Category_name,"")
                         AppSheardPreference(homeActivity!!).setvalue_in_preference(PreferenceConstent.CheckName,"")
                         val fixFaultActivity=Intent(homeActivity!!,FixFaultActivity::class.java)
+                        fixFaultActivity.putExtra(PreferenceConstent.FaultType,"normal")
                         homeActivity!!.startActivity(fixFaultActivity)
                     }else
                         Alert.showalert(homeActivity!!,homeActivity!!.getString(R.string.select_site_))

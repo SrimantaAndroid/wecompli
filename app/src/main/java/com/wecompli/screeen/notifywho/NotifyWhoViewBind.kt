@@ -15,7 +15,7 @@ class NotifyWhoViewBind(
     var tv_notifysubmit:TextView?=null
     var rv_notifywho:RecyclerView?=null
     init {
-        tv_notifywho=view.findViewById(R.id.tv_notifywho)
+        tv_notifywho=view.findViewById(R.id.tv_fixfaulthader)
         rv_notifywho=view.findViewById(R.id.rv_notifywho)
         rl_back_notifywho=view.findViewById(R.id.rl_back_notifywho)
         tv_notifysubmit=view.findViewById(R.id.tv_notifysubmit)

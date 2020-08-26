@@ -32,8 +32,10 @@ class FaultDetailsActivity:AppCompatActivity() {
     var faulrDetailsOnClick:FaulrDetailsOnClick?=null
     var faultid:String?=""
     var sideid=""
+    public var FaultType=""
     var faultstatusrow=ArrayList<FaultStatusRow>()
     var statusmessageid=""
+    lateinit var faultrow: FaultDetailsRow
     lateinit var faultTimelineAdapter:FaultDetailsTimelineAdapter
     var timeline= ArrayList<Timeline>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +47,50 @@ class FaultDetailsActivity:AppCompatActivity() {
         val intent=intent
         faultid= intent.getStringExtra(PreferenceConstent.faultid)
         sideid=intent.getStringExtra(PreferenceConstent.site_id)
-        callApiforfaultdetails()
+        FaultType=intent.getStringExtra(PreferenceConstent.FaultType)
+        if (FaultType.equals("normal"))
+              callApiforfaultdetails()
+        else  if (FaultType.equals("adhoc"))
+            callApiforadhocFaultDetails()
+
+
+    }
+
+    private fun callApiforadhocFaultDetails() {
+        val  customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this,"Please Wait..",false)
+        val apiInterface= Retrofit.retrofitInstance?.create(ApiInterface::class.java)
+        try {
+            val paramObject = JSONObject()
+            paramObject.put("id", faultid)
+            var obj: JSONObject = paramObject
+            var jsonParser: JsonParser = JsonParser()
+            var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
+            val callApi = apiInterface.callAdhocfaultdetailsapi(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token),sideid , gsonObject!!)
+            callApi.enqueue(object : Callback<FaultadetailsModel>{
+                override fun onResponse(call: Call<FaultadetailsModel>, response: Response<FaultadetailsModel>) {
+                    customProgress.hideProgress()
+                    if (response.isSuccessful){
+                        if(response.body()!!.status) {
+                            if (response.body()!=null)
+                                setvalue(response.body()!!.row)
+                           // if (response.body()!!.row.category_name!=null)
+                            AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.Category_name, "")
+                            AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.CheckName, "")
+                            AppSheardPreference(this@FaultDetailsActivity).setvalue_in_preference(PreferenceConstent.SelectedFaultId, response.body()!!.row.id)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<FaultadetailsModel>, t: Throwable) {
+                    customProgress.hideProgress()
+
+                }
+            })
+
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 
     private fun callApiforfaultdetails() {
@@ -94,7 +139,11 @@ class FaultDetailsActivity:AppCompatActivity() {
         faultDeatilsViewBind!!.rec_faultsatusreport!!.setAdapter(faultTimelineAdapter)
     }
     private fun setvalue(row: FaultDetailsRow) {
-        faultDeatilsViewBind!!.tv_taskname!!.setText(row!!.category_name!!)
+        faultrow=row
+        if (row.category_name!=null)
+           faultDeatilsViewBind!!.tv_taskname!!.setText(row.category_name!!)
+        else
+            faultDeatilsViewBind!!.tv_taskname!!.setText("AdHoc Fault")
         faultDeatilsViewBind!!.tv_taskdatetimevalue!!.setText(row!!.created_at!!)
         faultDeatilsViewBind!!.tv_taskdescriptionvalue!!.setText(row!!.fault_description!!)
 

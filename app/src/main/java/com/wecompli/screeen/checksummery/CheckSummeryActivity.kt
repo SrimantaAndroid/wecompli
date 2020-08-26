@@ -57,9 +57,13 @@ class CheckSummeryActivity:AppCompatActivity() {
         AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.sessionname,sessionname!!)
         setContentView(view)
         getuserdataafterlogin()
-        callApiforchecksummery()
+       // callApiforchecksummery()
     }
 
+    override fun onResume() {
+        super.onResume()
+        callApiforchecksummery()
+    }
     private fun setsummeryitemadapter() {
         summeryListAdapter= CheckSummeryListAdapter(this,listvalue,object :OnItemClickInterface{
             override fun OnItemClick(position: Int) {

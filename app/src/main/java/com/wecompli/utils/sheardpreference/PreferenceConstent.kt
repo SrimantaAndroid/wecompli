@@ -78,5 +78,7 @@ object PreferenceConstent {
     var Signbywiteness2="signbywitness2"
     var SignCompletredby="SignCompletedby"
     var Signbyinjuredpuresn="Signbyinjuredperson"
+    var FaultType="faultype"
+    var AdHocNote="adhocnote"
 
 }

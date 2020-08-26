@@ -77,7 +77,13 @@ class CheckElementDetailsActivity: AppCompatActivity() {
         selectedSiteSessionForCheck=intent!!.getSerializableExtra(ApplicationConstant.INTENT_COMPONENETDETAILS) as SelectedSiteSessionForCheck
         setvalues(selectedSiteSessionForCheck!!)
          setupAdapter()
+       // callApiforelementdetails(selectedSiteSessionForCheck!!)
+    }
+
+    override fun onResume() {
+        super.onResume()
         callApiforelementdetails(selectedSiteSessionForCheck!!)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

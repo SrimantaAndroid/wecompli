@@ -35,6 +35,7 @@ class FaultDeatilsViewBind(
     var tv_submit:TextView?=null
     var tv_notifytask:TextView?=null
     var rl_back_taskdetails:RelativeLayout?=null
+    var tv_updatefault:TextView?=null
 
     init {
         tv_taskname=view.findViewById(R.id.tv_taskname)
@@ -63,6 +64,7 @@ class FaultDeatilsViewBind(
         rl_notifywho=view.findViewById(R.id.rl_notifywho)
         tv_fixfault=view.findViewById(R.id.tv_fixfault)
         tv_fault_image=view.findViewById(R.id.tv_fault_image)
+        tv_updatefault=view.findViewById(R.id.tv_closedfault)
 
         tv_taskname!!.setTypeface(getgothmlight(faultDetailsActivity))
         tv_taskdatetime!!.setTypeface(getbebas(faultDetailsActivity))
@@ -77,6 +79,7 @@ class FaultDeatilsViewBind(
         tv_submit!!.setTypeface(getbebas(faultDetailsActivity))
         tv_notifytask!!.setTypeface(getbebas(faultDetailsActivity))
         tv_fixfault!!.setTypeface(getbebas(faultDetailsActivity))
+        tv_updatefault!!.setTypeface(getbebas(faultDetailsActivity))
 
     }
 }

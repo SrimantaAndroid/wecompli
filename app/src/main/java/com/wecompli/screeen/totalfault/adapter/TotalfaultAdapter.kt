@@ -15,6 +15,7 @@ import com.wecompli.screeen.totalfault.TotalFaultActivity
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -30,8 +31,7 @@ import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
 class TotalfaultAdapter(
     val totalFaultActivity: TotalFaultActivity,
     val falultrow: List<CheckRow>,
-    val onItemClickInterface: OnItemClickInterface
-) : RecyclerView.Adapter<TotalfaultAdapter.ViewHolder>() {
+    val onItemClickInterface: OnItemClickInterface) : RecyclerView.Adapter<TotalfaultAdapter.ViewHolder>() {
     var  deviceResolution:DeviceResolution?=null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view:View=LayoutInflater.from(totalFaultActivity).inflate(R.layout.total_fault_item_layout,parent,false)
@@ -44,6 +44,7 @@ class TotalfaultAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.tv_faultname.typeface=deviceResolution!!.getgothmbold(totalFaultActivity)
         holder.tv_dateval.typeface=deviceResolution!!.getgothmlight(totalFaultActivity)
         holder.tvdate.typeface=deviceResolution!!.getgothmbold(totalFaultActivity)
@@ -95,7 +96,16 @@ class TotalfaultAdapter(
         /*  val styledString = SpannableString("myLogin logout")
           styledString.setSpan(StyleSpan(deviceResolution!!.getgothmbold(totalFaultActivity)), 0, 7, 0)
           styledString.setSpan(StyleSpan(Typeface.ITALIC), 8, 14, 0)*/
+        if (falultrow.get(position).categoryName.isNullOrEmpty()) {
+            holder.rl_topheader_section.background = totalFaultActivity.getDrawable(R.drawable.rectangular_yellow_shape_top_rounded_corner)
+            holder.tvfaultdetails.setText(remarks)
+            holder.tv_faultname.setText("#Adhoc Fault")
+            holder.tv_remarks.visibility=View.INVISIBLE
 
+        } else {
+            holder.rl_topheader_section.background = totalFaultActivity.getDrawable(R.drawable.rectangular_grey_shape_top_rounded_corner)
+            holder.tvfaultdetails.visibility=View.VISIBLE
+        }
         if(falultrow.get(position).faultFiles!!.size>0){
             for (i in 0 until falultrow.get(position).faultFiles!!.size){
                 if(i==0){
@@ -201,6 +211,7 @@ class TotalfaultAdapter(
     }
 
     class  ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        var rl_topheader_section=itemView.findViewById<RelativeLayout>(R.id.rl_topheader_section)
     var tv_faultname=itemView.findViewById<TextView>(R.id.tv_faultname)
     var imgfaulttypeimagr=itemView.findViewById<ImageView>(R.id.imgfaulttypeimagr)
         var tvfaultdetails=itemView.findViewById<TextView>(R.id.tvfaultdetails)

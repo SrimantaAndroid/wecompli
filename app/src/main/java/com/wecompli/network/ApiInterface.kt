@@ -87,6 +87,10 @@ interface ApiInterface {
     fun callfaultdetailsapi(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject): Call<FaultadetailsModel>
 
     @Headers("Content-Type: application/json")
+    @POST(NetworkUtility.ADHOCFAULTDETAILS)
+    fun callAdhocfaultdetailsapi(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject): Call<FaultadetailsModel>
+
+    @Headers("Content-Type: application/json")
     @POST(NetworkUtility.FAULSTATUSLIST)
     fun callfaultstatuslist(@Header("Authorization") token:String,@Header("site_id") site_id:String): Call<FaultStatusListModel>
 
@@ -107,5 +111,9 @@ interface ApiInterface {
 
     @POST(NetworkUtility.CREATEINCIDENTREPORT)
     fun calllCreateIncidentapi(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject)  :Call<ResponseBody>
+
+
+    @POST(NetworkUtility.REMOVEFAULT)
+    fun calllApiForRemoveFalt(@Header("Authorization") token:String,@Header("site_id") site_id:String, @Body body: JsonObject)  :Call<ResponseBody>
 
 }

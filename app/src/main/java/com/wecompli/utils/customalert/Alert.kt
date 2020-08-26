@@ -13,6 +13,7 @@ import com.wecompli.R
 import com.wecompli.screeen.adhocfault.AdHocFaultActivity
 import com.wecompli.screeen.checkelementdetails.CheckElementDetailsActivity
 import com.wecompli.screeen.checkminorfail.CheckMinorfailActivity
+import com.wecompli.screeen.faultdetails.FaultDetailsActivity
 import com.wecompli.screeen.home.HomeActivity
 
 
@@ -121,6 +122,40 @@ class Alert {
                  activity.homeOnClick!!.logoutyes()
                  // activity.alertyesfuncation();
                 // activity.calllogoutdeleteusertoken()
+             }
+             btn_no.setOnClickListener {
+                 alertDialog.dismiss()
+
+             }
+             tv_message.setText(message)
+             alertDialog.show()
+             /*alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                 DialogInterface.OnClickListener { dialog, which -> dialog.dismiss() })
+             alertDialog.show()*/
+         }
+
+         fun showclosedfaultAlert(activity: FaultDetailsActivity, message: String) {
+             // var deviceResolution:DeviceResolution?=null
+             var deviceResolution = DeviceResolution(activity)
+             val alertDialog = Dialog(activity, R.style.Transparent)
+             /*alertDialog.setTitle(activity.resources.getString(R.string.app_name))
+             alertDialog.setMessage(message)*/
+             alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+             val view: View =
+                 LayoutInflater.from(activity).inflate(R.layout.alert_layout_yesno, null)
+             alertDialog.setContentView(view)
+             alertDialog.setCancelable(false)
+             val tv_message: TextView = view.findViewById(R.id.tv_message)
+             val btn_ok: Button = view.findViewById(R.id.btn_ok)
+             val btn_no: Button = view.findViewById(R.id.btn_no)
+             btn_ok.typeface = deviceResolution.getgothmbold(activity)
+             btn_no.typeface = deviceResolution.getgothmbold(activity)
+             tv_message.typeface = deviceResolution.getgothmlight(activity)
+             btn_ok.setOnClickListener {
+                 alertDialog.dismiss()
+                 activity.faulrDetailsOnClick!!.callApiforemovefault()
+                 // activity.alertyesfuncation();
+                 // activity.calllogoutdeleteusertoken()
              }
              btn_no.setOnClickListener {
                  alertDialog.dismiss()

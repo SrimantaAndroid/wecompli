@@ -59,9 +59,14 @@ class TotalFaultActivity: AppCompatActivity() {
         AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.companyidtotalfault,companyid!!)
 
         getuserdataafterlogin()
+       // callApifortotalfault()
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         callApifortotalfault()
-
-
     }
     private fun getuserdataafterlogin() {
         val gson = Gson()
@@ -91,7 +96,9 @@ class TotalFaultActivity: AppCompatActivity() {
                 override fun onResponse(call: Call<FaultApiResponse>, response: Response<FaultApiResponse>) {
                     customProgress.hideProgress()
                     if (response.code()==200){
+
                         if (response.body()!!.row!!.size>0) {
+                            falultrow.clear()
                             for (i in 0 until response.body()!!.row!!.size){
                                 falultrow!!.add(response.body()!!.row!!.get(i))
                             }
@@ -161,6 +168,11 @@ class TotalFaultActivity: AppCompatActivity() {
                   val faultdetails=Intent(this@TotalFaultActivity,FaultDetailsActivity::class.java)
                   faultdetails.putExtra(PreferenceConstent.faultid,falultrow!!.get(position).id.toString())
                   faultdetails.putExtra(PreferenceConstent.site_id,sideid)
+                  if (falultrow.get(position).categoryName.isNullOrEmpty()) {
+                      faultdetails.putExtra(PreferenceConstent.FaultType, "adhoc")
+                      AppSheardPreference(this@TotalFaultActivity).setvalue_in_preference(PreferenceConstent.AdHocNote,falultrow!!.get(position).faultDescription.toString())
+                  }else
+                      faultdetails.putExtra(PreferenceConstent.FaultType,"normal")
                   this@TotalFaultActivity.startActivity(faultdetails)
 
             }

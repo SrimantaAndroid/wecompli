@@ -557,7 +557,7 @@
 
 
         </RelativeLayout>
-        <!--  <RelativeLayout
+          <RelativeLayout
               android:id="@+id/rl_updatetask"
               android:layout_width="0dp"
               android:layout_height="match_parent"
@@ -567,16 +567,16 @@
               android:background="@drawable/rectangle_red_rounded_corner_">
 
               <TextView
-                  android:id="@+id/tv_updatefault"
+                  android:id="@+id/tv_closedfault"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:text="UPDATE FAULT  "
+                  android:text="CLOSE FAULT"
                   android:gravity="center"
                   android:textSize="@dimen/_14sdp"
                   android:layout_marginLeft="@dimen/_5sdp"
                   android:textColor="@color/white"/>
 
 
-          </RelativeLayout>-->
+          </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
