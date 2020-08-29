@@ -22,6 +22,7 @@ import com.wecompli.screeen.faultdetails.adapter.FaultDetailsTimelineAdapter
 import com.wecompli.utils.custompopupdialogforsite.CustomPopUpFaultStatus
 import com.wecompli.utils.sheardpreference.AppSheardPreference
 import com.wecompli.utils.sheardpreference.PreferenceConstent
+import kotlinx.android.synthetic.main.fault_element_details_layout.*
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -220,6 +221,11 @@ class FaultDetailsActivity:AppCompatActivity() {
              paramObject.put("checks_process_fault_id", faultid)
              paramObject.put("faultrepair_status_master_id", statusmessageid)
              paramObject.put("fault_status_change_date", faultDeatilsViewBind!!.tv_choose_date!!.text.toString())
+             if (faultDeatilsViewBind!!.et_fault_others!!.visibility==View.VISIBLE)
+               paramObject.put("remarks",faultDeatilsViewBind!!.et_fault_others!!.text.toString())
+             else
+                 paramObject.put("remarks","")
+
              var obj: JSONObject = paramObject
              var jsonParser: JsonParser = JsonParser()
              var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
@@ -234,6 +240,12 @@ class FaultDetailsActivity:AppCompatActivity() {
                                 val timelineobj =Timeline(response!!.body()!!.timeLine.get(i).repairDatetime,
                                     response!!.body()!!.timeLine.get(i).repairMessage,"")
                                  timeline.add(timelineobj)
+                             }
+                             faultDeatilsViewBind!!.tv_select_faultstatus!!.setText("")
+                             faultDeatilsViewBind!!.tv_choose_date!!.setText("")
+                             if(faultDeatilsViewBind!!.et_fault_others!!.visibility==View.VISIBLE) {
+                                 faultDeatilsViewBind!!.et_fault_others!!.visibility = View.GONE
+                                 faultDeatilsViewBind!!.et_fault_others!!.setText("")
                              }
                              faultTimelineAdapter.notifyDataSetChanged()
                          }

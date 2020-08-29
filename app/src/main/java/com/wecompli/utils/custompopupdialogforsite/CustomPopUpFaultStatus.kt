@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.view.Window
 import android.widget.EditText
 import android.widget.TextView
@@ -60,6 +61,10 @@ class CustomPopUpFaultStatus(
             override fun OnItemClick(position: Int) {
                faultDetailsActivity.faultDeatilsViewBind!!.tv_select_faultstatus!!.setText( faultDetailsActivity.faultstatusrow.get(position).status_message)
                faultDetailsActivity.statusmessageid= faultDetailsActivity.faultstatusrow.get(position).id
+                if ( faultDetailsActivity.faultDeatilsViewBind!!.tv_select_faultstatus!!.text.toString().equals("Other")){
+                    faultDetailsActivity.faultDeatilsViewBind!!.et_fault_others!!.visibility=View.VISIBLE
+                }else
+                    faultDetailsActivity.faultDeatilsViewBind!!.et_fault_others!!.visibility=View.GONE
                 dismiss()
             }
         })

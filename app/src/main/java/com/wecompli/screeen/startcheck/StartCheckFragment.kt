@@ -38,7 +38,6 @@ class StartCheckFragment: Fragment() {
         formattedDate = df.format(c.time)
         fragmentViewBind!!.tv_check_date!!.visibility=View.VISIBLE
         fragmentViewBind!!.tv_check_date!!.text=formattedDate
-
         site_list=homeactivity!!.userData!!.site_list
        // AppSheardPreference(homeactivity!!).setvalue_in_preference(PreferenceConstent.chk_selectiondate,formattedDate)
 

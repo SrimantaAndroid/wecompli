@@ -10,23 +10,19 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-import android.widget.DatePicker
 import android.widget.TextView
-import android.widget.TimePicker
 import com.google.zxing.integration.android.IntentIntegrator
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.wecompli.R
 import com.wecompli.screeen.elementfaultlist.ElementFaultListActivity
 import com.wecompli.screeen.notifywho.NotifyWhoActivity
-import com.wecompli.utils.customalert.Alert
-import com.wecompli.utils.customalert.CustomAlertForWorkType
-import com.wecompli.utils.customalert.TaptoSignEngineerDialog
-import com.wecompli.utils.customalert.TaptoSignManagerDialog
+import com.wecompli.utils.customalert.*
 import java.util.*
 
 class FixFaultOnClick(
    val fixFaultActivity: FixFaultActivity,
    val fixFaultViewBind: FixFaultViewBind
+
 ) :View.OnClickListener{
     init {
         fixFaultViewBind.img_qrcode.setOnClickListener(this)
@@ -43,9 +39,14 @@ class FixFaultOnClick(
         fixFaultViewBind!!.tv_select_work.setOnClickListener(this)
         fixFaultViewBind!!.rl_back_fixfault.setOnClickListener(this)
         fixFaultViewBind!!.tv_select_date.setOnClickListener(this)
+        fixFaultViewBind!!.tv_bcomp_element_name.setOnClickListener(this)
     }
     override fun onClick(p0: View?) {
         when(p0!!.id){
+            R.id.tv_bcomp_element_name->{
+                val customPopUpFaultCheck= CustomPopUpFaultCheck(fixFaultActivity,fixFaultActivity!!.falultrow)
+                customPopUpFaultCheck.show()
+            }
             R.id.tv_date->{
                 datepickerdefault()
             }
@@ -85,6 +86,15 @@ class FixFaultOnClick(
                 fixFaultActivity.startActivity(intent)
             }
             R.id.rl_fault_submit->{
+                if (fixFaultViewBind.tv_bcomp_element_name.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Select Check name")
+                    return
+                }
+               /* if (fixFaultViewBind.tv_bcomp_name.text.toString().equals("")){
+                    Alert.showalert(fixFaultActivity,"Select Check list name")
+                    return
+                }*/
+
                 if (fixFaultViewBind.tv_select_work.text.toString().equals("")){
                     Alert.showalert(fixFaultActivity,"Select Work Carried Today")
                     return

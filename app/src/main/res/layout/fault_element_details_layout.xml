@@ -307,12 +307,15 @@
                 <EditText
                     android:id="@+id/et_fault_others"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_37sdp"
+                    android:layout_height="@dimen/_65sdp"
 
-                  android:layout_marginTop="@dimen/_5sdp"
-                    android:hint="status"
-                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:hint="Add note"
+                    android:gravity="top"
                     android:paddingLeft="@dimen/_8sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_7sdp"
                     android:textSize="@dimen/_11sdp"
                     android:visibility="gone"
                     android:background="@drawable/rectangular_shape_thin_round_gery_broder"/>

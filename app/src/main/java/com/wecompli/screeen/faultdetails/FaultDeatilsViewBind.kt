@@ -1,6 +1,7 @@
 package com.wecompli.screeen.faultdetails
 
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -36,6 +37,7 @@ class FaultDeatilsViewBind(
     var tv_notifytask:TextView?=null
     var rl_back_taskdetails:RelativeLayout?=null
     var tv_updatefault:TextView?=null
+    var et_fault_others:EditText?=null
 
     init {
         tv_taskname=view.findViewById(R.id.tv_taskname)
@@ -59,6 +61,7 @@ class FaultDeatilsViewBind(
         tv_select_faultstatus=view.findViewById(R.id.tv_select_faultstatus)
         tv_choose_date=view.findViewById(R.id.tv_choose_date)
         rl_back_taskdetails=view.findViewById(R.id.rl_back_taskdetails)
+        et_fault_others=view.findViewById(R.id.et_fault_others)
 
         rl_submit=view.findViewById(R.id.rl_submit)
         rl_notifywho=view.findViewById(R.id.rl_notifywho)
@@ -75,6 +78,7 @@ class FaultDeatilsViewBind(
         tv_select_faultstatus!!.setTypeface(getgothmbold(faultDetailsActivity))
         tv_choose_date!!.setTypeface(getgothmlight(faultDetailsActivity))
         tv_fault_image!!.setTypeface(getgothmbold(faultDetailsActivity))
+        et_fault_others!!.setTypeface(getgothmlight(faultDetailsActivity))
 
         tv_submit!!.setTypeface(getbebas(faultDetailsActivity))
         tv_notifytask!!.setTypeface(getbebas(faultDetailsActivity))

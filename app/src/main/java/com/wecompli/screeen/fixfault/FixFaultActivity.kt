@@ -12,6 +12,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -28,7 +29,10 @@ import com.google.zxing.integration.android.IntentIntegrator
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.sculptee.utils.customprogress.CustomProgressDialog
 import com.wecompli.R
+import com.wecompli.apiresponsemodel.faultapi.CheckRow
+import com.wecompli.apiresponsemodel.faultapi.FaultApiResponse
 import com.wecompli.apiresponsemodel.faultdetails.FaultDetailsByScanModel
+import com.wecompli.apiresponsemodel.regeratetokenresponse.RegenerateTokenResponse
 import com.wecompli.network.ApiInterface
 import com.wecompli.network.NetworkUtility
 import com.wecompli.network.Retrofit
@@ -62,6 +66,7 @@ class FixFaultActivity:AppCompatActivity() {
     var selectmanagertimage:Boolean?=false
     var selectfaultimage:Boolean?=false
     var  FaultType:String=""
+    var falultrow=ArrayList<CheckRow>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +76,101 @@ class FixFaultActivity:AppCompatActivity() {
         fixFaultOnClick= FixFaultOnClick(this,fixFaultViewBind!!)
         FaultType=intent.getStringExtra(PreferenceConstent.FaultType)
         setvalues()
+        callApifortotalfault()
     }
-   
+    private fun callApifortotalfault() {
+        val  customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this,"Please Wait..",false)
+        val apiInterface= Retrofit.retrofitInstance?.create(ApiInterface::class.java)
+        try {
+
+            val paramObject = JSONObject()
+            paramObject.put("company_id", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.Selectedcompany_id))
+             paramObject.put("site_id", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+            // paramObject.put("category_id", 1)
+            //paramObject.put("from_date", checkdate)
+            //paramObject.put("to_date", checkdate)
+            paramObject.put("is_normal_fault","1")
+            paramObject.put("status_id","1")
+            paramObject.put("check_process_type",PreferenceConstent.category_purpose)
+            // paramObject.put("list_start",0)
+            // paramObject.put("list_count",10)
+            var obj: JSONObject = paramObject
+            var jsonParser: JsonParser = JsonParser()
+            var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
+            val callApi=apiInterface.callApiforfaultlist("application/json", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token),AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id), gsonObject!!)
+            callApi.enqueue(object : Callback<FaultApiResponse> {
+                override fun onResponse(call: Call<FaultApiResponse>, response: Response<FaultApiResponse>) {
+                    Log.d("fautresponse",response.body().toString())
+                    customProgress.hideProgress()
+                    if (response.code()==200){
+
+                        if (response.body()!!.row!!.size>0) {
+                            falultrow.clear()
+                            for (i in 0 until response.body()!!.row!!.size){
+                                falultrow!!.add(response.body()!!.row!!.get(i))
+                            }
+                            // falultrow = response.body()!!.row as ArrayList<CheckRow>?
+                            // totalfaultAdapter!!.notifyDataSetChanged()
+
+                        }
+                        else
+                            Alert.showalert(this@FixFaultActivity,response!!.body()!!.message!!)
+                        //  totalfaultAdapter!!.notifyDataSetChanged()
+
+                    }else if (response.code()==401){
+                        callApiforregeneratetoken()
+                    }
+                }
+
+                override fun onFailure(call: Call<FaultApiResponse>, t: Throwable) {
+                    customProgress.hideProgress()
+
+                }
+            })
+
+
+        }catch (e: Exception){
+            e.printStackTrace()
+            customProgress.hideProgress()
+
+        }
+
+    }
+
+    private fun callApiforregeneratetoken() {
+        val  customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
+        customProgress.showProgress(this,"Please Wait..",false)
+        val apiInterface= Retrofit.retrofitInstance?.create(ApiInterface::class.java)
+        try {
+            val paramObject = JSONObject()
+            paramObject.put("user_email",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.username_key))
+            paramObject.put("id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_id))
+
+            var obj: JSONObject = paramObject
+            var jsonParser: JsonParser = JsonParser()
+            var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
+            val callregeneratetoken = apiInterface.regeratetoken(gsonObject!!)
+            callregeneratetoken.enqueue(object : Callback<RegenerateTokenResponse>{
+                override fun onResponse(call: Call<RegenerateTokenResponse>, response: Response<RegenerateTokenResponse>) {
+                    customProgress.hideProgress()
+                    if (response.body()!!.status!!){
+                        AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.loginuser_token,response!!.body()!!.data!!.token.toString())
+                        callApifortotalfault()
+                    }
+                    else
+                        Alert.showalert(this@FixFaultActivity,response.body()!!.message!!)
+                }
+
+                override fun onFailure(call: Call<RegenerateTokenResponse>, t: Throwable) {
+                    customProgress.hideProgress()
+                }
+            })
+
+        }catch (e: java.lang.Exception){
+            e.printStackTrace()
+        }
+    }
     private fun setvalues() {
         fixFaultViewBind!!.tv_Company!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.UserCompany))
         fixFaultViewBind!!.tv_site!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.UserSite))
@@ -80,8 +178,10 @@ class FixFaultActivity:AppCompatActivity() {
             fixFaultViewBind!!.tv_bcomp_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.Category_name))
             fixFaultViewBind!!.tv_bcomp_element_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.CheckName))
         }else  if (FaultType.equals("adhoc")){
+            fixFaultViewBind!!.tv_bcomp_element_name.visibility=View.INVISIBLE
             fixFaultViewBind!!.tv_bcomp_name!!.setText(AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.AdHocNote))
             fixFaultViewBind!!.tv_fixfaulthader.setText("FIX ADHOC FAULT")
+
         }
         fixFaultViewBind!!.et_part_cost.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -210,6 +310,7 @@ class FixFaultActivity:AppCompatActivity() {
                     val separated = result.getContents().split("_")
                    // if (AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.faultid).equals(separated.get(separated.size-1)))
                         callApiforfaultDetails(separated.get(separated.size-1))
+
                   //  else
                      //   Alert.showalert(this,"QR Code doesn't match. Try another")
                 }
@@ -230,6 +331,8 @@ class FixFaultActivity:AppCompatActivity() {
             val paramObject = JSONObject()
            // paramObject.put("id", AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.faultid))
             paramObject.put("id", contents)
+            paramObject.put("site_id",AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.site_id))
+            paramObject.put("status_id","1")
             var obj: JSONObject = paramObject
             var jsonParser: JsonParser = JsonParser()
             var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
@@ -237,13 +340,16 @@ class FixFaultActivity:AppCompatActivity() {
             callApi.enqueue(object : Callback<FaultDetailsByScanModel> {
                 override fun onResponse(call: Call<FaultDetailsByScanModel>, response: Response<FaultDetailsByScanModel>) {
                     customProgress.hideProgress()
+                    Log.d("scean",contents+"  "+response.body().toString())
                     if (response.isSuccessful) {
+
                         if (response.code() == 200) {
                             AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.faultid,response.body()!!.row.id)
                             AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.Category_name,response.body()!!.row.category_name)
                             AppSheardPreference(this@FixFaultActivity).setvalue_in_preference(PreferenceConstent.CheckName,response.body()!!.row.check_name)
-                            setvalues()
-
+                            //setvalues()
+                            fixFaultViewBind!!.tv_bcomp_name!!.setText(AppSheardPreference(this@FixFaultActivity).getvalue_in_preference(PreferenceConstent.Category_name))
+                            fixFaultViewBind!!.tv_bcomp_element_name!!.setText(AppSheardPreference(this@FixFaultActivity).getvalue_in_preference(PreferenceConstent.CheckName))
                             // elementDetailsAdapter!!.notifyItemRemoved(listposition)
                             // elementDetailsAdapter!!.notifyDataSetChanged()
                         }
@@ -383,9 +489,11 @@ class FixFaultActivity:AppCompatActivity() {
                         //callApiforfaultcreate(check_process_log_id);
                        // val intent = Intent()
                         //setResult(ApplicationConstant.INTENT_CHECKCOMPONENT, intent)
+                       // Toast.makeText(this@FixFaultActivity, response_obj.getString("message"), Toast.LENGTH_LONG).show()
+
                         finish()
                     }else{
-                        Toast.makeText(this@FixFaultActivity, "Try later. Something Wrong.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@FixFaultActivity, response_obj.getString("message"), Toast.LENGTH_LONG).show()
                     }
                 }
                 catch (e: Exception){

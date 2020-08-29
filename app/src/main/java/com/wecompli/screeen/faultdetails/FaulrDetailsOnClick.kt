@@ -81,7 +81,13 @@ class FaulrDetailsOnClick(
             R.id.rl_submit->{
                 if (!faultDeatilsViewBind.tv_select_faultstatus!!.text.toString().equals("")) {
                     if (!faultDeatilsViewBind.tv_choose_date!!.text.toString().equals("")) {
-                        faultDetailsActivity.callApiforfaultsumit()
+                        if (faultDeatilsViewBind.et_fault_others!!.visibility==View.VISIBLE){
+                            if (!faultDeatilsViewBind.et_fault_others!!.text.toString().equals("")){
+                                faultDetailsActivity.callApiforfaultsumit()
+                            }else
+                                Alert.showalert(faultDetailsActivity, "Enter some note.")
+                        }else
+                           faultDetailsActivity.callApiforfaultsumit()
                     } else
                         Alert.showalert(faultDetailsActivity, faultDetailsActivity.resources.getString(R.string.select_status_date))
                 }else
