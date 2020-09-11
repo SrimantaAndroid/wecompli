@@ -2,12 +2,14 @@ package com.wecompli.screeen.startcheck
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
@@ -23,6 +25,7 @@ import com.wecompli.network.Retrofit
 import com.wecompli.screeen.checksummery.CheckSummeryActivity
 import com.wecompli.screeen.home.HomeActivity
 import com.wecompli.screeen.startcheck.adapter.ComponentListAapter
+import com.wecompli.screeen.summery.CheckSummeryFragment
 import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.custompopupdialogforsite.CustomPopUpDialogSiteList
 import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
@@ -32,9 +35,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.Exception
 import java.util.*
-import com.google.gson.Gson
 
 class StartCheckFragmentOnClick: View.OnClickListener{
    var activity: HomeActivity?=null
@@ -171,14 +172,26 @@ class StartCheckFragmentOnClick: View.OnClickListener{
       //  val mLayoutManager = LinearLayoutManager(activity)
         var componentlistadapter=ComponentListAapter(activity!!,row!!,object :OnItemClickInterface{
             override fun OnItemClick(position: Int) {
-                val intent = Intent(activity, CheckSummeryActivity::class.java)
+               /* val intent = Intent(activity, CheckSummeryActivity::class.java)
                // AppSheardPreference(activity!!).setvalue_in_preference(PreferenceConstent.site_id,activity!!.userData!!.site_id)
                 //  appSheardPreference.setvalue_in_preference(PreferenceConstent.component_mode, value)
                 intent.putExtra("componet",row!!.get(position).id);
                 intent.putExtra("sessionname",row!!.get(position).seasonName)
                 intent.putExtra("sideid",activity!!.userData!!.site_id)
                 intent.putExtra("date",fragmentViewBind!!.tv_check_date!!.text.toString())
-                activity!!.startActivity(intent!!)
+                activity!!.startActivity(intent!!)*/
+
+                val checkSummeryFragment = CheckSummeryFragment()
+                val ft = activity!!.supportFragmentManager.beginTransaction()
+                val args = Bundle()
+                args.putString("componet", row!!.get(position).id)
+                args.putString("sessionname",row!!.get(position).seasonName)
+                args.putString("sideid",activity!!.userData!!.site_id)
+                args.putString("date",fragmentViewBind!!.tv_check_date!!.text.toString())
+                checkSummeryFragment.arguments=args
+                ft.add(R.id.content_frame, checkSummeryFragment)
+                ft.addToBackStack("checkSummeryFragment")
+                ft.commit()
             }
         })
         fragmentViewBind!!.rev_componentlist!!.setAdapter(componentlistadapter)

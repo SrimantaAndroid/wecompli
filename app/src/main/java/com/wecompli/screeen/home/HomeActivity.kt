@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,6 +50,22 @@ class HomeActivity:AppCompatActivity(){
         val view:View=LayoutInflater.from(this).inflate(R.layout.activity_home,null)
         homeViewBind= HomeViewBind(this,view)
         homeOnClick= HomeOnClick(this,homeViewBind!!)
+       //
+        homeViewBind!!.drawer_layout!!.setScrimColor(Color.TRANSPARENT)
+
+        val actionBarDrawerToggle: ActionBarDrawerToggle =
+            object : ActionBarDrawerToggle(this,  homeViewBind!!.drawer_layout,R.string.start, R.string.cancel) {
+                private val scaleFactor = 6f
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                    super.onDrawerSlide(drawerView, slideOffset)
+                    val slideX = drawerView.width * slideOffset
+                    homeViewBind!!.mainView!!.setTranslationX(slideX)
+                    homeViewBind!!.mainView!!.setScaleX(1 - slideOffset / scaleFactor)
+                    homeViewBind!!.mainView!!.setScaleY(1 - slideOffset / scaleFactor)
+                }
+            }
+        homeViewBind!!.drawer_layout!!.addDrawerListener(actionBarDrawerToggle)
+
         setContentView(view)
         getuserdataafterlogin()
         setvalueofuser()

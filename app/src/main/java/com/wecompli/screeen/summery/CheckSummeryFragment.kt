@@ -1,11 +1,12 @@
-package com.wecompli.screeen.checksummery
+package com.wecompli.screeen.summery
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -21,6 +22,7 @@ import com.wecompli.network.ApiInterface
 import com.wecompli.network.Retrofit
 import com.wecompli.screeen.checkelementdetails.CheckElementDetailsActivity
 import com.wecompli.screeen.checksummery.summeryadapter.CheckSummeryListAdapter
+import com.wecompli.screeen.home.HomeActivity
 import com.wecompli.utils.ApplicationConstant
 import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
@@ -32,75 +34,77 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.Serializable
 
-
-class CheckSummeryActivity:AppCompatActivity() {
-    var checkSummeryViewBind:CheckSummeryViewBind?=null
-    var checkSummeryOnClick:CheckSummeryOnClick?=null
-    public  var userData:LoginUserDetailsModel?=null
-    var checkdate:String?=null
-    var checkcomponent:String?=null
-    var sideid:String?=null
+class CheckSummeryFragment: Fragment() {
+    var homeactivity:HomeActivity?=null
     var summeryListAdapter:CheckSummeryListAdapter?=null
     var  listvalue:List<CheckRow>?=null
-    var sessionname:String?=null
+    var componet:String=""
+    var sessionname:String=""
+    var sideid:String=""
+    var date:String=""
+    var summerryViewBind:SummerryViewBind?=null
+    public  var userData:LoginUserDetailsModel?=null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        homeactivity=getActivity() as HomeActivity
+        val view:View=LayoutInflater.from(activity).inflate(R.layout.fragment_check_summery,null)
+        summerryViewBind= SummerryViewBind(homeactivity!!,view)
+        getuserdataafterlogin()
+        return  view;
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val view:View=LayoutInflater.from(this).inflate(R.layout.activity_check_summery,null)
-        checkSummeryViewBind= CheckSummeryViewBind(this,view)
-        checkSummeryOnClick= CheckSummeryOnClick(this,checkSummeryViewBind!!)
-        val intent=intent
-        checkcomponent=intent.getStringExtra("componet")
-        checkdate=intent.getStringExtra("date")
-        sideid=intent.getStringExtra("sideid")
-        sessionname=intent.getStringExtra("sessionname")
-        AppSheardPreference(this).setvalue_in_preference(PreferenceConstent.sessionname,sessionname!!)
-        setContentView(view)
-        getuserdataafterlogin()
-       // callApiforchecksummery()
+         componet = arguments!!.getString("componet")!!
+         sessionname = arguments!!.getString("sessionname")!!
+         sideid = arguments!!.getString("sideid")!!
+         date = arguments!!.getString("date")!!
+
     }
 
     override fun onResume() {
         super.onResume()
-      //  callApiforchecksummery()
+        callApiforchecksummery();
     }
+
     private fun setsummeryitemadapter() {
-        /*summeryListAdapter= CheckSummeryListAdapter(this,listvalue,object :OnItemClickInterface{
+        summeryListAdapter= CheckSummeryListAdapter(homeactivity!!,this,listvalue,object : OnItemClickInterface {
             override fun OnItemClick(position: Int) {
-                val intent=Intent(this@CheckSummeryActivity,CheckElementDetailsActivity::class.java)
-                val selectedSiteSessionForCheck=SelectedSiteSessionForCheck(userData!!.company_id,sideid.toString(),checkcomponent.toString(),listvalue!!.get(position).categoryName,listvalue!!.get(position).id,checkdate!!)
+                val intent= Intent(homeactivity, CheckElementDetailsActivity::class.java)
+                val selectedSiteSessionForCheck= SelectedSiteSessionForCheck(userData!!.company_id,sideid.toString(),componet.toString(),listvalue!!.get(position).categoryName,listvalue!!.get(position).id,date!!)
                 intent.putExtra(ApplicationConstant.INTENT_COMPONENETDETAILS,selectedSiteSessionForCheck as Serializable)
-                intent.putExtra("componet",checkcomponent)
-                intent.putExtra("date",checkdate)
+                intent.putExtra("componet",componet)
+                intent.putExtra("date",date)
                 intent.putExtra("sideid",sideid)
                 startActivityForResult(intent,1)
             }
         })
-        val layoutInflater=LinearLayoutManager(this)
-        checkSummeryViewBind!!.recview_check_list!!.layoutManager=layoutInflater
-        checkSummeryViewBind!!.recview_check_list!!.adapter=summeryListAdapter*/
+        val layoutInflater= LinearLayoutManager(homeactivity)
+        summerryViewBind!!.recview_check_list!!.layoutManager=layoutInflater
+        summerryViewBind!!.recview_check_list!!.adapter=summeryListAdapter
     }
 
     private fun callApiforchecksummery() {
         val  customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
-        customProgress.showProgress(this,"Please Wait..",false)
+        customProgress.showProgress(homeactivity!!,"Please Wait..",false)
         val apiInterface= Retrofit.retrofitInstance?.create(ApiInterface::class.java)
         try {
             val paramObject = JSONObject()
             paramObject.put("company_id", userData!!.company_id)
             paramObject.put("site_id",sideid)
-            paramObject.put("season_id",checkcomponent)
+            paramObject.put("season_id",componet)
             paramObject.put("category_purpose", PreferenceConstent.category_purpose)
-            paramObject.put("check_date", checkdate)
+            paramObject.put("check_date", date)
             var obj: JSONObject = paramObject
             var jsonParser: JsonParser = JsonParser()
             var gsonObject: JsonObject = jsonParser.parse(obj.toString()) as JsonObject;
-            val callApi=apiInterface.callcomponetChecklist( AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_token),sideid!!, gsonObject!!)
-            callApi.enqueue(object : Callback<CheckSummeryResponse>{
+            val callApi=apiInterface.callcomponetChecklist( AppSheardPreference(homeactivity!!).getvalue_in_preference(
+                PreferenceConstent.loginuser_token),sideid!!, gsonObject!!)
+            callApi.enqueue(object : Callback<CheckSummeryResponse> {
                 override fun onResponse(call: Call<CheckSummeryResponse>, response: Response<CheckSummeryResponse>) {
-                   customProgress.hideProgress()
+                    customProgress.hideProgress()
                     if (response.code()==200){
-                        checkSummeryViewBind!!.tv_total_fault_count!!.text=resources.getString(R.string.total_fault)+"  "+ response.body()!!.faultCount.toString()
+                        summerryViewBind!!.tv_total_fault_count!!.text=resources.getString(R.string.total_fault)+"  "+ response.body()!!.faultCount.toString()
                         listvalue=response!!.body()!!.row
                         setsummeryitemadapter()
                         //summeryListAdapter!!.notifyDataSetChanged()
@@ -123,13 +127,13 @@ class CheckSummeryActivity:AppCompatActivity() {
 
     private fun getuserdataafterlogin() {
         val gson = Gson()
-        val json = AppSheardPreference(this).getvalue_in_preference(PreferenceConstent.loginuser_data)
+        val json = AppSheardPreference(homeactivity!!).getvalue_in_preference(PreferenceConstent.loginuser_data)
         userData = gson.fromJson<LoginUserDetailsModel>(json, LoginUserDetailsModel::class.java!!)
     }
 
     private fun callApiforregeneratetoken() {
         val  customProgress: CustomProgressDialog = CustomProgressDialog().getInstance()
-        customProgress.showProgress(this,"Please Wait..",false)
+        customProgress.showProgress(homeactivity!!,"Please Wait..",false)
         val apiInterface= Retrofit.retrofitInstance?.create(ApiInterface::class.java)
         try {
             val paramObject = JSONObject()
@@ -144,11 +148,11 @@ class CheckSummeryActivity:AppCompatActivity() {
                 override fun onResponse(call: Call<RegenerateTokenResponse>, response: Response<RegenerateTokenResponse>) {
                     customProgress.hideProgress()
                     if (response.body()!!.status!!){
-                        AppSheardPreference(this@CheckSummeryActivity!!).setvalue_in_preference(PreferenceConstent.loginuser_token,response!!.body()!!.data!!.token.toString())
+                        AppSheardPreference(homeactivity!!).setvalue_in_preference(PreferenceConstent.loginuser_token,response!!.body()!!.data!!.token.toString())
                         callApiforchecksummery()
                     }
                     else
-                        Alert.showalert(this@CheckSummeryActivity,response.body()!!.message!!)
+                        Alert.showalert(homeactivity!!,response.body()!!.message!!)
                 }
 
                 override fun onFailure(call: Call<RegenerateTokenResponse>, t: Throwable) {
@@ -160,15 +164,14 @@ class CheckSummeryActivity:AppCompatActivity() {
             e.printStackTrace()
         }
     }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode==1) {
             if (resultCode == Activity.RESULT_OK) {
-                checkcomponent = intent!!.getStringExtra("componet")
-                checkdate = intent.getStringExtra("date")
-                sideid = intent.getStringExtra("sideid")
+                componet = arguments!!.getString("componet")!!
+                sessionname = arguments!!.getString("sessionname")!!
+                sideid = arguments!!.getString("sideid")!!
+                date = arguments!!.getString("date")!!
                 getuserdataafterlogin()
                 callApiforchecksummery()
             }

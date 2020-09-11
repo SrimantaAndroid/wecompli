@@ -1,7 +1,6 @@
 package com.wecompli.screeen.checksummery.summeryadapter
 
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -10,15 +9,16 @@ import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
 import com.warkiz.widget.IndicatorSeekBar
 import com.wecompli.R
 import com.wecompli.apiresponsemodel.checksummery.CheckRow
-import com.wecompli.screeen.checksummery.CheckSummeryActivity
+import com.wecompli.screeen.home.HomeActivity
+import com.wecompli.screeen.summery.CheckSummeryFragment
 import com.wecompli.utils.customalert.Alert
 import com.wecompli.utils.onitemclickinterface.OnItemClickInterface
-import kotlinx.android.synthetic.main.summery_item_layout.view.*
 
 class CheckSummeryListAdapter(
-  val  checkSummeryActivity: CheckSummeryActivity,
-   val listvalue: List<CheckRow>?,
-   val param: OnItemClickInterface
+    val checkSummeryActivity: HomeActivity,
+    val checkSummeryFragment: CheckSummeryFragment,
+    val listvalue: List<CheckRow>?,
+    val param: OnItemClickInterface
 ) : RecyclerView.Adapter<CheckSummeryListAdapter.SummeryListView>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SummeryListView {
         val view = LayoutInflater.from(checkSummeryActivity).inflate(R.layout.summery_item_layout, null)
@@ -39,7 +39,7 @@ class CheckSummeryListAdapter(
             holder.ll_bg_summery_list.setBackgroundColor(checkSummeryActivity.getResources().getColor(R.color.white))
 
 
-        if (checkSummeryActivity.sessionname!!.contentEquals("Intra Day Check")){
+        if (checkSummeryFragment.sessionname!!.contentEquals("Intra Day Check")){
             checked_percentage= ((listvalue!!.get(position).checksCount.toInt() * 100) / listvalue!!.get(position).totalChecksCount.toInt())
                holder.rl_seekindicator.visibility=View.INVISIBLE
                 holder.rr_check.setBackgroundColor(checkSummeryActivity.getResources().getColor(R.color.intracheckcolor))
@@ -48,11 +48,16 @@ class CheckSummeryListAdapter(
 
             }else {
              checked_percentage= ((listvalue!!.get(position).checksCount.toInt() * 100) / listvalue!!.get(position).totalChecksCount.toInt())
-            holder.custom_seek_indicator.setProgress(checked_percentage.toFloat())
-            holder.custom_seek_indicator.setIndicatorTextFormat("\${PROGRESS} %")
+             holder.custom_seek_indicator.setProgress(checked_percentage.toFloat())
+             holder.custom_seek_indicator.setIndicatorTextFormat("\${PROGRESS} %")
             // if (checked_percentage<=0) {
             //  summeryItemView.seekBarWithProgress.setEnabled(false);
-            holder.custom_seek_indicator.setUserSeekAble(false)
+             holder.custom_seek_indicator.setUserSeekAble(false)
+
+            if (!listvalue.get(position).categoryNote.equals("") ||listvalue.get(position).categoryNote!=null)
+              holder.check_note_text.setText(listvalue.get(position).categoryNote)
+            else
+                holder.check_note_text.setText("-------------")
 
             if (checked_percentage > 0 && checked_percentage <= 30) {
                 holder.seek_red.setVisibility(View.VISIBLE)
@@ -82,7 +87,7 @@ class CheckSummeryListAdapter(
 
     }
 
-    class SummeryListView(itemView: View, checkSummeryActivity: CheckSummeryActivity) : RecyclerView.ViewHolder(itemView){
+    class SummeryListView(itemView: View, checkSummeryActivity: HomeActivity) : RecyclerView.ViewHolder(itemView){
         val  deviceResolution=DeviceResolution(checkSummeryActivity)
         val  tv_title:TextView=itemView.findViewById(R.id.tv_title)
         var btn_start:Button=itemView.findViewById(R.id.btn_start)
@@ -94,10 +99,14 @@ class CheckSummeryListAdapter(
         val ll_bg_summery_list:LinearLayout=itemView.findViewById(R.id.ll_bg_summery_list);
         val rr_check:RelativeLayout=itemView.findViewById(R.id.rr_check)
         val tv_lastcheckdate:TextView=itemView.findViewById(R.id.tv_lastcheckdate)
+        val check_note:TextView=itemView.findViewById(R.id.check_note)
+        val check_note_text:TextView=itemView.findViewById(R.id.check_note_text)
         init {
             tv_title.typeface=deviceResolution.getgothmlight(checkSummeryActivity)
             btn_start.typeface=deviceResolution.getbebas(checkSummeryActivity)
+            check_note.typeface=deviceResolution.getgothmbold(checkSummeryActivity)
             tv_lastcheckdate.typeface=deviceResolution.getgothmlight(checkSummeryActivity)
+            check_note_text.typeface=deviceResolution.getgothmlight(checkSummeryActivity)
             seek_red.setPadding(0, 0, 0, 0)
             seek_yellow.setPadding(0, 0, 0, 0)
             seek_green.setPadding(0, 0, 0, 0)

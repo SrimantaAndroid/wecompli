@@ -238,7 +238,7 @@ class FaultDetailsActivity:AppCompatActivity() {
                              timeline.clear()
                              for (i in 0 until  response!!.body()!!.timeLine.size){
                                 val timelineobj =Timeline(response!!.body()!!.timeLine.get(i).repairDatetime,
-                                    response!!.body()!!.timeLine.get(i).repairMessage,"")
+                                    response!!.body()!!.timeLine.get(i).repairMessage,response!!.body()!!.timeLine.get(i).remarks)
                                  timeline.add(timelineobj)
                              }
                              faultDeatilsViewBind!!.tv_select_faultstatus!!.setText("")

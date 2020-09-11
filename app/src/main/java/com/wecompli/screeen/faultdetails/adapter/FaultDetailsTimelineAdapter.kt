@@ -32,20 +32,30 @@ class FaultDetailsTimelineAdapter(
             logView.rl_fault.setBackgroundColor(faultDetailsActivity.getResources().getColor(R.color.white))
          logView.log_name!!.setText(timeline.get(position).repairMessage)
          logView.log_date!!.setText(faultDetailsActivity.getResources().getString(R.string.Date) + " " + timeline.get(position).repairDatetime)
+        if (!timeline.get(position).repairRemark.equals("")){
+            logView.log_note.visibility=View.VISIBLE
+            logView.log_note_text.visibility=View.VISIBLE
+            logView.log_note_text.setText(timeline.get(position).repairRemark)
+        }
     }
 
     inner class LOGView( itemView: View) : RecyclerView.ViewHolder(itemView) {
         internal var rl_fault: RelativeLayout
         internal var log_date: TextView
         internal var log_name: TextView
-
+        lateinit var log_note:TextView
+        lateinit var  log_note_text:TextView
         init {
             deviceResolution=DeviceResolution(faultDetailsActivity)
             rl_fault = itemView.findViewById(R.id.rl_fault)
             log_date = itemView.findViewById(R.id.log_date)
             log_name = itemView.findViewById(R.id.log_name)
+            log_note = itemView.findViewById(R.id.log_note)
+            log_note_text=itemView.findViewById(R.id.log_note_text)
             log_name.setTypeface(deviceResolution.getgothmbold(faultDetailsActivity))
+            log_note.setTypeface(deviceResolution.getgothmbold(faultDetailsActivity))
             log_date.setTypeface(deviceResolution.getgothmlight(faultDetailsActivity))
+            log_note_text.setTypeface(deviceResolution.getgothmlight(faultDetailsActivity))
         }
     }
 }

@@ -1,10 +1,7 @@
 package com.wecompli.screeen.home
 
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.rts.commonutils_2_0.deviceinfo.DeviceResolution
@@ -33,6 +30,8 @@ class HomeViewBind:DeviceResolution {
     var tv_incidentreport:TextView?=null
     var  ll_adhocfault:LinearLayout?=null
     var tv_adhofault:TextView?=null
+    var drawer:LinearLayout?=null
+    var mainView:LinearLayout?=null
 
     constructor(homeActivity: HomeActivity, view: View):super(homeActivity){
         viewbinds(view)
@@ -75,5 +74,7 @@ class HomeViewBind:DeviceResolution {
         tv_incidentreport=view.findViewById(R.id.tv_incidentreport)
         tv_adhofault=view.findViewById(R.id.tv_adhofault)
         ll_adhocfault=view.findViewById(R.id.ll_adhocfault)
+        drawer=view.findViewById(R.id.drawer)
+        mainView=view.findViewById(R.id.mainView)
     }
 }
