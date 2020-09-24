@@ -53,7 +53,7 @@ class HomeActivity:AppCompatActivity(){
        //
         homeViewBind!!.drawer_layout!!.setScrimColor(Color.TRANSPARENT)
 
-        val actionBarDrawerToggle: ActionBarDrawerToggle =
+       /* val actionBarDrawerToggle: ActionBarDrawerToggle =
             object : ActionBarDrawerToggle(this,  homeViewBind!!.drawer_layout,R.string.start, R.string.cancel) {
                 private val scaleFactor = 6f
                 override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -64,7 +64,7 @@ class HomeActivity:AppCompatActivity(){
                     homeViewBind!!.mainView!!.setScaleY(1 - slideOffset / scaleFactor)
                 }
             }
-        homeViewBind!!.drawer_layout!!.addDrawerListener(actionBarDrawerToggle)
+        homeViewBind!!.drawer_layout!!.addDrawerListener(actionBarDrawerToggle)*/
 
         setContentView(view)
         getuserdataafterlogin()
